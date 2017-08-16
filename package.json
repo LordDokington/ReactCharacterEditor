@@ -1,0 +1,46 @@
+{
+    "name": "character-editor",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"TODO: create tests\" && exit 1",
+        "build": "node_modules/.bin/webpack -p --env release",
+        "start": "node_modules/.bin/webpack-dev-server --inline --content-base build/ --hot --host 0.0.0.0"
+    },
+    "devDependencies": {
+        "autoprefixer": "6.6.0",
+        "babel-core": "6.25.0",
+        "babel-preset-es2015": "6.22.0",
+        "babel-preset-es2016": "6.22.0",
+        "babel-preset-react": "6.23.0",
+        "babel-loader": "6.3.2",
+        "css-loader": "0.26.1",
+        "file-loader": "0.9.0",
+        "html-loader": "0.4.5",
+        "imports-loader": "0.7.1",
+        "postcss-loader": "1.2.1",
+        "source-map-loader": "0.1.5",
+        "style-loader": "0.13.1",
+        "ts-loader": "1.3.3",
+        "typescript": "2.3.4",
+        "url-loader": "0.5.7",
+        "webpack": "2.3.3",
+        "webpack-dev-server": "2.4.2",
+        "copy-webpack-plugin": "^4.0.1"
+    },
+    "dependencies": {
+        "@types/jquery": "^3.2.2",
+        "@types/node": "^8.0.0",
+        "@types/react": "15.0.29",
+        "@types/react-dom": "15.5.0",
+        "@types/react-router": "3.0.5",
+        "babel-polyfill": "^6.23.0",
+        "jquery": "^3.2.1",
+        "react": "^15.6.1",
+        "react-dom": "^15.6.1",
+        "react-router": "^3.0.5"
+    },
+    "author": "Kay Illner",
+    "license": "UNLICENSED"
+}

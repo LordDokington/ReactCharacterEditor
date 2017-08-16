@@ -1,0 +1,28 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+		"suppressImplicitAnyIndexErrors": true,
+		"experimentalDecorators": true,
+		"noEmitOnError": false,
+		"sourceMap": true,
+		"module": "es2015",
+		"allowSyntheticDefaultImports": true,
+		"skipLibCheck": true,
+		"target": "es6",
+		"strictNullChecks": true,
+		"alwaysStrict": true,
+		"moduleResolution": "node",
+		"jsx": "preserve",
+		"lib": [
+			"dom",
+			"es2015",
+			"es2016"
+		],
+		"types": [
+			"node"
+		]
+	},
+	"exclude": [
+		"node_modules"
+	]
+}
