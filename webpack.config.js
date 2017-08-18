@@ -103,7 +103,7 @@ module.exports = (env) => {
 		plugins: [
 			new CopyWebpackPlugin([
 				{
-					from: '../assets'
+					from: './assets'
 				}
 			])
 		]

@@ -1,0 +1,22 @@
+/* TODO: css styles for components
+   Better yet: use css imports and configure webpack accordingly */
+
+#main {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#character-main {
+ 
+  border: 1px solid #B6B6B6;
+  padding: 0.4em;
+}
+
+.character-image {
+  width: 30%;
+  display: block;
+  /*height: auto;*/
+  margin-left: auto;
+  margin-right: auto;
+}
