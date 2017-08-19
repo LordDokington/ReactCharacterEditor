@@ -14,15 +14,25 @@
 }
 
 .character-image {
-  width: 30%;
+  width: 100%;
+  max-width: 20em;
   display: block;
   /*height: auto;*/
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 1.5em;
 }
 
 .character-selection {
+  display: inline-block;
+}
+
+.selection-group {
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+
+.icon-margin {
+  margin-left: 1.0em;
 }

@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as IconUtils from "../../services/iconUtils";
 import { Character } from "../../models/character";
 
 interface CharacterEditProps {
@@ -30,8 +31,8 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
     } );
   }
 
-  updateName(name: string) { this.setState( { name: name }) }
-  updateAge(age: string) { this.setState( { age: age } ) }
+  updateName = (name: string): void => { this.setState( { name: name }) }
+  updateAge = (age: string): void => { this.setState( { age: age } ) }
 
   submitCharacter = (): void => {
     const newChar = new Character(this.state.name, Number(this.state.age) );
@@ -61,7 +62,18 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
     
         <button 
           onClick={this.submitCharacter}
-          className="button-primary">{this.props.isNewCharacter ? "add" : "update"}</button>
+          className="button-primary">
+          {this.props.isNewCharacter ? "add" : "update"}
+          {IconUtils.buttonIcon("fa-check")}
+        </button>
+
+          <button 
+            style={{ marginLeft: "0.4em" }}
+            onClick={() => {}}
+            className="button-primary">
+            discard
+            {IconUtils.buttonIcon("fa-times")}
+          </button>
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as IconUtils from "../../services/iconUtils";
 import { Character } from "../../models/character";
 import CharacterEdit from "./characterEdit"
 import { CharacterSelection } from "./characterSelection"
@@ -51,10 +52,16 @@ export default class CharacterView extends React.Component<any,CharacterViewStat
               handleSubmitCharacter={this.appendCharacter} />
           </div>
           <div className="container" >
-            <CharacterSelection
-              value={this.optionValueForCurrentIndex}
-              characters={characters}
-              handleSelectCharacter={this.updateIndex} />
+            <div className="selection-group">
+              <CharacterSelection
+                value={this.optionValueForCurrentIndex}
+                characters={characters}
+                handleSelectCharacter={this.updateIndex} />
+              <button className="button-primary">
+                new
+                {IconUtils.buttonIcon("fa-plus")}
+                </button>
+            </div>
         </div>
       </div>
       );

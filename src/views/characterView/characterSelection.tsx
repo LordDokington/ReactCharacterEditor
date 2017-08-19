@@ -13,7 +13,7 @@ export const CharacterSelection = (props: CharacterSelectionProps): JSX.Element 
       className="character-selection"
       id="characters"
       value={props.value}
-      onChange={ (e) => props.handleSelectCharacter( Number((e as any).target.selectedIndex) ) } 
+      onChange={ e => props.handleSelectCharacter( Number((e as any).target.selectedIndex) ) } 
     >
       { props.characters.map( (char, i) => <option key={"charOption_" + i} value={char.name}>{char.name}</option> ) }
     </select>
