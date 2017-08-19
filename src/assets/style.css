@@ -7,10 +7,10 @@
   margin-right: auto;
 }
 
-#character-main {
- 
+.container {
   border: 1px solid #B6B6B6;
   padding: 0.4em;
+  margin: 0.5em;
 }
 
 .character-image {
@@ -19,4 +19,10 @@
   /*height: auto;*/
   margin-left: auto;
   margin-right: auto;
+}
+
+.character-selection {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }

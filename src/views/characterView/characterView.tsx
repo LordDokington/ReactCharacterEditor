@@ -1,17 +1,20 @@
 import * as React from "react";
 import { Character } from "../../models/character";
 import CharacterEdit from "./characterEdit"
+import { CharacterSelection } from "./characterSelection"
 
 interface CharacterViewState {
-  characters: string[];
+  characters: Character[];
+  selectionIdx: number;
 }
 
-export default class CharacterView extends React.Component<any,any> {
+export default class CharacterView extends React.Component<any,CharacterViewState> {
   constructor() {
     super();
 
     this.state = {
-      characters: [ new Character("Harry Potter", 14) ]
+      characters: [ new Character("Harry Potter", 14) ],
+      selectionIdx: 0
     }
   }
 
@@ -19,19 +22,41 @@ export default class CharacterView extends React.Component<any,any> {
     let characters = this.state.characters.slice();
     characters.push( char );
 
-    this.setState( { characters: characters } );
+    this.setState( { characters: characters, selectionIdx: characters.length - 1 } );
+  }
+
+  updateIndex = (idx: number) => {
+    alert('update index: ' + idx)
+    this.setState( { selectionIdx: idx } );
+  }
+
+  get optionValueForCurrentIndex(): string {
+    const characters = this.state.characters;
+    const len = characters.length;
+    return (len === 0) ? "" : characters[ this.state.selectionIdx ].name;
   }
 
   render(): JSX.Element{
+      const selectionIdx = this.state.selectionIdx;
+      const characters = this.state.characters;
+      const currentChar = selectionIdx === -1 ? { name: undefined, age: undefined } : characters[ selectionIdx ];
+
       return(
-        <div id="main" >
-          <CharacterEdit
-            isNewCharacter={true}
-            handleSubmitCharacter={this.appendCharacter} />
-          <select id="characters">
-            { this.state.characters.map( (char, i) => <option key={"charOption_" + i} value={char.name}>{char.name}</option> ) }
-          </select>
+        <div>
+          <div className="container" >
+            <CharacterEdit
+              name={currentChar.name}
+              age={currentChar.age}
+              isNewCharacter={true}
+              handleSubmitCharacter={this.appendCharacter} />
+          </div>
+          <div className="container" >
+            <CharacterSelection
+              value={this.optionValueForCurrentIndex}
+              characters={characters}
+              handleSelectCharacter={this.updateIndex} />
         </div>
+      </div>
       );
   }
 }
