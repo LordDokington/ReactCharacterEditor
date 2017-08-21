@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as IconUtils from "../../services/iconUtils";
+import * as IconUtils from "../../utils/iconUtils";
 import { Character } from "../../models/character";
 import CharacterEdit from "./characterEdit"
 import { CharacterSelection } from "./characterSelection"
