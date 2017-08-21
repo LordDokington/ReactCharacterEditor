@@ -12,6 +12,7 @@ interface CharacterEditProps {
 interface CharacterEditState {
   name: string;
   age: string;
+  invalidated: boolean;
 }
 
 export default class CharacterEdit extends React.Component<CharacterEditProps, CharacterEditState> {
@@ -20,19 +21,29 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
 
     this.state = {
       name: props.name ? props.name : "",
-      age: props.age ? props.age.toString() : ""
+      age: props.age ? props.age.toString() : "",
+      invalidated: false
     }
   }
 
   componentWillReceiveProps(nextProps: CharacterEditProps) {
     this.setState ( {
       name: nextProps.name ? nextProps.name : "",
-      age: nextProps.age ? nextProps.age.toString() : ""
+      age: nextProps.age ? nextProps.age.toString() : "",
+      invalidated: false
     } );
   }
 
-  updateName = (name: string): void => { this.setState( { name: name }) }
-  updateAge = (age: string): void => { this.setState( { age: age } ) }
+  reset = () => {
+    this.setState( {
+      name: this.props.name ? this.props.name : "",
+      age: this.props.age ? this.props.age.toString() : "",
+      invalidated: false
+    } );
+  }
+
+  updateName = (name: string): void => { this.setState( { name: name, invalidated: true }) }
+  updateAge = (age: string): void => { this.setState( { age: age, invalidated: true } ) }
 
   submitCharacter = (): void => {
     const newChar = new Character(this.state.name, Number(this.state.age) );
@@ -60,20 +71,23 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
           </div>
         </div>
     
-        <button 
-          onClick={this.submitCharacter}
-          className="button-primary">
-          {this.props.isNewCharacter ? "add" : "update"}
-          {IconUtils.buttonIcon("fa-check")}
-        </button>
+      	{ this.state.invalidated && (
+          <button 
+            onClick={this.submitCharacter}
+            className="button-primary">
+            {this.props.isNewCharacter ? "add" : "update"}
+            {IconUtils.buttonIcon("fa-check")}
+          </button>) }
+        
 
+        { !this.props.isNewCharacter && this.state.invalidated && (
           <button 
             style={{ marginLeft: "0.4em" }}
-            onClick={() => {}}
+            onClick={this.reset}
             className="button-primary">
             discard
             {IconUtils.buttonIcon("fa-times")}
-          </button>
+          </button>) }
       </div>
     );
   }

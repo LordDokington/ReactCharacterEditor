@@ -7,6 +7,7 @@ import { CharacterSelection } from "./characterSelection"
 interface CharacterViewState {
   characters: Character[];
   selectionIdx: number;
+  isNewCharacter: boolean;
 }
 
 export default class CharacterView extends React.Component<any,CharacterViewState> {
@@ -15,7 +16,8 @@ export default class CharacterView extends React.Component<any,CharacterViewStat
 
     this.state = {
       characters: [ new Character("Harry Potter", 14) ],
-      selectionIdx: 0
+      selectionIdx: 0,
+      isNewCharacter: false
     }
   }
 
@@ -23,12 +25,27 @@ export default class CharacterView extends React.Component<any,CharacterViewStat
     let characters = this.state.characters.slice();
     characters.push( char );
 
-    this.setState( { characters: characters, selectionIdx: characters.length - 1 } );
+    // set new character as the selected one
+    // deactivate character adding mode after adding
+    this.setState( { 
+      characters: characters, 
+      selectionIdx: characters.length - 1,
+      isNewCharacter: false } );
+  }
+
+  updateCharacter = (char: Character): void => {
+    let characters = this.state.characters.slice();
+    characters[this.state.selectionIdx] = char;
+
+    this.setState( { characters: characters, isNewCharacter: false } );
   }
 
   updateIndex = (idx: number) => {
-    alert('update index: ' + idx)
     this.setState( { selectionIdx: idx } );
+  }
+
+  newCharMode = () => {
+    this.setState( { isNewCharacter: true } );
   }
 
   get optionValueForCurrentIndex(): string {
@@ -40,7 +57,12 @@ export default class CharacterView extends React.Component<any,CharacterViewStat
   render(): JSX.Element{
       const selectionIdx = this.state.selectionIdx;
       const characters = this.state.characters;
-      const currentChar = selectionIdx === -1 ? { name: undefined, age: undefined } : characters[ selectionIdx ];
+      const isNewCharacter = this.state.isNewCharacter;
+      
+      const useEmptyCharacter: boolean = selectionIdx === -1 || isNewCharacter;
+      const currentChar = useEmptyCharacter ?
+        { name: undefined, age: undefined } : 
+        characters[ selectionIdx ];
 
       return(
         <div>
@@ -48,8 +70,12 @@ export default class CharacterView extends React.Component<any,CharacterViewStat
             <CharacterEdit
               name={currentChar.name}
               age={currentChar.age}
-              isNewCharacter={true}
-              handleSubmitCharacter={this.appendCharacter} />
+              isNewCharacter={this.state.isNewCharacter}
+              handleSubmitCharacter={
+                this.state.isNewCharacter ?
+                  this.appendCharacter :
+                  this.updateCharacter
+                } />
           </div>
           <div className="container" >
             <div className="selection-group">
@@ -57,7 +83,10 @@ export default class CharacterView extends React.Component<any,CharacterViewStat
                 value={this.optionValueForCurrentIndex}
                 characters={characters}
                 handleSelectCharacter={this.updateIndex} />
-              <button className="button-primary">
+              <button 
+                className="button-primary"
+                onClick={this.newCharMode}
+              >
                 new
                 {IconUtils.buttonIcon("fa-plus")}
                 </button>
