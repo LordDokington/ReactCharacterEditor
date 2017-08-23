@@ -40,7 +40,7 @@ export default class SiteFrame extends React.Component<any, SiteFrameState> {
 
   render() {
     return (
-    <div>
+    <div id="main">
       <div id="nav-bar">
         <ul>
           { Object.keys(views).map( (key) => (
@@ -52,6 +52,8 @@ export default class SiteFrame extends React.Component<any, SiteFrameState> {
         </ul>
       </div>
       { getView(this.state.view) }
+
+      <div id="footer">TODO: Footer</div>
     </div>
     )
   }

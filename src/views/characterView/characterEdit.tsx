@@ -54,19 +54,19 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
 
   render() {
     return (
-      <div id="character-main" >
+      <div>
         <img className="character-image" src="placeholder.png" alt="character image"/>
         <div className="row">
           <div className="six columns">
             <label htmlFor="character-name">name</label>
             <input 
-              onChange={ e => this.updateName(e.target.value) }
+              onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateName(e.target.value) }
               className="u-full-width" type="text" placeholder="name" id="character-name" value={this.state.name} />
           </div>
           <div className="six columns">
             <label htmlFor="character-age">age</label>
             <input
-            onChange={ e => this.updateAge( e.target.value ) } 
+              onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateAge( e.target.value ) } 
               className="u-full-width" type="number" placeholder="age" id="character-age" value={this.state.age} />
           </div>
         </div>
@@ -78,7 +78,6 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
             {this.props.isNewCharacter ? "add" : "update"}
             {IconUtils.buttonIcon("fa-check")}
           </button>) }
-        
 
         { !this.props.isNewCharacter && this.state.invalidated && (
           <button 
