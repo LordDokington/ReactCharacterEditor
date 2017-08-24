@@ -15,28 +15,48 @@ export default class CharacterView extends React.Component<any,CharacterViewStat
     super();
 
     this.state = {
-      characters: [ new Character("Harry Potter", 14) ],
-      selectionIdx: 0,
-      isNewCharacter: false
+      characters: [],
+      selectionIdx: -1,
+      isNewCharacter: true
     }
+  }
+
+  toLocalStorage = (state: CharacterViewState) => {
+    localStorage.setItem( "state", JSON.stringify( state ) )
+  }
+
+  fromLocalStorage = (): CharacterViewState => {
+    const levelsJson = localStorage.getItem( "state" );
+    //alert( "loading state:\n" + levelsJson )
+    return levelsJson ? JSON.parse( levelsJson ) : undefined;
   }
 
   appendCharacter = (char: Character): void => {
     let characters = this.state.characters.slice();
     characters.push( char );
 
-    // set new character as the selected one
-    // deactivate character adding mode after adding
-    this.setState( { 
+    const newState = { 
       characters: characters, 
       selectionIdx: characters.length - 1,
-      isNewCharacter: false } );
+      isNewCharacter: false 
+    };
+
+    this.toLocalStorage( newState );
+    // set new character as the selected one
+    // deactivate character adding mode after adding
+    this.setState( newState );
   }
 
   updateCharacter = (char: Character): void => {
     let characters = this.state.characters.slice();
     characters[this.state.selectionIdx] = char;
 
+    const newState = {
+      characters: characters, 
+      selectionIdx: this.state.selectionIdx,
+      isNewCharacter: false 
+    };
+    this.toLocalStorage( newState );
     this.setState( { characters: characters, isNewCharacter: false } );
   }
 
@@ -54,12 +74,18 @@ export default class CharacterView extends React.Component<any,CharacterViewStat
     return (len === 0) ? "" : characters[ this.state.selectionIdx ].name;
   }
 
+  componentDidMount() {
+    let storedState = this.fromLocalStorage();
+    if( storedState )
+      this.setState( storedState )
+  }
+
   render(): JSX.Element{
       const selectionIdx = this.state.selectionIdx;
       const characters = this.state.characters;
       const isNewCharacter = this.state.isNewCharacter;
       
-      const useEmptyCharacter: boolean = selectionIdx === -1 || isNewCharacter;
+      const useEmptyCharacter: boolean = selectionIdx == -1 || isNewCharacter;
       const currentChar = useEmptyCharacter ?
         { name: undefined, age: undefined } : 
         characters[ selectionIdx ];

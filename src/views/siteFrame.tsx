@@ -4,6 +4,7 @@ import * as ReactDOM from "react-dom";
 import CharacterView from './characterView/characterView';
 import TimelineView from './timelineView/timelineView';
 import PlacesView from './placesView/placesView';
+import { Character } from "../models/character";
 
 const views = {
   Characters: 0,
@@ -12,15 +13,19 @@ const views = {
   Timeline: 3
 };
 
+interface SiteFrameProps {
+  characters: Character[];
+}
+
 interface SiteFrameState {
   view: number;
 }
 
-const getView = (view: number): JSX.Element =>
+const getView = (view: number) => ({ characters }: SiteFrameProps ): JSX.Element =>
 {
   switch(view)
   {
-    case views.Characters: return <CharacterView /> ;
+    case views.Characters: return <CharacterView characters={characters} /> ;
     case views.Places: return <PlacesView /> ;
     case views.Events: return <TimelineView /> ;
     case views.Timeline: return <TimelineView /> ;
@@ -51,7 +56,7 @@ export default class SiteFrame extends React.Component<any, SiteFrameState> {
               >{key}</li> ) ) }
         </ul>
       </div>
-      { getView(this.state.view) }
+      { getView(this.state.view)(this.props) }
 
       <div id="footer">TODO: Footer</div>
     </div>
