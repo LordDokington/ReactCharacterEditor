@@ -4,60 +4,25 @@ import { Character } from "../../models/character";
 import CharacterEdit from "./characterEdit"
 import { CharacterSelection } from "./characterSelection"
 
-interface CharacterViewState {
+export interface CharacterViewProps {
   characters: Character[];
+  appendCharacter: (char: Character) => void;
+  updateCharacter: (index: number) => (char: Character) => void;
+}
+
+interface CharacterViewState {
   selectionIdx: number;
   isNewCharacter: boolean;
 }
 
-export default class CharacterView extends React.Component<any,CharacterViewState> {
+export default class CharacterView extends React.Component<CharacterViewProps, CharacterViewState> {
   constructor() {
     super();
 
     this.state = {
-      characters: [],
       selectionIdx: -1,
       isNewCharacter: true
     }
-  }
-
-  toLocalStorage = (state: CharacterViewState) => {
-    localStorage.setItem( "state", JSON.stringify( state ) )
-  }
-
-  fromLocalStorage = (): CharacterViewState => {
-    const levelsJson = localStorage.getItem( "state" );
-    //alert( "loading state:\n" + levelsJson )
-    return levelsJson ? JSON.parse( levelsJson ) : undefined;
-  }
-
-  appendCharacter = (char: Character): void => {
-    let characters = this.state.characters.slice();
-    characters.push( char );
-
-    const newState = { 
-      characters: characters, 
-      selectionIdx: characters.length - 1,
-      isNewCharacter: false 
-    };
-
-    this.toLocalStorage( newState );
-    // set new character as the selected one
-    // deactivate character adding mode after adding
-    this.setState( newState );
-  }
-
-  updateCharacter = (char: Character): void => {
-    let characters = this.state.characters.slice();
-    characters[this.state.selectionIdx] = char;
-
-    const newState = {
-      characters: characters, 
-      selectionIdx: this.state.selectionIdx,
-      isNewCharacter: false 
-    };
-    this.toLocalStorage( newState );
-    this.setState( { characters: characters, isNewCharacter: false } );
   }
 
   updateIndex = (idx: number) => {
@@ -69,9 +34,19 @@ export default class CharacterView extends React.Component<any,CharacterViewStat
   }
 
   get optionValueForCurrentIndex(): string {
-    const characters = this.state.characters;
+    const characters = this.props.characters;
     const len = characters.length;
-    return (len === 0) ? "" : characters[ this.state.selectionIdx ].name;
+    const idx = this.state.selectionIdx;
+    return (len === 0 || idx == -1) ? "" : characters[ this.state.selectionIdx ].name;
+  }
+
+  toLocalStorage = (state: CharacterViewState) => {
+    localStorage.setItem( "characterView", JSON.stringify( state ) )
+  }
+
+  fromLocalStorage = (): CharacterViewState => {
+    const levelsJson = localStorage.getItem( "characterView" );
+    return levelsJson ? JSON.parse( levelsJson ) : undefined;
   }
 
   componentDidMount() {
@@ -80,9 +55,23 @@ export default class CharacterView extends React.Component<any,CharacterViewStat
       this.setState( storedState )
   }
 
+  handleSubmitCharacter = (c: Character) => {
+    if (this.state.isNewCharacter) {
+      this.props.appendCharacter(c)
+      const newState = {
+        selectionIdx: this.props.characters.length,
+        isNewCharacter: false
+      }
+      this.setState( newState )
+      this.toLocalStorage( newState )
+    } else {
+      this.props.updateCharacter(this.state.selectionIdx)(c)
+    }
+  }
+
   render(): JSX.Element{
       const selectionIdx = this.state.selectionIdx;
-      const characters = this.state.characters;
+      const characters = this.props.characters;
       const isNewCharacter = this.state.isNewCharacter;
       
       const useEmptyCharacter: boolean = selectionIdx == -1 || isNewCharacter;
@@ -97,11 +86,7 @@ export default class CharacterView extends React.Component<any,CharacterViewStat
               name={currentChar.name}
               age={currentChar.age}
               isNewCharacter={this.state.isNewCharacter}
-              handleSubmitCharacter={
-                this.state.isNewCharacter ?
-                  this.appendCharacter :
-                  this.updateCharacter
-                } />
+              handleSubmitCharacter={this.handleSubmitCharacter} />
           </div>
           <div className="container" >
             <div className="selection-group">

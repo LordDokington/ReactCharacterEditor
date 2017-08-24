@@ -78,3 +78,10 @@ body {
   padding: 1.1em 1.2em;
   display: block;
 }
+
+.load-button {
+}
+
+.save-button {
+  float: right;
+}
