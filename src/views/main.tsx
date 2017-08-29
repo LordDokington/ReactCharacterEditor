@@ -101,6 +101,37 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     this.setState( { characters: characters } );
   }
 
+  loadFile = (file: File, afterLoading: (e: Event) => void) => {
+		if (!file) { return; }
+
+		let reader = new FileReader();
+		// add function that happens after loading
+		reader.onload = afterLoading;
+
+		// actually read the text)
+		reader.readAsText(file);
+  }
+  
+  updateStateWithFileContents = (loadedFile) => {
+
+    let alertFail = (error) => alert("file loading failed\n\n" + error);
+    let alertSuccess = () => alert("loading successful");
+
+    let loadedState = null;
+
+    try {
+      let contents = (loadedFile.target as any).result;  
+      loadedState = JSON.parse(contents);
+    } catch(error) {
+      alertFail(error);
+    }
+   
+    if( loadedState ) {
+      this.setState( loadedState );
+      alertSuccess();
+    }
+  }
+
   formattedState = (): string => {
     return JSON.stringify(this.state, null, 2)
   }
@@ -125,8 +156,28 @@ export default class EditorMain extends React.Component<{}, EditorState> {
       { this.getView(this.state.view) }
 
       <div id="footer">
-        <input type="file" className="load-button" />
-        <a className="save-button"
+        <label 
+          htmlFor="file-select"
+          className="button button-primary load-button"
+        >
+          load
+        </label>
+        <input 
+          type="file" className="file-input" id="file-select" name="file-select"
+          ref={ 
+						// this deletes the file reference stored in the input directly after loading
+						// if this is not done, the same file cannot be reloaded, which is quite annoying
+						(input) => { if(input) input.value = ""; }
+					}
+					onChange={ 
+            (e: React.ChangeEvent<HTMLInputElement>) => 
+            { 
+              if( e.target && e.target.files )
+              this.loadFile(e.target.files[0], this.updateStateWithFileContents) } 
+            } 
+        />
+        <a 
+          className="button button-primary save-button"
 					download={"character_editor_save_" + new Date().toLocaleString() + ".json"} 
           href={ "data:application/octet-stream;charset=utf-16le;base64," + 
                 window.btoa( JSON.stringify(this.state, null, 2) ) }
