@@ -111,13 +111,14 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
                 onClick={this.newCharMode}
               >new {IconUtils.buttonIcon("fa-plus")}
               </button>
-              <button 
+
+              { this.props.characters.length > 0 && (<button 
                 className="button-primary button-left-margin"
                 onClick={this.handleDeleteCharacter}
               >
                 delete
                 {IconUtils.buttonIcon("fa-trash")}
-                </button>
+                </button>)}
             </div>
         </div>
       </div>
