@@ -6,6 +6,7 @@ import TimelineView from './timelineView/timelineView';
 import EventsView from './eventsView/eventsView';
 import PlacesView from './placesView/placesView';
 import { Character } from "../models/character";
+import * as IconUtils from "../utils/iconUtils";
 
 const views = {
   Characters: 0,
@@ -40,6 +41,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
                   characters={this.state.characters.slice()} 
                   appendCharacter={this.appendCharacter}
                   updateCharacter={this.updateCharacter}
+                  deleteCharacter={this.deleteCharacter}
                 />;
       case views.Places: return <PlacesView /> ;
       case views.Events: return <EventsView /> ;
@@ -101,6 +103,18 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     this.setState( { characters: characters } );
   }
 
+  deleteCharacter = (index: number) => {
+    const newCharacters = this.state.characters.slice();
+    newCharacters.splice(index, 1);
+
+    const newState = {
+      view: this.state.view,
+      characters: newCharacters
+    };
+    this.toLocalStorage( newState );
+    this.setState( { characters: newCharacters } );
+  }
+
   loadFile = (file: File, afterLoading: (e: Event) => void) => {
 		if (!file) { return; }
 
@@ -120,7 +134,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     let loadedState = null;
 
     try {
-      let contents = (loadedFile.target as any).result;  
+      let contents = loadedFile.target.result;  
       loadedState = JSON.parse(contents);
     } catch(error) {
       alertFail(error);
@@ -156,12 +170,16 @@ export default class EditorMain extends React.Component<{}, EditorState> {
       { this.getView(this.state.view) }
 
       <div id="footer">
+        <a 
+            className="button button-primary save-button"
+            download={"character_editor_save_" + new Date().toLocaleString() + ".json"} 
+            href={ "data:application/octet-stream;charset=utf-16le;base64," + 
+                  window.btoa( JSON.stringify(this.state, null, 2) ) }
+        >download {IconUtils.buttonIcon("fa-download")}</a>
         <label 
           htmlFor="file-select"
-          className="button button-primary load-button"
-        >
-          load
-        </label>
+          className="button button-primary load-button button-left-margin"
+        >import {IconUtils.buttonIcon("fa-file")}</label>
         <input 
           type="file" className="file-input" id="file-select" name="file-select"
           ref={ 
@@ -176,12 +194,6 @@ export default class EditorMain extends React.Component<{}, EditorState> {
               this.loadFile(e.target.files[0], this.updateStateWithFileContents) } 
             } 
         />
-        <a 
-          className="button button-primary save-button"
-					download={"character_editor_save_" + new Date().toLocaleString() + ".json"} 
-          href={ "data:application/octet-stream;charset=utf-16le;base64," + 
-                window.btoa( JSON.stringify(this.state, null, 2) ) }
-        >save</a>
       </div>
     </div>
     )

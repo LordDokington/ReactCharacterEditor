@@ -32,6 +32,16 @@ body {
   margin-bottom: 1.5em;
 }
 
+.place-image {
+  width: 100%;
+  max-width: 30em;
+  display: block;
+  /*height: auto;*/
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5em;
+}
+
 .character-selection {
   display: inline-block;
 }
@@ -79,11 +89,15 @@ body {
   display: block;
 }
 
+.button-left-margin {
+  margin-left: 0.4em
+}
+
 .load-button {
 }
 
 .save-button {
-  float: right;
+  
 }
 
 input[type="file"].file-input {

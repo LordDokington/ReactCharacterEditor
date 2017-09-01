@@ -67,7 +67,9 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
             <label htmlFor="character-age">age</label>
             <input
               onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateAge( e.target.value ) } 
-              className="u-full-width" type="number" placeholder="age" id="character-age" value={this.state.age} />
+              className="u-full-width" 
+              type="number" placeholder="age" id="character-age" min={0} 
+              value={this.state.age} />
           </div>
         </div>
     
@@ -81,9 +83,8 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
 
         { !this.props.isNewCharacter && this.state.invalidated && (
           <button 
-            style={{ marginLeft: "0.4em" }}
             onClick={this.reset}
-            className="button-primary">
+            className="button-primary button-left-margin">
             discard
             {IconUtils.buttonIcon("fa-times")}
           </button>) }

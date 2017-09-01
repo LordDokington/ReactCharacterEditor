@@ -8,6 +8,7 @@ export interface CharacterViewProps {
   characters: Character[];
   appendCharacter: (char: Character) => void;
   updateCharacter: (index: number) => (char: Character) => void;
+  deleteCharacter: (index: number) => void;
 }
 
 interface CharacterViewState {
@@ -55,9 +56,9 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
       this.setState( storedState )
   }
 
-  handleSubmitCharacter = (c: Character) => {
+  handleSubmitCharacter = (character: Character) => {
     if (this.state.isNewCharacter) {
-      this.props.appendCharacter(c)
+      this.props.appendCharacter(character)
       const newState = {
         selectionIdx: this.props.characters.length,
         isNewCharacter: false
@@ -65,7 +66,17 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
       this.setState( newState )
       this.toLocalStorage( newState )
     } else {
-      this.props.updateCharacter(this.state.selectionIdx)(c)
+      this.props.updateCharacter(this.state.selectionIdx)(character)
+    }
+  }
+
+  handleDeleteCharacter = () => {
+    this.props.deleteCharacter(this.state.selectionIdx);
+    let selectionIdx = this.state.selectionIdx;
+    // decrement index if it points to last element because array is now shorter by one element
+    if(selectionIdx == this.props.characters.length-1) {
+      --selectionIdx;
+      this.setState( {selectionIdx: selectionIdx} )
     }
   }
 
@@ -75,6 +86,7 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
       const isNewCharacter = this.state.isNewCharacter;
       
       const useEmptyCharacter: boolean = selectionIdx == -1 || isNewCharacter;
+
       const currentChar = useEmptyCharacter ?
         { name: undefined, age: undefined } : 
         characters[ selectionIdx ];
@@ -97,9 +109,14 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
               <button 
                 className="button-primary"
                 onClick={this.newCharMode}
+              >new {IconUtils.buttonIcon("fa-plus")}
+              </button>
+              <button 
+                className="button-primary button-left-margin"
+                onClick={this.handleDeleteCharacter}
               >
-                new
-                {IconUtils.buttonIcon("fa-plus")}
+                delete
+                {IconUtils.buttonIcon("fa-trash")}
                 </button>
             </div>
         </div>

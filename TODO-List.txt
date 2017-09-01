@@ -1,0 +1,19 @@
+TODO-List:
+--------------
+
+character view:
+
+-discard new character
+-delete character
+-characterEdit is a bad name for the subcomponent
+-undo and redo (state chain)
+
+places view:
+
+-basically everything!
+
+general:
+
+-module and layout concept?
+-using Redux etc?
+-relationship view

@@ -55,24 +55,10 @@ module.exports = (env) => {
 				exclude: [/(node_modules)/],
 				use: [{
 					loader: 'babel-loader'
-				},
-				{
+				}, {
 					loader: 'ts-loader'
 				}
 				]
-			}, {
-				test: /\.less$/,
-				use: [{
-					loader: 'style-loader'
-				}, {
-					loader: 'css-loader',
-					options: cssLoaderOptions
-				}, {
-					loader: 'postcss-loader',
-					options: postcssLoaderOptions
-				}, {
-					loader: 'less-loader'
-				}]
 			}, {
 				test: /\.css$/,
 				use: [{
