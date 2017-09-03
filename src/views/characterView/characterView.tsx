@@ -26,8 +26,22 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
     }
   }
 
+  componentWillReceiveProps(nextProps: CharacterViewProps) {
+    const thisCharactersCount = this.props.characters.length;
+    const nextCharactersCount = nextProps.characters.length;
+    const selectionIdx = this.state.selectionIdx;
+    // if new character list is longer than the previous one, then characters were added. set index to last new one (last in list)
+    if(nextCharactersCount > thisCharactersCount) {
+      this.setState( {selectionIdx: nextCharactersCount-1} );
+    } 
+    // if new character list is shorter than the previous one, fix selectionIdx to avoid out of bounds error
+    else if(nextCharactersCount-1 < selectionIdx) {
+      this.setState( {selectionIdx: nextCharactersCount-1} );
+    }
+  }
+
   updateIndex = (idx: number) => {
-    this.setState( { selectionIdx: idx } );
+    this.setState( { selectionIdx: idx, isNewCharacter: false } );
   }
 
   newCharMode = () => {
@@ -76,7 +90,7 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
     // decrement index if it points to last element because array is now shorter by one element
     if(selectionIdx == this.props.characters.length-1) {
       --selectionIdx;
-      this.setState( {selectionIdx: selectionIdx} )
+      this.setState( {selectionIdx: selectionIdx, isNewCharacter: false} )
     }
   }
 
@@ -115,10 +129,8 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
               { this.props.characters.length > 0 && (<button 
                 className="button-primary button-left-margin"
                 onClick={this.handleDeleteCharacter}
-              >
-                delete
-                {IconUtils.buttonIcon("fa-trash")}
-                </button>)}
+                >delete {IconUtils.buttonIcon("fa-trash")}
+                </button>) }
             </div>
         </div>
       </div>
