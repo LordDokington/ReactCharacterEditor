@@ -20,10 +20,14 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
   constructor() {
     super();
 
-    this.state = {
-      selectionIdx: -1,
-      isNewCharacter: true
-    }
+    const storedState = this.fromLocalStorage();
+    if( storedState )
+      this.state = storedState;
+    else
+      this.state = {
+        selectionIdx: -1,
+        isNewCharacter: true
+      }
   }
 
   componentWillReceiveProps(nextProps: CharacterViewProps) {
@@ -32,20 +36,21 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
     const selectionIdx = this.state.selectionIdx;
     // if new character list is longer than the previous one, then characters were added. set index to last new one (last in list)
     if(nextCharactersCount > thisCharactersCount) {
-      this.setState( {selectionIdx: nextCharactersCount-1} );
+      this.setState( {selectionIdx: nextCharactersCount-1, isNewCharacter: false} );
     } 
     // if new character list is shorter than the previous one, fix selectionIdx to avoid out of bounds error
     else if(nextCharactersCount-1 < selectionIdx) {
-      this.setState( {selectionIdx: nextCharactersCount-1} );
+      this.setState( {selectionIdx: nextCharactersCount-1, isNewCharacter: false} );
     }
   }
 
   updateIndex = (idx: number) => {
-    this.setState( { selectionIdx: idx, isNewCharacter: false } );
+    // the 2nd argument is a function that is executed after the state is updated
+    this.setState( { selectionIdx: idx, isNewCharacter: false }, this.toLocalStorage );
   }
 
   newCharMode = () => {
-    this.setState( { isNewCharacter: true } );
+    this.setState( { isNewCharacter: true }, this.toLocalStorage );
   }
 
   get optionValueForCurrentIndex(): string {
@@ -55,8 +60,8 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
     return (len === 0 || idx == -1) ? "" : characters[ this.state.selectionIdx ].name;
   }
 
-  toLocalStorage = (state: CharacterViewState) => {
-    localStorage.setItem( "characterView", JSON.stringify( state ) )
+  toLocalStorage = () => {
+    localStorage.setItem( "characterView", JSON.stringify( this.state ) )
   }
 
   fromLocalStorage = (): CharacterViewState => {
@@ -64,21 +69,9 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
     return levelsJson ? JSON.parse( levelsJson ) : undefined;
   }
 
-  componentDidMount() {
-    let storedState = this.fromLocalStorage();
-    if( storedState )
-      this.setState( storedState )
-  }
-
   handleSubmitCharacter = (character: Character) => {
     if (this.state.isNewCharacter) {
       this.props.appendCharacter(character)
-      const newState = {
-        selectionIdx: this.props.characters.length,
-        isNewCharacter: false
-      }
-      this.setState( newState )
-      this.toLocalStorage( newState )
     } else {
       this.props.updateCharacter(this.state.selectionIdx)(character)
     }
@@ -86,19 +79,13 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
 
   handleDeleteCharacter = () => {
     this.props.deleteCharacter(this.state.selectionIdx);
-    let selectionIdx = this.state.selectionIdx;
-    // decrement index if it points to last element because array is now shorter by one element
-    if(selectionIdx == this.props.characters.length-1) {
-      --selectionIdx;
-      this.setState( {selectionIdx: selectionIdx, isNewCharacter: false} )
-    }
   }
 
   render(): JSX.Element{
       const selectionIdx = this.state.selectionIdx;
       const characters = this.props.characters;
       const isNewCharacter = this.state.isNewCharacter;
-      
+
       const useEmptyCharacter: boolean = selectionIdx == -1 || isNewCharacter;
 
       const currentChar = useEmptyCharacter ?
@@ -121,13 +108,13 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
                 characters={characters}
                 handleSelectCharacter={this.updateIndex} />
               <button 
-                className="button-primary"
+                className="button button-primary"
                 onClick={this.newCharMode}
               >new {IconUtils.buttonIcon("fa-plus")}
               </button>
 
               { this.props.characters.length > 0 && (<button 
-                className="button-primary button-left-margin"
+                className="button button-primary button-left-margin"
                 onClick={this.handleDeleteCharacter}
                 >delete {IconUtils.buttonIcon("fa-trash")}
                 </button>) }

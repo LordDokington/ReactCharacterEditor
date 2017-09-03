@@ -25,11 +25,14 @@ export default class EditorMain extends React.Component<{}, EditorState> {
   constructor() {
     super();
 
-    this.state = {
-      view: views.Characters,
-
-      characters: []
-    }
+    const storedState = this.fromLocalStorage();
+    if( storedState )
+      this.state = storedState;
+    else
+      this.state = {
+        view: views.Characters,
+        characters: []
+      }
   }
 
   getView = (view: number): JSX.Element =>
@@ -51,8 +54,8 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     }
   }
 
-  toLocalStorage = (state: EditorState) => {
-    localStorage.setItem( "state", JSON.stringify( state ) )
+  toLocalStorage = () => {
+    localStorage.setItem( "state", JSON.stringify( this.state ) )
   }
 
   fromLocalStorage = (): EditorState => {
@@ -61,58 +64,31 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     return levelsJson ? JSON.parse( levelsJson ) : undefined;
   }
 
-  componentDidMount() {
-    let storedState = this.fromLocalStorage();
-    if( storedState )
-      this.setState( storedState )
-  }
-
   updateView = (view: number) => {
-    let newState = {
-      characters: this.state.characters,
-      view: view
-    };
-    this.setState( newState )
-    this.toLocalStorage( newState )
+    console.log("updateView");
+
+    this.setState( { view: view }, this.toLocalStorage )
   }
 
   appendCharacter = (char: Character): void => {
     let characters = this.state.characters.slice();
     characters.push( char );
 
-    const newState = { 
-      view: this.state.view,
-      characters: characters,
-    };
-
-    this.toLocalStorage( newState );
-    // set new character as the selected one
-    // deactivate character adding mode after adding
-    this.setState( newState );
+    this.setState( {  characters: characters }, this.toLocalStorage );
   }
 
   updateCharacter = (index: number) => (char: Character) : void => {
     let characters = this.state.characters.slice();
     characters[index] = char;
 
-    const newState = {
-      view: this.state.view,
-      characters: characters
-    };
-    this.toLocalStorage( newState );
-    this.setState( { characters: characters } );
+    this.setState( { characters: characters }, this.toLocalStorage );
   }
 
   deleteCharacter = (index: number) => {
-    const newCharacters = this.state.characters.slice();
+    let newCharacters = this.state.characters.slice();
     newCharacters.splice(index, 1);
 
-    const newState = {
-      view: this.state.view,
-      characters: newCharacters
-    };
-    this.toLocalStorage( newState );
-    this.setState( { characters: newCharacters } );
+    this.setState( { characters: newCharacters }, this.toLocalStorage );
   }
 
   loadFile = (file: File, afterLoading: (e: Event) => void) => {
@@ -150,11 +126,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     return JSON.stringify(this.state, null, 2)
   }
 
-  restoreState = (state) => {
-    this.setState( state )
-  }
-
   render() {
+    console.log("render main");
+
     return (
     <div id="main">
       <div id="nav-bar">
@@ -174,7 +148,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             className="button button-primary save-button"
             download={"character_editor_save_" + new Date().toLocaleString() + ".json"} 
             href={ "data:application/octet-stream;charset=utf-16le;base64," + 
-                  window.btoa( JSON.stringify(this.state, null, 2) ) }
+                  window.btoa( this.formattedState() ) }
         >download {IconUtils.buttonIcon("fa-download")}</a>
         <label 
           htmlFor="file-select"

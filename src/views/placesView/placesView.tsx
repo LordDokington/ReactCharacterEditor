@@ -16,14 +16,16 @@ export default class PlacesView extends React.Component<any,any> {
           <img className="place-image" src="landscape-sketch.jpg" alt="character image"/>
           <div className="row">
             <div className="six columns">
-              <label htmlFor="character-name">name</label>
+              <label htmlFor="place-name">name</label>
               <input 
                 onChange={ (e: React.ChangeEvent<HTMLInputElement>) => {} }
-                className="u-full-width" type="text" placeholder="name" id="character-name" value={""} />
+                className="u-full-width" type="text" placeholder="name" id="place-description" value={""} />
             </div>
             <div className="six columns">
             </div>
           </div>
+          <label htmlFor="character-name">description</label>
+          <textarea type="text" placeholder="..." id="place-description" className="form-textarea" rows={10}></textarea>
       
           { this.state.invalidated && (
             <button 
