@@ -1,11 +1,13 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
+import { Character } from "../models/character";
+import { Place } from "../models/place";
+
 import CharacterView from './characterView/characterView';
 import TimelineView from './timelineView/timelineView';
 import EventsView from './eventsView/eventsView';
 import PlacesView from './placesView/placesView';
-import { Character } from "../models/character";
 import * as IconUtils from "../utils/iconUtils";
 
 const views = {
@@ -19,6 +21,7 @@ interface EditorState {
   view: number;
 
   characters: Character[];
+  places: Place[];
 }
 
 export default class EditorMain extends React.Component<{}, EditorState> {
@@ -31,7 +34,8 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     else
       this.state = {
         view: views.Characters,
-        characters: []
+        characters: [],
+        places: []
       }
   }
 
@@ -46,11 +50,15 @@ export default class EditorMain extends React.Component<{}, EditorState> {
                   updateCharacter={this.updateCharacter}
                   deleteCharacter={this.deleteCharacter}
                 />;
-      case views.Places: return <PlacesView /> ;
+      case views.Places: 
+        return <PlacesView 
+                 characters={this.state.characters.slice()} 
+                 places={this.state.places.slice()}
+               /> ;
       case views.Events: return <EventsView /> ;
       case views.Timeline: return <TimelineView /> ;
   
-      default: return <PlacesView />;
+      default: return <h3>CURRENT VIEW STATE UNDEFINED</h3>;
     }
   }
 
@@ -65,8 +73,6 @@ export default class EditorMain extends React.Component<{}, EditorState> {
   }
 
   updateView = (view: number) => {
-    console.log("updateView");
-
     this.setState( { view: view }, this.toLocalStorage )
   }
 

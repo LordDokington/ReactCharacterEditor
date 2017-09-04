@@ -4,16 +4,24 @@ TODO-List:
 character view:
 
 -discard new character
--delete character
 -characterEdit is a bad name for the subcomponent
 -undo and redo (state chain)
 
 places view:
 
--basically everything!
+-character dropdown to add character at place FOR A SPECIFIC TIME!
+-character overview to see characters present AT A SPECIFIC TIME!
+-timeline to scroll through events for that place
+
+timeline view
+
+-make it possible to sort all events of all places (or a defined group) in the timeline view
 
 general:
 
 -module and layout concept?
 -using Redux etc?
 -relationship view
+-drag&drop for preview images into the views (the placeholders can be customized by user)
+
+-List of references per view (e.g. character associated with place or places a character visits)
