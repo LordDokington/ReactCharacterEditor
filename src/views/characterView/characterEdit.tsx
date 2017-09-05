@@ -6,7 +6,7 @@ interface CharacterEditProps {
   name?: string;
   age?: number;
   handleSubmitCharacter: (char: Character) => void;
-  isNewCharacter: boolean;
+  isNew?: boolean;
 }
 
 interface CharacterEditState {
@@ -77,11 +77,11 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
           <button 
             onClick={this.submitCharacter}
             className="button-primary">
-            {this.props.isNewCharacter ? "add" : "update"}
+            {this.props.isNew ? "add" : "update"}
             {IconUtils.buttonIcon("fa-check")}
           </button>) }
 
-        { !this.props.isNewCharacter && this.state.invalidated && (
+        { !this.props.isNew && this.state.invalidated && (
           <button 
             onClick={this.reset}
             className="button-primary button-left-margin">

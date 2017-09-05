@@ -54,6 +54,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
         return <PlacesView 
                  characters={this.state.characters.slice()} 
                  places={this.state.places.slice()}
+                 appendPlace={this.appendPlace}
+                 updatePlace={this.updatePlace}
+                 deletePlace={this.deletePlace}
                /> ;
       case views.Events: return <EventsView /> ;
       case views.Timeline: return <TimelineView /> ;
@@ -95,6 +98,27 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     newCharacters.splice(index, 1);
 
     this.setState( { characters: newCharacters }, this.toLocalStorage );
+  }
+
+  appendPlace = (place: Place): void => {
+    let places = this.state.places.slice();
+    places.push( place );
+
+    this.setState( {  places: places }, this.toLocalStorage );
+  }
+
+  updatePlace = (index: number) => (place: Place) : void => {
+    let places = this.state.places.slice();
+    places[index] = place;
+
+    this.setState( { places: places }, this.toLocalStorage );
+  }
+
+  deletePlace = (index: number) => {
+    let newPlaces = this.state.places.slice();
+    newPlaces.splice(index, 1);
+
+    this.setState( { places: newPlaces }, this.toLocalStorage );
   }
 
   loadFile = (file: File, afterLoading: (e: Event) => void) => {
