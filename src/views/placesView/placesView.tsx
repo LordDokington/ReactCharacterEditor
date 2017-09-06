@@ -84,13 +84,11 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
     return levelsJson ? JSON.parse( levelsJson ) : undefined;
   }
 
-
   render(): JSX.Element{
     const selectionIdx = this.state.selectionIdx;
     const places: Place[] = this.props.places;
-    const isNewPlace: boolean = this.state.isNew;
-
-    const useEmptyPlace: boolean = selectionIdx == -1 || isNewPlace;
+    const isNew: boolean = this.state.isNew || places.length === 0;
+    const useEmptyPlace: boolean = selectionIdx == -1 || isNew;
 
     const currentPlace = useEmptyPlace ?
       { name: undefined, description: undefined } : 
@@ -103,7 +101,7 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
             name={currentPlace.name}
             description={currentPlace.description}
             handleSubmitPlace={this.handleSubmitPlace}
-            isNewPlace={this.state.isNew}
+            isNewPlace={isNew}
           />
         </div>
         <div className="container">

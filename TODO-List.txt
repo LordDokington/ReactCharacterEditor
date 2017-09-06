@@ -35,7 +35,7 @@ general:
 -using Redux etc?
 -relationship view
 -drag&drop for preview images into the views (the placeholders can be customized by user)
-_or add/select image-button: that allows to select/load an image file
+-or add/select image-button: that allows to select/load an image file
 
 -List of references per view (e.g. character associated with place or places a character visits)
 

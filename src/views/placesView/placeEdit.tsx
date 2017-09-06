@@ -1,5 +1,7 @@
 import * as React from "react";
 import * as IconUtils from "../../utils/iconUtils";
+import * as FileUtils from "../../utils/fileUtils";
+import Dropzone from 'react-dropzone';
 import { Place } from "../../models/place";
 
 interface PlaceEditProps {
@@ -13,6 +15,8 @@ interface PlaceEditState {
   name: string;
   description: string;
   invalidated: boolean;
+  files: File[];
+  fileDataUrl: string;
 }
 
 export default class PlaceEdit extends React.Component<PlaceEditProps, PlaceEditState> {
@@ -22,7 +26,9 @@ export default class PlaceEdit extends React.Component<PlaceEditProps, PlaceEdit
     this.state = {
       name: props.name ? props.name : "",
       description: props.description ? props.description.toString() : "",
-      invalidated: false
+      invalidated: false,
+      files: [],
+      fileDataUrl: ""
     }
   }
 
@@ -50,10 +56,32 @@ export default class PlaceEdit extends React.Component<PlaceEditProps, PlaceEdit
     this.props.handleSubmitPlace( newPlace );
   }
 
+  onDrop = (files: File[]) => {
+    FileUtils.loadFileAsData(files[0], (event) => {
+      this.setState({
+        fileDataUrl: (event.target as any).result
+      });
+    });
+
+    this.setState({
+      files: files
+    });
+  }
+
   render() {
     return (
       <div>
-        <img className="place-image" src="landscape-sketch.jpg" alt="character image"/>
+        <Dropzone onDrop={this.onDrop}>
+          <p>Try dropping some files here, or click to select files to upload.</p>
+            <ul>
+            {
+              this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+            }
+          </ul>
+        </Dropzone>
+        <img className="place-image" 
+        src={this.state.files.length === 0 ? "landscape-sketch.jpg" : this.state.fileDataUrl} 
+        alt={this.state.files.length === 0 ? "character image" : this.state.files[0].name} />
         <div className="row">
           <div className="six columns">
             <label htmlFor="place-name">name</label>

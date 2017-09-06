@@ -8,6 +8,7 @@ import CharacterView from './characterView/characterView';
 import TimelineView from './timelineView/timelineView';
 import EventsView from './eventsView/eventsView';
 import PlacesView from './placesView/placesView';
+import * as FileUtils from "../utils/fileUtils";
 import * as IconUtils from "../utils/iconUtils";
 
 const views = {
@@ -121,18 +122,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     this.setState( { places: newPlaces }, this.toLocalStorage );
   }
 
-  loadFile = (file: File, afterLoading: (e: Event) => void) => {
-		if (!file) { return; }
-
-		let reader = new FileReader();
-		// add function that happens after loading
-		reader.onload = afterLoading;
-
-		// actually read the text)
-		reader.readAsText(file);
-  }
-  
-  updateStateWithFileContents = (loadedFile) => {
+  updateStateWithFileContents = (event) => {
 
     let alertFail = (error) => alert("file loading failed\n\n" + error);
     let alertSuccess = () => alert("loading successful");
@@ -140,7 +130,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     let loadedState = null;
 
     try {
-      let contents = loadedFile.target.result;  
+      let contents = event.target.result;  
       loadedState = JSON.parse(contents);
     } catch(error) {
       alertFail(error);
@@ -195,7 +185,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             (e: React.ChangeEvent<HTMLInputElement>) => 
             { 
               if( e.target && e.target.files )
-              this.loadFile(e.target.files[0], this.updateStateWithFileContents) } 
+              FileUtils.loadFileAsText(e.target.files[0], this.updateStateWithFileContents) } 
             } 
         />
       </div>

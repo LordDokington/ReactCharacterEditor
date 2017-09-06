@@ -84,8 +84,7 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
   render(): JSX.Element{
       const selectionIdx = this.state.selectionIdx;
       const characters = this.props.characters;
-      const isNew = this.state.isNew;
-
+      const isNew = this.state.isNew || characters.length === 0;
       const useEmptyCharacter: boolean = selectionIdx == -1 || isNew;
 
       const currentChar = useEmptyCharacter ?
@@ -98,7 +97,7 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
             <CharacterEdit
               name={currentChar.name}
               age={currentChar.age}
-              isNew={this.state.isNew}
+              isNew={isNew}
               handleSubmitCharacter={this.handleSubmitCharacter} />
           </div>
           <div className="container" >
