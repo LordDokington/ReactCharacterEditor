@@ -7,6 +7,7 @@ import { Place } from "../../models/place";
 interface PlaceEditProps {
   name?: string;
   description?: string;
+  thumbnail: string;
   handleSubmitPlace: (place: Place) => void;
   isNewPlace: boolean;
 }
@@ -15,8 +16,7 @@ interface PlaceEditState {
   name: string;
   description: string;
   invalidated: boolean;
-  files: File[];
-  fileDataUrl: string;
+  thumbnail: string;
 }
 
 export default class PlaceEdit extends React.Component<PlaceEditProps, PlaceEditState> {
@@ -27,8 +27,7 @@ export default class PlaceEdit extends React.Component<PlaceEditProps, PlaceEdit
       name: props.name ? props.name : "",
       description: props.description ? props.description.toString() : "",
       invalidated: false,
-      files: [],
-      fileDataUrl: ""
+      thumbnail: ""
     }
   }
 
@@ -36,6 +35,7 @@ export default class PlaceEdit extends React.Component<PlaceEditProps, PlaceEdit
     this.setState ( {
       name: nextProps.name ? nextProps.name : "",
       description: nextProps.description ? nextProps.description.toString() : "",
+      thumbnail: nextProps.thumbnail,
       invalidated: false
     } );
   }
@@ -52,36 +52,31 @@ export default class PlaceEdit extends React.Component<PlaceEditProps, PlaceEdit
   updateDescription = (description: string): void => { this.setState( { description: description, invalidated: true } ) }
 
   submitPlace = (): void => {
-    const newPlace = new Place( this.state.name, this.state.description );
+    const newPlace = new Place( this.state.name, this.state.description, this.state.thumbnail );
     this.props.handleSubmitPlace( newPlace );
   }
 
   onDrop = (files: File[]) => {
     FileUtils.loadFileAsData(files[0], (event) => {
       this.setState({
-        fileDataUrl: (event.target as any).result
+        thumbnail: (event.target as any).result,
+        invalidated: true
       });
-    });
-
-    this.setState({
-      files: files
     });
   }
 
   render() {
     return (
       <div>
-        <Dropzone onDrop={this.onDrop}>
-          <p>Try dropping some files here, or click to select files to upload.</p>
-            <ul>
-            {
-              this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-            }
-          </ul>
+        <Dropzone onDrop={this.onDrop} 
+          className="place-image"
+          activeClassName="place-image-dragged"
+        >
+          <img  
+          src={this.state.thumbnail == "" ? "landscape-sketch.jpg" : this.state.thumbnail} 
+          alt="place thumbnail" />
         </Dropzone>
-        <img className="place-image" 
-        src={this.state.files.length === 0 ? "landscape-sketch.jpg" : this.state.fileDataUrl} 
-        alt={this.state.files.length === 0 ? "character image" : this.state.files[0].name} />
+        
         <div className="row">
           <div className="six columns">
             <label htmlFor="place-name">name</label>

@@ -91,7 +91,7 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
     const useEmptyPlace: boolean = selectionIdx == -1 || isNew;
 
     const currentPlace = useEmptyPlace ?
-      { name: undefined, description: undefined } : 
+      { name: undefined, description: undefined, thumbnail: "" } : 
       places[ selectionIdx ];
 
     return (
@@ -101,6 +101,7 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
             name={currentPlace.name}
             description={currentPlace.description}
             handleSubmitPlace={this.handleSubmitPlace}
+            thumbnail={currentPlace.thumbnail}
             isNewPlace={isNew}
           />
         </div>
