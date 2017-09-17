@@ -15,6 +15,10 @@ export class Place {
     this.events.push(event.id);
   }
 
+  removeEvent(event: Event) {
+    this.events = this.events.filter( id => id != event.id );
+  }
+
   allCharacters(): string[] {
     //const charactersForEvents = this.events.map( (e: string) => e.characters );
     //return [].concat( ...charactersForEvents ).TODO:ToActualChatacters;

@@ -63,7 +63,7 @@ body {
   background: #33C3F0;
 }
 
-.character-selection {
+.selector {
   display: inline-block;
 }
 
@@ -75,18 +75,22 @@ body {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  background-color: #ccc;
+  padding: 0;
+  margin: 0;
   overflow: hidden;
 }
 
 #nav-bar li {
   float: left;
-  display: block;
+  display: inline-block;
   text-align: center;
   padding: 1.1em 1.2em;
   text-decoration: none;
   cursor: pointer;
   background-color: #8C8C8C;
   color: white;
+  margin: 0; /*0 0.05em 0 0;*/
 }
 
 #nav-bar li.active-item {

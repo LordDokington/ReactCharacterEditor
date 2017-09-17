@@ -1,8 +1,7 @@
 import * as React from "react";
-import * as IconUtils from "../../utils/iconUtils";
 import { Character } from "../../models/character";
 import CharacterEdit from "./characterEdit"
-import { CharacterSelection } from "./characterSelection"
+import { SelectionGroup } from "../selectionGroup"
 
 export interface CharacterViewProps {
   characters: Character[];
@@ -104,22 +103,15 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
             />
           </div>
           <div className="container" >
-            <CharacterSelection
+            <SelectionGroup
               value={this.optionValueForCurrentIndex}
-              characters={characters}
-              handleSelectCharacter={this.updateIndex} />
-            { !isNew && <button
-              className="button button-primary"
-              onClick={() => this.setNewCharMode(true)}
-            >new {IconUtils.buttonIcon("fa-plus")}
-            </button> }
-            { this.props.characters.length > 0 && !isNew && (<button 
-              className="button button-primary button-left-margin"
-              onClick={this.handleDeleteCharacter}
-              >delete {IconUtils.buttonIcon("fa-trash")}
-              </button>) }
+              listElements={ characters.map( (char: Character) => char.name )}
+              handleSelect={this.updateIndex}
+              handleDeleteButtonClick={this.handleDeleteCharacter}
+              deleteButtonVisible={this.props.characters.length > 0 && !isNew}
+            />
+          </div>
         </div>
-      </div>
       );
   }
 }

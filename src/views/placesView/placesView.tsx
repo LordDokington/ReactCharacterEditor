@@ -1,7 +1,6 @@
 import * as React from "react";   
-import * as IconUtils from "../../utils/iconUtils";
 import PlaceEdit from "./placeEdit"
-import { PlaceSelection } from "./placeSelection"
+import { SelectionGroup } from "../selectionGroup"
 
 import { Character } from "../../models/character";
 import { Place } from "../../models/place";
@@ -50,12 +49,12 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
     if (this.state.isNew) {
       this.props.appendPlace(place)
     } else {
-      this.props.updatePlace(this.state.selectionIdx)(place)
+      this.props.updatePlace(this.selectionIdx)(place)
     }
   }
 
   handleDeletePlace = () => {
-    this.props.deletePlace(this.state.selectionIdx);
+    this.props.deletePlace(this.selectionIdx);
   }
 
   updateIndex = (idx: number) => {
@@ -108,21 +107,13 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
           />
         </div>
         <div className="container">
-          <PlaceSelection
+          <SelectionGroup
             value={this.optionValueForCurrentIndex}
-            places={places}
-            handleSelectPlace={this.updateIndex} />
-          <button 
-            className="button button-primary"
-            onClick={() => this.setNewPlaceMode(true)}
-          >new {IconUtils.buttonIcon("fa-plus")}
-          </button>
-
-          { this.props.places.length > 0 && !isNew && (<button 
-            className="button button-primary button-left-margin"
-            onClick={this.handleDeletePlace}
-            >delete {IconUtils.buttonIcon("fa-trash")}
-            </button>) }
+            listElements={ places.map( (place: Place) => place.name )}
+            handleSelect={this.updateIndex}
+            handleDeleteButtonClick={this.handleDeletePlace}
+            deleteButtonVisible={this.props.places.length > 0 && !isNew} 
+          />
         </div>
         <div className="container">
           <label htmlFor="character-list">present characters</label>
