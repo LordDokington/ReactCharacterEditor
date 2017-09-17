@@ -1,4 +1,5 @@
 import { GUID } from "../utils/guidUtils"
+import { Event } from "./event"
 import { Character } from "./character"
 
 export class Place {
@@ -7,11 +8,17 @@ export class Place {
     this.name = name;
     this.description = description;
     this.thumbnail = thumbnailData;
-    this.characters = [];
+    this.events = [];
   }
 
-  addCharacter(char: Character) {
-    this.characters.push(char.id);
+  addEvent(event: Event) {
+    this.events.push(event.id);
+  }
+
+  allCharacters(): string[] {
+    //const charactersForEvents = this.events.map( (e: string) => e.characters );
+    //return [].concat( ...charactersForEvents ).TODO:ToActualChatacters;
+    return [];
   }
 
   id: string;
@@ -20,6 +27,6 @@ export class Place {
   //thumbnail as data string
   thumbnail: string;
 
-  // contains character GUIDs
-  characters: string[];
+  // contains GUIDs
+  events: string[];
 }

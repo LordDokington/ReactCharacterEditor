@@ -36,13 +36,12 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
   componentWillReceiveProps(nextProps: PlacesViewProps) {
     const thisPlacesCount = this.props.places.length;
     const nextPlacesCount = nextProps.places.length;
-    const selectionIdx = this.state.selectionIdx;
     // if new character list is longer than the previous one, then characters were added. set index to last new one (last in list)
     if(nextPlacesCount > thisPlacesCount) {
       this.setState( {selectionIdx: nextPlacesCount-1, isNew: false} );
     } 
     // if new character list is shorter than the previous one, fix selectionIdx to avoid out of bounds error
-    else if(nextPlacesCount-1 < selectionIdx) {
+    else if(nextPlacesCount-1 < this.state.selectionIdx) {
       this.setState( {selectionIdx: nextPlacesCount-1, isNew: false} );
     }
   }
@@ -64,14 +63,19 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
     this.setState( { selectionIdx: idx, isNew: false }, this.toLocalStorage );
   }
 
-  newPlaceMode = (newPlaceMode: boolean) => {
+  setNewPlaceMode = (newPlaceMode: boolean) => {
     this.setState( { isNew: newPlaceMode }, this.toLocalStorage );
+  }
+
+  get selectionIdx() {
+    const numPlaces = this.props.places.length;
+    return Math.min(this.state.selectionIdx, numPlaces-1);
   }
 
   get optionValueForCurrentIndex(): string {
     const places = this.props.places;
-    const idx = this.state.selectionIdx;
-    return places.length ? places[ idx ].name : "";
+    const idx = this.selectionIdx;
+    return places[ idx ] ? places[ idx ].name : "";
   }
 
   toLocalStorage = () => {
@@ -84,10 +88,10 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
   }
 
   render(): JSX.Element{
-    const selectionIdx = this.state.selectionIdx;
+    const selectionIdx = this.selectionIdx;
     const places: Place[] = this.props.places;
-    const isNew: boolean = this.state.isNew;
-    const isEmptyView: boolean = isNew || places.length === 0;
+    const isNew: boolean = this.state.isNew || places.length === 0;
+    const isEmptyView: boolean = isNew;
 
     const currentPlace = isEmptyView ?
       { name: undefined, description: undefined, thumbnail: "" } : 
@@ -99,7 +103,7 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
           <PlaceEdit
             {...currentPlace}
             handleSubmitPlace={this.handleSubmitPlace}
-            handleAbort={() => this.newPlaceMode(false)}
+            handleAbort={() => this.setNewPlaceMode(false)}
             isNew={isNew}
           />
         </div>
@@ -110,11 +114,11 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
             handleSelectPlace={this.updateIndex} />
           <button 
             className="button button-primary"
-            onClick={() => this.newPlaceMode(true)}
+            onClick={() => this.setNewPlaceMode(true)}
           >new {IconUtils.buttonIcon("fa-plus")}
           </button>
 
-          { this.props.characters.length > 0 && !isNew && (<button 
+          { this.props.places.length > 0 && !isNew && (<button 
             className="button button-primary button-left-margin"
             onClick={this.handleDeletePlace}
             >delete {IconUtils.buttonIcon("fa-trash")}

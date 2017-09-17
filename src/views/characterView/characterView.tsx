@@ -33,13 +33,12 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
   componentWillReceiveProps(nextProps: CharacterViewProps) {
     const thisCharactersCount = this.props.characters.length;
     const nextCharactersCount = nextProps.characters.length;
-    const selectionIdx = this.state.selectionIdx;
     // if new character list is longer than the previous one, then characters were added. set index to last new one (last in list)
     if(nextCharactersCount > thisCharactersCount) {
       this.setState( {selectionIdx: nextCharactersCount-1, isNew: false} );
     } 
     // if new character list is shorter than the previous one, fix selectionIdx to avoid out of bounds error
-    else if(nextCharactersCount-1 < selectionIdx) {
+    else if(nextCharactersCount-1 < this.state.selectionIdx) {
       this.setState( {selectionIdx: nextCharactersCount-1, isNew: false} );
     }
   }
@@ -53,10 +52,15 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
     this.setState( { isNew: newCharMode }, this.toLocalStorage );
   }
 
+  get selectionIdx() {
+    const numCharacters = this.props.characters.length;
+    return Math.min(this.state.selectionIdx, numCharacters-1);
+  }
+
   get optionValueForCurrentIndex(): string {
     const characters = this.props.characters;
-    const idx = this.state.selectionIdx;
-    return characters.length ? characters[ idx ].name : "";
+    const idx = this.selectionIdx;
+    return characters[ idx ] ? characters[ idx ].name : "";
   }
 
   toLocalStorage = () => {
@@ -72,23 +76,22 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
     if (this.state.isNew) {
       this.props.appendCharacter(character)
     } else {
-      this.props.updateCharacter(this.state.selectionIdx)(character)
+      this.props.updateCharacter(this.selectionIdx)(character)
     }
   }
 
   handleDeleteCharacter = () => {
-    this.props.deleteCharacter(this.state.selectionIdx);
+    this.props.deleteCharacter(this.selectionIdx);
   }
 
   render(): JSX.Element{
-      const selectionIdx = this.state.selectionIdx;
       const characters = this.props.characters;
-      const isNew = this.state.isNew;
-      const isEmptyView: boolean = isNew || characters.length == 0;
+      const isNew = this.state.isNew || characters.length == 0;
+      const isEmptyView: boolean = isNew;
 
       const currentChar = isEmptyView ?
         { name: undefined, age: undefined, thumbnail: "" } : 
-        characters[ selectionIdx ];
+        characters[ this.selectionIdx ];
 
       return(
         <div>
