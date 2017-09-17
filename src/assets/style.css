@@ -25,7 +25,7 @@ body {
 
 .character-image {
   width: 100%;
-  max-width: 20em;
+  max-width: 30em;
   display: block;
   /*height: auto;*/
   margin-left: auto;
@@ -41,6 +41,26 @@ body {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1.5em;
+}
+
+.character-image > img {
+  width: 100%;
+}
+
+.place-image > img {
+  width: 100%;
+  max-height: 40em;
+}
+
+.place-image-dragged:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #33C3F0;
 }
 
 .character-selection {

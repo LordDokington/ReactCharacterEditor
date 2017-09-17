@@ -25,7 +25,7 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
       this.state = storedState;
     else
       this.state = {
-        selectionIdx: -1,
+        selectionIdx: 0,
         isNew: true
       }
   }
@@ -49,15 +49,14 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
     this.setState( { selectionIdx: idx, isNew: false }, this.toLocalStorage );
   }
 
-  newCharMode = () => {
-    this.setState( { isNew: true }, this.toLocalStorage );
+  setNewCharMode = (newCharMode: boolean) => {
+    this.setState( { isNew: newCharMode }, this.toLocalStorage );
   }
 
   get optionValueForCurrentIndex(): string {
     const characters = this.props.characters;
-    const len = characters.length;
     const idx = this.state.selectionIdx;
-    return (len === 0 || idx == -1) ? "" : characters[ idx ].name;
+    return characters.length ? characters[ idx ].name : "";
   }
 
   toLocalStorage = () => {
@@ -84,34 +83,34 @@ export default class CharacterView extends React.Component<CharacterViewProps, C
   render(): JSX.Element{
       const selectionIdx = this.state.selectionIdx;
       const characters = this.props.characters;
-      const isNew = this.state.isNew || characters.length === 0;
-      const useEmptyCharacter: boolean = selectionIdx == -1 || isNew;
+      const isNew = this.state.isNew;
+      const isEmptyView: boolean = isNew || characters.length == 0;
 
-      const currentChar = useEmptyCharacter ?
-        { name: undefined, age: undefined } : 
+      const currentChar = isEmptyView ?
+        { name: undefined, age: undefined, thumbnail: "" } : 
         characters[ selectionIdx ];
 
       return(
         <div>
           <div className="container" >
             <CharacterEdit
-              name={currentChar.name}
-              age={currentChar.age}
+              {...currentChar}
               isNew={isNew}
-              handleSubmitCharacter={this.handleSubmitCharacter} />
+              handleSubmitCharacter={this.handleSubmitCharacter} 
+              handleAbort={() => this.setNewCharMode(false)}
+            />
           </div>
           <div className="container" >
             <CharacterSelection
               value={this.optionValueForCurrentIndex}
               characters={characters}
               handleSelectCharacter={this.updateIndex} />
-            <button 
+            { !isNew && <button
               className="button button-primary"
-              onClick={this.newCharMode}
+              onClick={() => this.setNewCharMode(true)}
             >new {IconUtils.buttonIcon("fa-plus")}
-            </button>
-
-            { this.props.characters.length > 0 && (<button 
+            </button> }
+            { this.props.characters.length > 0 && !isNew && (<button 
               className="button button-primary button-left-margin"
               onClick={this.handleDeleteCharacter}
               >delete {IconUtils.buttonIcon("fa-trash")}

@@ -28,7 +28,7 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
       this.state = storedState;
     else
       this.state = {
-        selectionIdx: -1,
+        selectionIdx: 0,
         isNew: true
       }
   }
@@ -64,15 +64,14 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
     this.setState( { selectionIdx: idx, isNew: false }, this.toLocalStorage );
   }
 
-  newPlaceMode = () => {
-    this.setState( { isNew: true }, this.toLocalStorage );
+  newPlaceMode = (newPlaceMode: boolean) => {
+    this.setState( { isNew: newPlaceMode }, this.toLocalStorage );
   }
 
   get optionValueForCurrentIndex(): string {
     const places = this.props.places;
-    const len = places.length;
     const idx = this.state.selectionIdx;
-    return (len === 0 || idx == -1) ? "" : places[ idx ].name;
+    return places.length ? places[ idx ].name : "";
   }
 
   toLocalStorage = () => {
@@ -87,10 +86,10 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
   render(): JSX.Element{
     const selectionIdx = this.state.selectionIdx;
     const places: Place[] = this.props.places;
-    const isNew: boolean = this.state.isNew || places.length === 0;
-    const useEmptyPlace: boolean = selectionIdx == -1 || isNew;
+    const isNew: boolean = this.state.isNew;
+    const isEmptyView: boolean = isNew || places.length === 0;
 
-    const currentPlace = useEmptyPlace ?
+    const currentPlace = isEmptyView ?
       { name: undefined, description: undefined, thumbnail: "" } : 
       places[ selectionIdx ];
 
@@ -98,11 +97,10 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
       <div>
         <div className="container" >
           <PlaceEdit
-            name={currentPlace.name}
-            description={currentPlace.description}
+            {...currentPlace}
             handleSubmitPlace={this.handleSubmitPlace}
-            thumbnail={currentPlace.thumbnail}
-            isNewPlace={isNew}
+            handleAbort={() => this.newPlaceMode(false)}
+            isNew={isNew}
           />
         </div>
         <div className="container">
@@ -112,11 +110,11 @@ export default class PlacesView extends React.Component<PlacesViewProps, PlacesV
             handleSelectPlace={this.updateIndex} />
           <button 
             className="button button-primary"
-            onClick={this.newPlaceMode}
+            onClick={() => this.newPlaceMode(true)}
           >new {IconUtils.buttonIcon("fa-plus")}
           </button>
 
-          { this.props.characters.length > 0 && (<button 
+          { this.props.characters.length > 0 && !isNew && (<button 
             className="button button-primary button-left-margin"
             onClick={this.handleDeletePlace}
             >delete {IconUtils.buttonIcon("fa-trash")}

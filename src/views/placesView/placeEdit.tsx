@@ -8,8 +8,9 @@ interface PlaceEditProps {
   name?: string;
   description?: string;
   thumbnail: string;
+  isNew: boolean;
   handleSubmitPlace: (place: Place) => void;
-  isNewPlace: boolean;
+  handleAbort: () => void;
 }
 
 interface PlaceEditState {
@@ -40,14 +41,6 @@ export default class PlaceEdit extends React.Component<PlaceEditProps, PlaceEdit
     } );
   }
 
-  reset = () => {
-    this.setState( {
-      name: this.props.name ? this.props.name : "",
-      description: this.props.description ? this.props.description.toString() : "",
-      invalidated: false
-    } );
-  }
-
   updateName = (name: string): void => { this.setState( { name: name, invalidated: true }) }
   updateDescription = (description: string): void => { this.setState( { description: description, invalidated: true } ) }
 
@@ -72,9 +65,9 @@ export default class PlaceEdit extends React.Component<PlaceEditProps, PlaceEdit
           className="place-image"
           activeClassName="place-image-dragged"
         >
-          <img  
-          src={this.state.thumbnail == "" ? "landscape-sketch.jpg" : this.state.thumbnail} 
-          alt="place thumbnail" />
+          <img
+          src={this.state.thumbnail ? this.state.thumbnail : "landscape-sketch.jpg"}
+          alt={"thumbnail source: " + this.state.thumbnail}  />
         </Dropzone>
         
         <div className="row">
@@ -97,17 +90,15 @@ export default class PlaceEdit extends React.Component<PlaceEditProps, PlaceEdit
           <button 
             onClick={this.submitPlace}
             className="button-primary">
-            {this.props.isNewPlace ? "add" : "update"}
+            {this.props.isNew ? "add" : "update"}
             {IconUtils.buttonIcon("fa-check")}
           </button>) }
-
-        { this.state.invalidated && (
-          <button 
-            onClick={this.reset}
-            className="button-primary">
-            discard
-            {IconUtils.buttonIcon("fa-times")}
-          </button>) }
+        { (this.props.isNew || this.state.invalidated) && (<button 
+          onClick={this.props.handleAbort}
+          className="button-primary">
+          discard
+          {IconUtils.buttonIcon("fa-times")}
+        </button>) }
       </div>
     );
   }

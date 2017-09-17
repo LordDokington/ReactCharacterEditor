@@ -1,17 +1,22 @@
 import * as React from "react";
 import * as IconUtils from "../../utils/iconUtils";
 import { Character } from "../../models/character";
+import * as FileUtils from "../../utils/fileUtils";
+import Dropzone from 'react-dropzone';
 
 interface CharacterEditProps {
   name?: string;
   age?: number;
-  handleSubmitCharacter: (char: Character) => void;
   isNew?: boolean;
+  thumbnail: string;
+  handleSubmitCharacter: (char: Character) => void;
+  handleAbort: () => void;
 }
 
 interface CharacterEditState {
   name: string;
   age: string;
+  thumbnail: string;
   invalidated: boolean;
 }
 
@@ -22,6 +27,7 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
     this.state = {
       name: props.name ? props.name : "",
       age: props.age ? props.age.toString() : "",
+      thumbnail: "",
       invalidated: false
     }
   }
@@ -30,14 +36,7 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
     this.setState ( {
       name: nextProps.name ? nextProps.name : "",
       age: nextProps.age ? nextProps.age.toString() : "",
-      invalidated: false
-    } );
-  }
-
-  reset = () => {
-    this.setState( {
-      name: this.props.name ? this.props.name : "",
-      age: this.props.age ? this.props.age.toString() : "",
+      thumbnail: nextProps.thumbnail,
       invalidated: false
     } );
   }
@@ -46,16 +45,32 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
   updateAge = (age: string): void => { this.setState( { age: age, invalidated: true } ) }
 
   submitCharacter = (): void => {
-    const newChar = new Character(this.state.name, Number(this.state.age) );
+    const newChar = new Character(this.state.name, Number(this.state.age), this.state.thumbnail );
     //alert( "submit character " + JSON.stringify(newChar) );
 
     this.props.handleSubmitCharacter( newChar );
   }
 
+  onDrop = (files: File[]) => {
+    FileUtils.loadFileAsData(files[0], (event) => {
+      this.setState({
+        thumbnail: (event.target as any).result,
+        invalidated: true
+      });
+    });
+  }
+
   render() {
     return (
       <div>
-        <img className="character-image" src="placeholder.png" alt="character image"/>
+        <Dropzone onDrop={this.onDrop} 
+          className="character-image"
+          activeClassName="place-image-dragged"
+        >
+          <img  
+          src={this.state.thumbnail ? this.state.thumbnail : "placeholder.png"}
+          alt={"thumbnail source: " + this.state.thumbnail} />
+        </Dropzone>
         <div className="row">
           <div className="six columns">
             <label htmlFor="character-name">name</label>
@@ -81,9 +96,9 @@ export default class CharacterEdit extends React.Component<CharacterEditProps, C
             {IconUtils.buttonIcon("fa-check")}
           </button>) }
 
-        { !this.props.isNew && this.state.invalidated && (
+        { (this.state.invalidated || this.props.isNew) && (
           <button 
-            onClick={this.reset}
+            onClick={this.props.handleAbort}
             className="button-primary button-left-margin">
             discard
             {IconUtils.buttonIcon("fa-times")}

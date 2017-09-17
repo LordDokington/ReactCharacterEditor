@@ -29,6 +29,11 @@ timeline view:
 -make it possible to sort all events of all places (or a defined group) in the timeline view
 -give each event a free-text "time" field where a general time description (such as "monday morning") can be defineds
 
+thumbnails loading:
+
+-constraints for file selection -type: images, only one file
+-rondell with example images
+
 general:
 
 -module and layout concept?
