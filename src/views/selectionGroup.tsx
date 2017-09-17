@@ -1,10 +1,11 @@
 import * as React from "react";
-import { Selector, SelectorProps } from "./selector"
 import * as IconUtils from "../utils/iconUtils";
+import { Selector, SelectorProps } from "./selector"
 
 interface SelectionGroupProps extends SelectorProps {
   deleteButtonVisible: boolean;
   handleDeleteButtonClick: () => void;
+  handleNewButtonClick: () => void;
 }
 
 export const SelectionGroup = (props: SelectionGroupProps) => ( 
@@ -15,7 +16,7 @@ export const SelectionGroup = (props: SelectionGroupProps) => (
     handleSelect={props.handleSelect} />
   <button 
     className="button button-primary"
-    onClick={() => this.setNewPlaceMode(true)}
+    onClick={props.handleNewButtonClick}
   >new {IconUtils.buttonIcon("fa-plus")}
   </button>
 

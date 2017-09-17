@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 
 import { Character } from "../models/character";
 import { Place } from "../models/place";
+import { StoryEvent } from "../models/event";
 
 import CharacterView from './characterView/characterView';
 import TimelineView from './timelineView/timelineView';
@@ -23,6 +24,7 @@ interface EditorState {
 
   characters: Character[];
   places: Place[];
+  events: StoryEvent[];
 }
 
 export default class EditorMain extends React.Component<{}, EditorState> {
@@ -36,7 +38,8 @@ export default class EditorMain extends React.Component<{}, EditorState> {
       this.state = {
         view: views.Characters,
         characters: [],
-        places: []
+        places: [],
+        events: []
       }
   }
 
@@ -46,20 +49,26 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     {
       case views.Characters: 
         return  <CharacterView 
-                  characters={this.state.characters.slice()} 
-                  appendCharacter={this.appendCharacter}
-                  updateCharacter={this.updateCharacter}
-                  deleteCharacter={this.deleteCharacter}
+                  objects={this.state.characters.slice()} 
+                  append={this.appendCharacter}
+                  update={this.updateCharacter}
+                  delete={this.deleteCharacter}
                 />;
       case views.Places: 
         return <PlacesView 
-                 characters={this.state.characters.slice()} 
-                 places={this.state.places.slice()}
-                 appendPlace={this.appendPlace}
-                 updatePlace={this.updatePlace}
-                 deletePlace={this.deletePlace}
+                characters={this.state.characters.slice()} 
+                objects={this.state.places.slice()}
+                append={this.appendPlace}
+                update={this.updatePlace}
+                delete={this.deletePlace}
                /> ;
-      case views.Events: return <EventsView /> ;
+      case views.Events: 
+        return <EventsView
+                objects={this.state.events.slice()}
+                append={this.appendEvent}
+                update={this.updateEvent}
+                delete={this.deleteEvent}
+      /> ;
       case views.Timeline: return <TimelineView /> ;
   
       default: return <h3>CURRENT VIEW STATE UNDEFINED</h3>;
@@ -116,10 +125,31 @@ export default class EditorMain extends React.Component<{}, EditorState> {
   }
 
   deletePlace = (index: number) => {
-    let newPlaces = this.state.places.slice();
-    newPlaces.splice(index, 1);
+    let places = this.state.places.slice();
+    places.splice(index, 1);
 
-    this.setState( { places: newPlaces }, this.toLocalStorage );
+    this.setState( { places }, this.toLocalStorage );
+  }
+
+  appendEvent = (event: StoryEvent): void => {
+    let events = this.state.events.slice();
+    events.push( event );
+
+    this.setState( { events }, this.toLocalStorage );
+  }
+
+  updateEvent = (index: number) => (event: StoryEvent) : void => {
+    let events = this.state.events.slice();
+    events[index] = event;
+
+    this.setState( { events }, this.toLocalStorage );
+  }
+
+  deleteEvent = (index: number) => {
+    let events = this.state.events.slice();
+    events.splice(index, 1);
+
+    this.setState( { events }, this.toLocalStorage );
   }
 
   updateStateWithFileContents = (event) => {

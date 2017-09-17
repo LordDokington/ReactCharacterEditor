@@ -21,6 +21,7 @@ event view:
 
 -shows characters relevant for event
 -shows place where the event takes place
+-DROPDOWN for places to select place
 -miniature timeline view of all events (scrollable? time slots?)
 -click on other events switches to view of that event? or switches to timeline view?
 

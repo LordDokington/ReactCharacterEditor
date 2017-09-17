@@ -1,5 +1,5 @@
 import { GUID } from "../utils/guidUtils"
-import { Event } from "./event"
+import { StoryEvent } from "./event"
 import { Character } from "./character"
 
 export class Place {
@@ -11,11 +11,11 @@ export class Place {
     this.events = [];
   }
 
-  addEvent(event: Event) {
+  addEvent(event: StoryEvent) {
     this.events.push(event.id);
   }
 
-  removeEvent(event: Event) {
+  removeEvent(event: StoryEvent) {
     this.events = this.events.filter( id => id != event.id );
   }
 

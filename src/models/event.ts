@@ -2,10 +2,11 @@ import { GUID } from "../utils/guidUtils"
 import { Character } from "./character";
 import { Place } from "./place";
 
-export class Event {
-  constructor(name: string, thumbnail: string) {
+export class StoryEvent {
+  constructor(name: string, description: string, thumbnail: string) {
     this.id = GUID();
     this.name = name;
+    this.description = description;
     this.thumbnail = thumbnail;
   }
 
@@ -23,9 +24,10 @@ export class Event {
 
   id: string;
   name: string;
+  description: string;
   thumbnail: string;
 
-  // contain UUIDs as references
+  // contains UUIDs as references
   place: string;
   characters: string[];
 }
