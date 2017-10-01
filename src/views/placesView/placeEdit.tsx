@@ -1,10 +1,10 @@
-import * as React from "react";
+import * as React from 'react';
 import * as IconUtils from "../../utils/iconUtils";
 import * as FileUtils from "../../utils/fileUtils";
 import Dropzone from 'react-dropzone';
-import { Place } from "../../models/place";
+import { Place } from "../../models";
 
-interface PlaceEditProps {
+interface Props {
   name?: string;
   description?: string;
   thumbnail: string;
@@ -13,29 +13,29 @@ interface PlaceEditProps {
   handleAbort: () => void;
 }
 
-interface PlaceEditState {
+interface State {
   name: string;
   description: string;
   invalidated: boolean;
   thumbnail: string;
 }
 
-export default class PlaceEdit extends React.Component<PlaceEditProps, PlaceEditState> {
-  constructor(props: PlaceEditProps) {
+export default class PlaceEdit extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
-      name: props.name ? props.name : "",
-      description: props.description ? props.description.toString() : "",
+      name: props.name ? props.name : '',
+      description: props.description ? props.description.toString() : '',
       invalidated: false,
-      thumbnail: ""
+      thumbnail: ''
     }
   }
 
-  componentWillReceiveProps(nextProps: PlaceEditProps) {
+  componentWillReceiveProps(nextProps: Props) {
     this.setState ( {
-      name: nextProps.name ? nextProps.name : "",
-      description: nextProps.description ? nextProps.description.toString() : "",
+      name: nextProps.name ? nextProps.name : '',
+      description: nextProps.description ? nextProps.description.toString() : '',
       thumbnail: nextProps.thumbnail,
       invalidated: false
     } );

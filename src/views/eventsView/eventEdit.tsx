@@ -1,12 +1,15 @@
-import * as React from "react";
+import * as React from 'react';
 import * as IconUtils from "../../utils/iconUtils";
 import * as FileUtils from "../../utils/fileUtils";
 import Dropzone from 'react-dropzone';
-import { StoryEvent } from "../../models/event";
+import { StoryEvent } from "../../models";
 
 interface EventEditProps {
   name?: string;
   description?: string;
+  // UUIDs
+  place?: string;
+  places: string[];
   thumbnail: string;
   isNew: boolean;
   handleSubmitEvent: (event: StoryEvent) => void;
@@ -25,17 +28,17 @@ export default class EventEdit extends React.Component<EventEditProps, EventEdit
     super(props);
 
     this.state = {
-      name: props.name ? props.name : "",
-      description: props.description ? props.description.toString() : "",
+      name: props.name ? props.name : '',
+      description: props.description ? props.description.toString() : '',
       invalidated: false,
-      thumbnail: ""
+      thumbnail: ''
     }
   }
 
   componentWillReceiveProps(nextProps: EventEditProps) {
     this.setState ( {
-      name: nextProps.name ? nextProps.name : "",
-      description: nextProps.description ? nextProps.description.toString() : "",
+      name: nextProps.name ? nextProps.name : '',
+      description: nextProps.description ? nextProps.description.toString() : '',
       thumbnail: nextProps.thumbnail,
       invalidated: false
     } );
@@ -44,7 +47,7 @@ export default class EventEdit extends React.Component<EventEditProps, EventEdit
   updateName = (name: string): void => { this.setState( { name: name, invalidated: true }) }
   updateDescription = (description: string): void => { this.setState( { description: description, invalidated: true } ) }
 
-  submitPlace = (): void => {
+  submitEvent = (): void => {
     const newEvent = new StoryEvent( this.state.name, this.state.description, this.state.thumbnail );
     this.props.handleSubmitEvent( newEvent );
   }
@@ -88,7 +91,7 @@ export default class EventEdit extends React.Component<EventEditProps, EventEdit
     
         { this.state.invalidated && (
           <button 
-            onClick={this.submitPlace}
+            onClick={this.submitEvent}
             className="button-primary">
             {this.props.isNew ? "add" : "update"}
             {IconUtils.buttonIcon("fa-check")}

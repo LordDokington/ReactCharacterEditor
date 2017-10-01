@@ -1,6 +1,6 @@
 import { GUID } from "../utils/guidUtils"
 
-export class Character {
+export default class Character {
   constructor(name: string, age: number, thumbnail: string) {
     this.id = GUID();
     this.name = name;

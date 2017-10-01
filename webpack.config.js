@@ -3,7 +3,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const tsLintPlugin = require('tslint-webpack-plugin');
 
 module.exports = (env) => {
 
@@ -86,12 +86,11 @@ module.exports = (env) => {
 
 			] // rules
 		},
+		// typescript linter
 		plugins: [
-			new CopyWebpackPlugin([
-				{ from: './assets' },
-				{ from: './assets/Skeleton' }
-			])
+			new tsLintPlugin({
+				files: ['./src/**/*.ts{,x}']
+			})
 		]
-
 	}
 }

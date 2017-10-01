@@ -1,10 +1,10 @@
-import * as React from "react";
+import * as React from 'react';
 import * as IconUtils from "../../utils/iconUtils";
-import { Character } from "../../models/character";
+import { Character } from "../../models";
 import * as FileUtils from "../../utils/fileUtils";
 import Dropzone from 'react-dropzone';
 
-interface CharacterEditProps {
+interface Props {
   name?: string;
   age?: number;
   isNew?: boolean;
@@ -13,29 +13,29 @@ interface CharacterEditProps {
   handleAbort: () => void;
 }
 
-interface CharacterEditState {
+interface State {
   name: string;
   age: string;
   thumbnail: string;
   invalidated: boolean;
 }
 
-export default class CharacterEdit extends React.Component<CharacterEditProps, CharacterEditState> {
-  constructor(props: CharacterEditProps) {
+export default class CharacterEdit extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
-      name: props.name ? props.name : "",
-      age: props.age ? props.age.toString() : "",
-      thumbnail: "",
+      name: props.name ? props.name : '',
+      age: props.age ? props.age.toString() : '',
+      thumbnail: '',
       invalidated: false
     }
   }
 
-  componentWillReceiveProps(nextProps: CharacterEditProps) {
+  componentWillReceiveProps(nextProps: Props) {
     this.setState ( {
-      name: nextProps.name ? nextProps.name : "",
-      age: nextProps.age ? nextProps.age.toString() : "",
+      name: nextProps.name ? nextProps.name : '',
+      age: nextProps.age ? nextProps.age.toString() : '',
       thumbnail: nextProps.thumbnail,
       invalidated: false
     } );

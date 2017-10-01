@@ -1,8 +1,7 @@
 import { GUID } from "../utils/guidUtils"
-import { StoryEvent } from "./event"
-import { Character } from "./character"
+import { Character, StoryEvent } from "."
 
-export class Place {
+export default class Place {
   constructor(name: string, description: string, thumbnailData: string) {
     this.id = GUID();
     this.name = name;

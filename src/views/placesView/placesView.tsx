@@ -1,12 +1,10 @@
-import * as React from "react";   
-import { BaseView, ViewProps } from "../baseView";
-import PlaceEdit from "./placeEdit"
-import { SelectionGroup } from "../selectionGroup"
+import * as React from 'react';   
+import { BaseView, ViewProps } from '../baseView';
+import PlaceEdit from './placeEdit';
+import { SelectionGroup } from '../selectionGroup';
+import { Character, Place } from '../../models';
 
-import { Character } from "../../models/character";
-import { Place } from "../../models/place";
-
-export interface PlacesViewProps extends ViewProps<Place> {
+export interface Props extends ViewProps<Place> {
   characters: Character[];
 }
 
@@ -18,17 +16,18 @@ export default class PlacesView extends BaseView<Place> {
   get optionValueForCurrentIndex(): string {
     const places: Place[] = this.props.objects;
     const idx = this.selectionIdx;
-    return places[ idx ] ? places[ idx ].name : "";
+    return places[ idx ] ? places[ idx ].name : '';
   }
 
-  render(): JSX.Element{
+  render(): JSX.Element {
     const selectionIdx = this.selectionIdx;
     const places: Place[] = this.props.objects;
     const isNew: boolean = this.state.isNew || places.length === 0;
     const isEmptyView: boolean = isNew;
+    const characters = this.props.characters;
 
     const currentPlace = isEmptyView ?
-      { name: undefined, description: undefined, thumbnail: "" } : 
+      { name: undefined, description: undefined, thumbnail: '' } : 
       places[ selectionIdx ];
 
     return (
@@ -54,8 +53,8 @@ export default class PlacesView extends BaseView<Place> {
         <div className="container">
           <label htmlFor="character-list">present characters</label>
           <div id="character-list">
-            <ul>
-            { (this.props as PlacesViewProps).characters.map( (char: Character, idx: number) => <li key={"char_" + idx}>{char.name}</li> ) }
+            <ul> 
+              { characters.map(  (char: Character, idx: number) => <li key={idx}>{char.name}</li> ) }
             </ul>
           </div>
       </div>

@@ -1,16 +1,12 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as React from 'react';
 
-import { Character } from "../models/character";
-import { Place } from "../models/place";
-import { StoryEvent } from "../models/event";
-
+import { Character, Place, StoryEvent } from '../models';
 import CharacterView from './characterView/characterView';
 import TimelineView from './timelineView/timelineView';
 import EventsView from './eventsView/eventsView';
 import PlacesView from './placesView/placesView';
-import * as FileUtils from "../utils/fileUtils";
-import * as IconUtils from "../utils/iconUtils";
+import * as FileUtils from '../utils/fileUtils';
+import * as IconUtils from '../utils/iconUtils';
 
 const views = {
   Characters: 0,
@@ -40,7 +36,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
         characters: [],
         places: [],
         events: []
-      }
+      };
   }
 
   getView = (view: number): JSX.Element =>
@@ -76,7 +72,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
   }
 
   toLocalStorage = () => {
-    localStorage.setItem( "state", JSON.stringify( this.state ) )
+    localStorage.setItem( "state", JSON.stringify( this.state ) );
   }
 
   fromLocalStorage = (): EditorState => {
@@ -86,7 +82,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
   }
 
   updateView = (view: number) => {
-    this.setState( { view: view }, this.toLocalStorage )
+    this.setState( { view: view }, this.toLocalStorage );
   }
 
   appendCharacter = (char: Character): void => {
@@ -173,7 +169,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
   }
 
   formattedState = (): string => {
-    return JSON.stringify(this.state, null, 2)
+    return JSON.stringify(this.state, null, 2);
   }
 
   render() {
@@ -187,7 +183,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
               <li
                 key={"nav_" + views[key]}
                 onClick={() => this.updateView(views[key])}
-                className={ this.state.view == views[key] ? "active-item" : ""}
+                className={ this.state.view == views[key] ? "active-item" : ''}
               >{key}</li> ) ) }
         </ul>
       </div>
@@ -209,17 +205,16 @@ export default class EditorMain extends React.Component<{}, EditorState> {
           ref={ 
 						// this deletes the file reference stored in the input directly after loading
 						// if this is not done, the same file cannot be reloaded, which is quite annoying
-						(input) => { if(input) input.value = ""; }
+						(input) => { if(input) input.value = ''; }
 					}
-					onChange={ 
-            (e: React.ChangeEvent<HTMLInputElement>) => 
-            { 
+					onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { 
               if( e.target && e.target.files )
-              FileUtils.loadFileAsText(e.target.files[0], this.updateStateWithFileContents) } 
-            } 
+                FileUtils.loadFileAsText(e.target.files[0], this.updateStateWithFileContents);
+            }
+          } 
         />
       </div>
     </div>
-    )
+    );
   }
 }

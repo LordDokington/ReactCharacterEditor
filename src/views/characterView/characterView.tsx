@@ -1,21 +1,20 @@
-import * as React from "react";
+import * as React from 'react';
 import { BaseView, ViewProps } from "../baseView";
-import { Character } from "../../models/character";
+import { Character } from "../../models";
 import CharacterEdit from "./characterEdit"
 import { SelectionGroup } from "../selectionGroup"
 
-export interface CharacterViewProps extends ViewProps<Character> {
-}
+export interface Props extends ViewProps<Character> {}
 
 export default class CharacterView extends BaseView<Character> {
-  constructor(props: CharacterViewProps) {
+  constructor(props: Props) {
     super(props);
   }
 
   get optionValueForCurrentIndex(): string {
     const characters: Character[] = this.props.objects;
     const idx = this.selectionIdx;
-    return characters[ idx ] ? characters[ idx ].name : "";
+    return characters[ idx ] ? characters[ idx ].name : '';
   }
 
   render(): JSX.Element{
@@ -24,7 +23,7 @@ export default class CharacterView extends BaseView<Character> {
       const isEmptyView: boolean = isNew;
 
       const currentChar = isEmptyView ?
-        { name: undefined, age: undefined, thumbnail: "" } : 
+        { name: undefined, age: undefined, thumbnail: '' } : 
         characters[ this.selectionIdx ];
 
       return(
