@@ -10,10 +10,9 @@
         "ban": false,
         "class-name": true,
         "comment-format": [
-            true,
-            "check-space"
+        true
         ],
-        "curly": [true, "ignore-same-line"],
+        "curly": [true, "as-needed"],
         "eofline": false,
         "forin": true,
         "indent": [ true, "spaces" ],
@@ -43,7 +42,7 @@
             "timeEnd",
             "trace"
         ],
-        "no-consecutive-blank-lines": true,
+        "no-consecutive-blank-lines": false,
         "no-construct": true,
         "no-debugger": true,
         "no-duplicate-variable": true,
@@ -88,7 +87,6 @@
         "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"],
         "whitespace": [
             true,
-            "check-branch",
             "check-decl",
             "check-module",
             "check-operator",

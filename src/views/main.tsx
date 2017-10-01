@@ -28,10 +28,8 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     super();
 
     const storedState = this.fromLocalStorage();
-    if( storedState )
-      this.state = storedState;
-    else
-      this.state = {
+    this.state = storedState || 
+      {
         view: views.Characters,
         characters: [],
         places: [],
@@ -39,32 +37,33 @@ export default class EditorMain extends React.Component<{}, EditorState> {
       };
   }
 
-  getView = (view: number): JSX.Element =>
-  {
-    switch(view)
-    {
+  getView = (view: number): JSX.Element => {
+    switch(view) {
       case views.Characters: 
-        return  <CharacterView 
-                  objects={this.state.characters.slice()} 
-                  append={this.appendCharacter}
-                  update={this.updateCharacter}
-                  delete={this.deleteCharacter}
-                />;
+        return  (
+          <CharacterView 
+            objects={this.state.characters.slice()} 
+            append={this.appendCharacter}
+            update={this.updateCharacter}
+            delete={this.deleteCharacter}        
+          />);
       case views.Places: 
-        return <PlacesView 
-                characters={this.state.characters.slice()} 
-                objects={this.state.places.slice()}
-                append={this.appendPlace}
-                update={this.updatePlace}
-                delete={this.deletePlace}
-               /> ;
+        return (
+          <PlacesView 
+            characters={this.state.characters.slice()} 
+            objects={this.state.places.slice()}
+            append={this.appendPlace}
+            update={this.updatePlace}
+            delete={this.deletePlace}
+          />);
       case views.Events: 
-        return <EventsView
-                objects={this.state.events.slice()}
-                append={this.appendEvent}
-                update={this.updateEvent}
-                delete={this.deleteEvent}
-      /> ;
+        return (
+          <EventsView
+            objects={this.state.events.slice()}
+            append={this.appendEvent}
+            update={this.updateEvent}
+            delete={this.deleteEvent}
+          />);
       case views.Timeline: return <TimelineView /> ;
   
       default: return <h3>CURRENT VIEW STATE UNDEFINED</h3>;
@@ -77,7 +76,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
 
   fromLocalStorage = (): EditorState => {
     const levelsJson = localStorage.getItem( "state" );
-    //alert( "loading state:\n" + levelsJson )
+    // alert( "loading state:\n" + levelsJson )
     return levelsJson ? JSON.parse( levelsJson ) : undefined;
   }
 
@@ -92,7 +91,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     this.setState( {  characters: characters }, this.toLocalStorage );
   }
 
-  updateCharacter = (index: number) => (char: Character) : void => {
+  updateCharacter = (index: number) => (char: Character): void => {
     let characters = this.state.characters.slice();
     characters[index] = char;
 
@@ -113,7 +112,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     this.setState( {  places: places }, this.toLocalStorage );
   }
 
-  updatePlace = (index: number) => (place: Place) : void => {
+  updatePlace = (index: number) => (place: Place): void => {
     let places = this.state.places.slice();
     places[index] = place;
 
@@ -134,7 +133,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     this.setState( { events }, this.toLocalStorage );
   }
 
-  updateEvent = (index: number) => (event: StoryEvent) : void => {
+  updateEvent = (index: number) => (event: StoryEvent): void => {
     let events = this.state.events.slice();
     events[index] = event;
 
@@ -183,8 +182,10 @@ export default class EditorMain extends React.Component<{}, EditorState> {
               <li
                 key={"nav_" + views[key]}
                 onClick={() => this.updateView(views[key])}
-                className={ this.state.view == views[key] ? "active-item" : ''}
-              >{key}</li> ) ) }
+                className={ this.state.view === views[key] ? "active-item" : ''}
+              >
+                {key}
+              </li> ) ) }
         </ul>
       </div>
       { this.getView(this.state.view) }
@@ -195,20 +196,27 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             download={"character_editor_save_" + new Date().toLocaleString() + ".json"} 
             href={ "data:application/octet-stream;charset=utf-16le;base64," + 
                   window.btoa( this.formattedState() ) }
-        >download {IconUtils.buttonIcon("fa-download")}</a>
+        >
+          download {IconUtils.buttonIcon("fa-download")}
+        </a>
         <label 
           htmlFor="file-select"
           className="button button-primary load-button button-left-margin"
-        >import {IconUtils.buttonIcon("fa-file")}</label>
+        >
+          import {IconUtils.buttonIcon("fa-file")}
+        </label>
         <input 
-          type="file" className="file-input" id="file-select" name="file-select"
+          type="file" 
+          className="file-input" 
+          id="file-select" 
+          name="file-select"
           ref={ 
-						// this deletes the file reference stored in the input directly after loading
-						// if this is not done, the same file cannot be reloaded, which is quite annoying
-						(input) => { if(input) input.value = ''; }
-					}
-					onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { 
-              if( e.target && e.target.files )
+            // this deletes the file reference stored in the input directly after loading
+            // if this is not done, the same file cannot be reloaded, which is quite annoying
+            (input) => { if(input) input.value = ''; }
+          }
+          onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { 
+              if( e.target && e.target.files ) 
                 FileUtils.loadFileAsText(e.target.files[0], this.updateStateWithFileContents);
             }
           } 

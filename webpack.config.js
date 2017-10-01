@@ -4,6 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const tsLintPlugin = require('tslint-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (env) => {
 
@@ -90,7 +91,11 @@ module.exports = (env) => {
 		plugins: [
 			new tsLintPlugin({
 				files: ['./src/**/*.ts{,x}']
-			})
+			}),
+			new CopyWebpackPlugin([
+				{ from: './assets' },
+				{ from: './assets/Skeleton' }
+			])
 		]
 	}
 }

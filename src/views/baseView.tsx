@@ -19,8 +19,6 @@ export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, 
   constructor(props: ViewProps<T>) {
     super(props);
 
-    console.log("LOCALSTORAGE_KEY: " + this.LOCALSTORAGE_KEY + " - TODO: delete me");
-
     const storedState = this.fromLocalStorage();
     if( storedState )
       this.state = storedState;

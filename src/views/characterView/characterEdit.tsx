@@ -1,11 +1,12 @@
 import * as React from 'react';
 import * as IconUtils from "../../utils/iconUtils";
-import { Character } from "../../models";
 import * as FileUtils from "../../utils/fileUtils";
-import Dropzone from 'react-dropzone';
+import { Character } from "../../models";
+import { Portrait, TextInput } from "../../components";
 
 interface Props {
   name?: string;
+  description?: string;
   age?: number;
   isNew?: boolean;
   thumbnail: string;
@@ -15,6 +16,7 @@ interface Props {
 
 interface State {
   name: string;
+  description: string;
   age: string;
   thumbnail: string;
   invalidated: boolean;
@@ -25,28 +27,31 @@ export default class CharacterEdit extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      name: props.name ? props.name : '',
+      name: props.name || '',
+      description: props.description || '',
       age: props.age ? props.age.toString() : '',
       thumbnail: '',
       invalidated: false
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps: Props) {
     this.setState ( {
-      name: nextProps.name ? nextProps.name : '',
+      name: nextProps.name || '',
+      description: nextProps.description || '',
       age: nextProps.age ? nextProps.age.toString() : '',
       thumbnail: nextProps.thumbnail,
       invalidated: false
     } );
   }
 
-  updateName = (name: string): void => { this.setState( { name: name, invalidated: true }) }
-  updateAge = (age: string): void => { this.setState( { age: age, invalidated: true } ) }
+  updateName = (name: string): void => this.setState({ name, invalidated: true });
+  updateDescription = (description: string): void => this.setState({ description, invalidated: true });
+  updateAge = (age: string): void => this.setState({ age, invalidated: true });
 
   submitCharacter = (): void => {
-    const newChar = new Character(this.state.name, Number(this.state.age), this.state.thumbnail );
-    //alert( "submit character " + JSON.stringify(newChar) );
+    const newChar = new Character(this.state.name, this.state.description, Number(this.state.age), this.state.thumbnail );
+    // alert( "submit character " + JSON.stringify(newChar) );
 
     this.props.handleSubmitCharacter( newChar );
   }
@@ -63,20 +68,20 @@ export default class CharacterEdit extends React.Component<Props, State> {
   render() {
     return (
       <div>
-        <Dropzone onDrop={this.onDrop} 
-          className="character-image"
-          activeClassName="place-image-dragged"
-        >
-          <img  
-          src={this.state.thumbnail ? this.state.thumbnail : "placeholder.png"}
-          alt={"thumbnail source: " + this.state.thumbnail} />
-        </Dropzone>
+        <Portrait 
+          image={this.state.thumbnail}
+          placeholder="placeholder.png"
+          onDrop={this.onDrop} 
+        />
         <div className="row">
           <div className="six columns">
-            <label htmlFor="character-name">name</label>
-            <input 
-              onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateName(e.target.value) }
-              className="u-full-width" type="text" placeholder="name" id="character-name" value={this.state.name} />
+            <TextInput 
+              id="character-name"
+              placeholder="name" 
+              label="name"
+              content={this.state.name}
+              onChange={ (newContent: string) => this.updateName(newContent) } 
+            />
           </div>
           <div className="six columns">
             <label htmlFor="character-age">age</label>
@@ -84,11 +89,20 @@ export default class CharacterEdit extends React.Component<Props, State> {
               onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateAge( e.target.value ) } 
               className="u-full-width" 
               type="number" placeholder="age" id="character-age" min={0} 
-              value={this.state.age} />
+              value={this.state.age} 
+            />
           </div>
+          <TextInput
+            id="character-description"
+            multiline={true}
+            placeholder="..." 
+            label="description" 
+            content={this.state.description}
+            onChange={ (newContent: string) => this.updateDescription(newContent) }
+          />
         </div>
     
-      	{ this.state.invalidated && (
+        { this.state.invalidated && (
           <button 
             onClick={this.submitCharacter}
             className="button-primary">

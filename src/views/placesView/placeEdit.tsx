@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as IconUtils from "../../utils/iconUtils";
 import * as FileUtils from "../../utils/fileUtils";
-import Dropzone from 'react-dropzone';
 import { Place } from "../../models";
+import { Portrait, TextInput } from "../../components";
 
 interface Props {
   name?: string;
@@ -29,7 +29,7 @@ export default class PlaceEdit extends React.Component<Props, State> {
       description: props.description ? props.description.toString() : '',
       invalidated: false,
       thumbnail: ''
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -41,8 +41,8 @@ export default class PlaceEdit extends React.Component<Props, State> {
     } );
   }
 
-  updateName = (name: string): void => { this.setState( { name: name, invalidated: true }) }
-  updateDescription = (description: string): void => { this.setState( { description: description, invalidated: true } ) }
+  updateName = (name: string): void => { this.setState( { name, invalidated: true }); };
+  updateDescription = (description: string): void => { this.setState( { description, invalidated: true } ); };
 
   submitPlace = (): void => {
     const newPlace = new Place( this.state.name, this.state.description, this.state.thumbnail );
@@ -61,44 +61,45 @@ export default class PlaceEdit extends React.Component<Props, State> {
   render() {
     return (
       <div>
-        <Dropzone onDrop={this.onDrop} 
-          className="place-image"
-          activeClassName="place-image-dragged"
-        >
-          <img
-          src={this.state.thumbnail ? this.state.thumbnail : "landscape-sketch.jpg"}
-          alt={"thumbnail source: " + this.state.thumbnail}  />
-        </Dropzone>
-        
+        <Portrait 
+          image={this.state.thumbnail}
+          placeholder="landscape-sketch.jpg"
+          onDrop={this.onDrop} 
+        />
         <div className="row">
           <div className="six columns">
             <label htmlFor="place-name">name</label>
             <input 
               onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateName(e.target.value) }
-              className="u-full-width" type="text" placeholder="name" id="place-description" value={this.state.name} />
+              className="u-full-width" 
+              type="text" 
+              placeholder="name" 
+              id="place-description" 
+              value={this.state.name} 
+            />
           </div>
-          <div className="six columns">
-          </div>
+          <div className="six columns"/>
         </div>
-        <label htmlFor="place-description">description</label>
-        <textarea 
-          type="text" placeholder="..." id="place-description" className="form-textarea" rows={10} value={this.state.description}
-          onChange={ (e: React.ChangeEvent<HTMLTextAreaElement>) => this.updateDescription(e.target.value) }
+        <TextInput
+          id="place-description"
+          multiline={true}
+          placeholder="..." 
+          label="description" 
+          content={this.state.description}
+          onChange={ (newContent: string) => this.updateDescription(newContent) }
         />
-    
-        { this.state.invalidated && (
-          <button 
-            onClick={this.submitPlace}
-            className="button-primary">
+        { this.state.invalidated &&
+          <button onClick={this.submitPlace} className="button-primary" >
             {this.props.isNew ? "add" : "update"}
             {IconUtils.buttonIcon("fa-check")}
-          </button>) }
-        { (this.props.isNew || this.state.invalidated) && (<button 
-          onClick={this.props.handleAbort}
-          className="button-primary">
-          discard
-          {IconUtils.buttonIcon("fa-times")}
-        </button>) }
+          </button> 
+        }
+        { (this.props.isNew || this.state.invalidated) && 
+          <button  onClick={this.props.handleAbort} className="button-primary" >
+            discard
+            {IconUtils.buttonIcon("fa-times")}
+          </button> 
+        }
       </div>
     );
   }

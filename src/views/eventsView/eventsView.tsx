@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { BaseView, ViewProps } from "../baseView";
-import { Place, StoryEvent } from "../../models";
-import EventEdit from "./eventEdit"
-import { SelectionGroup } from "../selectionGroup"
+import { BaseView, ViewProps } from '../baseView';
+import { Place, StoryEvent } from '../../models';
+import EventEdit from './eventEdit';
+import { SelectionGroup } from '../selectionGroup';
 
 export interface EventViewProps extends ViewProps<StoryEvent> {
   places: Place[];
@@ -19,13 +19,13 @@ export default class EventView extends BaseView<StoryEvent> {
     return events[ idx ] ? events[ idx ].name : '';
   }
 
-  render(): JSX.Element{
+  render(): JSX.Element {
       const events = this.props.objects;
-      const isNew = this.state.isNew || events.length == 0;
+      const isNew = this.state.isNew || events.length === 0;
       const isEmptyView: boolean = isNew;
 
-      const currentEvent = //isEmptyView ?
-        //{ name: undefined, age: undefined, thumbnail: '' } : 
+      const currentEvent = // isEmptyView ?
+        // { name: undefined, age: undefined, thumbnail: '' } : 
         events[ this.selectionIdx ];
 
       return(

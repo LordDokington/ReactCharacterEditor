@@ -9,7 +9,7 @@ export interface Props extends ViewProps<Place> {
 }
 
 export default class PlacesView extends BaseView<Place> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
   }
 
