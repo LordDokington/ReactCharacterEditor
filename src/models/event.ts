@@ -1,4 +1,4 @@
-import { GUID } from "../utils/guidUtils"
+import { GUID } from "../utils/guidUtils";
 import { Place, Character } from ".";
 
 export default class StoryEvent {
@@ -10,23 +10,23 @@ export default class StoryEvent {
   }
 
   setPlace(place: Place) {
-    this.place = place.id;
+    this.placeId = place.id;
   }
 
   addCharacter(char: Character) {
-    this.characters.push( char.id );
+    this.characterIds.push( char.id );
   }
 
   removeCharacter(char: Character) {
-    this.characters = this.characters.filter( id => id != char.id );
+    this.characterIds = this.characterIds.filter( id => id !== char.id );
+    
   }
-
   id: string;
   name: string;
   description: string;
   thumbnail: string;
 
   // contains UUIDs as references
-  place: string;
-  characters: string[];
+  placeId: string;
+  characterIds: string[];
 }

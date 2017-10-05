@@ -1,4 +1,5 @@
-import { GUID } from "../utils/guidUtils"
+import { GUID } from "../utils/guidUtils";
+import { Place } from '.';
 
 export default class Character {
   constructor(name: string, description: string, age: number, thumbnail: string) {

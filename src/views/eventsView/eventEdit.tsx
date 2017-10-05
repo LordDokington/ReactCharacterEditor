@@ -55,6 +55,7 @@ export default class EventEdit extends React.Component<EventEditProps, EventEdit
   onDrop = (files: File[]) => {
     FileUtils.loadFileAsData(files[0], (event) => {
       this.setState({
+        // tslint:disable-next-line:no-any
         thumbnail: (event.target as any).result,
         invalidated: true
       });

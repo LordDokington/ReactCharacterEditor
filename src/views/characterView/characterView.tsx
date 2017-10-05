@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { BaseView, ViewProps } from '../baseView';
-import { Character } from '../../models';
+import { Character, Place } from '../../models';
 import CharacterEdit from './characterEdit';
 import { SelectionGroup } from '../selectionGroup';
 
-export interface Props extends ViewProps<Character> {}
+export interface Props extends ViewProps<Character> {
+  placesOfCharacter(char: Character): Place[];
+}
 
 export default class CharacterView extends BaseView<Character> {
   constructor(props: Props) {
@@ -22,7 +24,7 @@ export default class CharacterView extends BaseView<Character> {
       const isNew = this.state.isNew || characters.length === 0;
       const isEmptyView: boolean = isNew;
 
-      const currentChar = isEmptyView ?
+      const currentChar: Character = isEmptyView ?
         { name: undefined, age: undefined, thumbnail: '' } : 
         characters[ this.selectionIdx ];
 
@@ -38,13 +40,20 @@ export default class CharacterView extends BaseView<Character> {
           </div>
           <div className="container" >
             <SelectionGroup
-              value={this.optionValueForCurrentIndex}
+              index={this.selectionIdx}
               listElements={ characters.map( (char: Character) => char.name )}
               handleSelect={this.updateIndex}
               handleNewButtonClick={() => this.setNewMode(true)}
               handleDeleteButtonClick={this.handleDeleteObject}
               deleteButtonVisible={this.props.objects.length > 0 && !isNew}
             />
+          </div>
+          <div className="container" >
+            <ul>
+              {
+                (this.props.placesOfCharacter(currentChar)).map( (p: Place, i: number) => <li key={i}>p.name</li> )
+              }
+            </ul>
           </div>
         </div>
       );

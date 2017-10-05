@@ -1,5 +1,5 @@
-import { GUID } from "../utils/guidUtils"
-import { Character, StoryEvent } from "."
+import { GUID } from "../utils/guidUtils";
+import { Character, StoryEvent } from ".";
 
 export default class Place {
   constructor(name: string, description: string, thumbnailData: string) {
@@ -7,21 +7,15 @@ export default class Place {
     this.name = name;
     this.description = description;
     this.thumbnail = thumbnailData;
-    this.events = [];
+    this.eventIds = [];
   }
 
   addEvent(event: StoryEvent) {
-    this.events.push(event.id);
+    this.eventIds.push(event.id);
   }
 
   removeEvent(event: StoryEvent) {
-    this.events = this.events.filter( id => id != event.id );
-  }
-
-  allCharacters(): string[] {
-    //const charactersForEvents = this.events.map( (e: string) => e.characters );
-    //return [].concat( ...charactersForEvents ).TODO:ToActualChatacters;
-    return [];
+    this.eventIds = this.eventIds.filter( id => id !== event.id );
   }
 
   id: string;
@@ -31,5 +25,5 @@ export default class Place {
   thumbnail: string;
 
   // contains GUIDs
-  events: string[];
+  eventIds: string[];
 }

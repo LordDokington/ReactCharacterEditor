@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { BaseView, ViewProps } from '../baseView';
-import { Place, StoryEvent } from '../../models';
+import { Character, Place, StoryEvent } from '../../models';
 import EventEdit from './eventEdit';
 import { SelectionGroup } from '../selectionGroup';
 
 export interface EventViewProps extends ViewProps<StoryEvent> {
   places: Place[];
+  charactersOfEvent: (event: StoryEvent) => Character[];
 }
 
 export default class EventView extends BaseView<StoryEvent> {
@@ -41,7 +42,17 @@ export default class EventView extends BaseView<StoryEvent> {
           </div>
           <div className="container" >
             <SelectionGroup
-              value={this.optionValueForCurrentIndex}
+              index={this.selectionIdx}
+              listElements={ events.map( (event: StoryEvent) => event.name )}
+              handleSelect={this.updateIndex}
+              handleNewButtonClick={() => this.setNewMode(true)}
+              handleDeleteButtonClick={this.handleDeleteObject}
+              deleteButtonVisible={this.props.objects.length > 0 && !isNew}
+            />
+          </div>
+          <div className="container" >
+            <SelectionGroup
+              index={this.selectionIdx}
               listElements={ events.map( (event: StoryEvent) => event.name )}
               handleSelect={this.updateIndex}
               handleNewButtonClick={() => this.setNewMode(true)}

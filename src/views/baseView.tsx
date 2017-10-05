@@ -8,10 +8,11 @@ export interface ViewProps<T> {
 }
 
 interface ViewState {
-  selectionIdx: number,
-  isNew: boolean
+  selectionIdx: number;
+  isNew: boolean;
 }
 
+// tslint:disable-next-line:no-any
 export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, ViewState> { 
 
   readonly LOCALSTORAGE_KEY: string = this.constructor.name + "_KEY";
@@ -20,26 +21,21 @@ export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, 
     super(props);
 
     const storedState = this.fromLocalStorage();
-    if( storedState )
-      this.state = storedState;
-    else
-      this.state = {
-        selectionIdx: 0,
-        isNew: true
-      }
+    this.state = storedState || {
+      selectionIdx: 0,
+      isNew: true
+    };
   }
 
   componentWillReceiveProps(nextProps: ViewProps<T>) {
     const thisObjectsCount = this.props.objects.length;
     const nextObjectsCount = nextProps.objects.length;
-    // if new character list is longer than the previous one, then characters were added. set index to last new one (last in list)
-    if(nextObjectsCount > thisObjectsCount) {
-      this.setState( {selectionIdx: nextObjectsCount-1, isNew: false} );
-    } 
+    // if new character list is longer than previous one, characters were added, so set index to last new one
+    if(nextObjectsCount > thisObjectsCount)
+      this.setState( {selectionIdx: nextObjectsCount - 1, isNew: false} );
     // if new character list is shorter than the previous one, fix selectionIdx to avoid out of bounds error
-    else if(nextObjectsCount-1 < this.state.selectionIdx) {
-      this.setState( {selectionIdx: nextObjectsCount-1, isNew: false} );
-    }
+    else if(nextObjectsCount - 1 < this.state.selectionIdx)
+      this.setState( {selectionIdx: nextObjectsCount - 1, isNew: false} );
   }
 
   updateIndex = (idx: number) => {
@@ -53,13 +49,11 @@ export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, 
 
   protected get selectionIdx() {
     const numObjs = this.props.objects.length;
-    return Math.min(this.state.selectionIdx, numObjs-1);
+    return Math.min(this.state.selectionIdx, numObjs - 1);
   }
 
-  abstract get optionValueForCurrentIndex();
-
   toLocalStorage = () => {
-    localStorage.setItem( this.LOCALSTORAGE_KEY, JSON.stringify( this.state ) )
+    localStorage.setItem( this.LOCALSTORAGE_KEY, JSON.stringify( this.state ) );
   }
 
   fromLocalStorage = (): ViewState => {
@@ -68,11 +62,10 @@ export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, 
   }
 
   handleSubmitObject = (obj: T) => {
-    if (this.state.isNew) {
-      this.props.append(obj)
-    } else {
-      this.props.update(this.selectionIdx)(obj)
-    }
+    if (this.state.isNew)
+      this.props.append(obj);
+    else
+      this.props.update(this.selectionIdx)(obj);
   }
 
   protected handleDeleteObject = () => {

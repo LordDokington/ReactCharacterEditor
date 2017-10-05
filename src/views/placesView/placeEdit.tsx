@@ -52,6 +52,7 @@ export default class PlaceEdit extends React.Component<Props, State> {
   onDrop = (files: File[]) => {
     FileUtils.loadFileAsData(files[0], (event) => {
       this.setState({
+        // tslint:disable-next-line:no-any
         thumbnail: (event.target as any).result,
         invalidated: true
       });

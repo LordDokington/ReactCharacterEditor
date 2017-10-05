@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Character, Place, StoryEvent } from '../models';
+import { Character, Place, StoryEvent, Storage } from '../models';
 import CharacterView from './characterView/characterView';
 import TimelineView from './timelineView/timelineView';
 import EventsView from './eventsView/eventsView';
@@ -28,6 +28,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     super();
 
     const storedState = this.fromLocalStorage();
+    
     this.state = storedState || 
       {
         view: views.Characters,
@@ -38,6 +39,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
   }
 
   getView = (view: number): JSX.Element => {
+
+    const storage: Storage = new Storage(this.state.characters, this.state.places, this.state.events);
+
     switch(view) {
       case views.Characters: 
         return  (
@@ -45,7 +49,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             objects={this.state.characters.slice()} 
             append={this.appendCharacter}
             update={this.updateCharacter}
-            delete={this.deleteCharacter}        
+            delete={this.deleteCharacter}
+
+            placesOfCharacter={storage.PlacesOfCharacter}     
           />);
       case views.Places: 
         return (

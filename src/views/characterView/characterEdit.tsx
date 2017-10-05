@@ -50,7 +50,12 @@ export default class CharacterEdit extends React.Component<Props, State> {
   updateAge = (age: string): void => this.setState({ age, invalidated: true });
 
   submitCharacter = (): void => {
-    const newChar = new Character(this.state.name, this.state.description, Number(this.state.age), this.state.thumbnail );
+    const newChar = new Character(
+      this.state.name, 
+      this.state.description,
+      Number(this.state.age), 
+      this.state.thumbnail 
+    );
     // alert( "submit character " + JSON.stringify(newChar) );
 
     this.props.handleSubmitCharacter( newChar );
@@ -59,6 +64,7 @@ export default class CharacterEdit extends React.Component<Props, State> {
   onDrop = (files: File[]) => {
     FileUtils.loadFileAsData(files[0], (event) => {
       this.setState({
+        // tslint:disable-next-line:no-any
         thumbnail: (event.target as any).result,
         invalidated: true
       });
@@ -88,7 +94,10 @@ export default class CharacterEdit extends React.Component<Props, State> {
             <input
               onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateAge( e.target.value ) } 
               className="u-full-width" 
-              type="number" placeholder="age" id="character-age" min={0} 
+              type="number" 
+              placeholder="age" 
+              id="character-age" 
+              min={0} 
               value={this.state.age} 
             />
           </div>
@@ -105,17 +114,17 @@ export default class CharacterEdit extends React.Component<Props, State> {
         { this.state.invalidated && (
           <button 
             onClick={this.submitCharacter}
-            className="button-primary">
-            {this.props.isNew ? "add" : "update"}
-            {IconUtils.buttonIcon("fa-check")}
+            className="button-primary"
+          >
+            {this.props.isNew ? "add" : "update"} {IconUtils.buttonIcon("fa-check")}
           </button>) }
 
         { (this.state.invalidated || this.props.isNew) && (
           <button 
             onClick={this.props.handleAbort}
-            className="button-primary button-left-margin">
-            discard
-            {IconUtils.buttonIcon("fa-times")}
+            className="button-primary button-left-margin"
+          >
+            discard {IconUtils.buttonIcon("fa-times")}
           </button>) }
       </div>
     );

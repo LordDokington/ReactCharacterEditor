@@ -42,7 +42,7 @@ export default class PlacesView extends BaseView<Place> {
         </div>
         <div className="container">
           <SelectionGroup
-            value={this.optionValueForCurrentIndex}
+            index={this.selectionIdx}
             listElements={ places.map( (place: Place) => place.name )}
             handleSelect={this.updateIndex}
             handleNewButtonClick={() => this.setNewMode(true)}
