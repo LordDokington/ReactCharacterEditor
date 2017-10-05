@@ -27,6 +27,8 @@ export default class EditorMain extends React.Component<{}, EditorState> {
   constructor() {
     super();
 
+    //localStorage.clear();
+
     const storedState = this.fromLocalStorage();
     
     this.state = storedState || 
@@ -51,7 +53,8 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             update={this.updateCharacter}
             delete={this.deleteCharacter}
 
-            placesOfCharacter={storage.PlacesOfCharacter}     
+            placesOfCharacter={storage.PlacesOfCharacter}    
+            eventsOfCharacter={storage.EventsOfCharacter}
           />);
       case views.Places: 
         return (
@@ -61,6 +64,8 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             append={this.appendPlace}
             update={this.updatePlace}
             delete={this.deletePlace}
+
+            charactersOfPlace={storage.CharactersOfPlace}
           />);
       case views.Events: 
         return (
@@ -69,6 +74,8 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             append={this.appendEvent}
             update={this.updateEvent}
             delete={this.deleteEvent}
+
+            charactersOfEvent={storage.CharactersOfEvent}
           />);
       case views.Timeline: return <TimelineView /> ;
   

@@ -1,5 +1,5 @@
 import { GUID } from "../utils/guidUtils";
-import { Character, StoryEvent } from ".";
+import { StoryEvent } from ".";
 
 export default class Place {
   constructor(name: string, description: string, thumbnailData: string) {
@@ -7,6 +7,7 @@ export default class Place {
     this.name = name;
     this.description = description;
     this.thumbnail = thumbnailData;
+    
     this.eventIds = [];
   }
 

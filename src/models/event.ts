@@ -7,6 +7,8 @@ export default class StoryEvent {
     this.name = name;
     this.description = description;
     this.thumbnail = thumbnail;
+
+    this.characterIds = [];
   }
 
   setPlace(place: Place) {

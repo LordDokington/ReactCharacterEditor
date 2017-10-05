@@ -90,7 +90,10 @@ module.exports = (env) => {
 		// typescript linter
 		plugins: [
 			new tsLintPlugin({
-				files: ['./src/**/*.ts{,x}']
+				files: ['./src/**/*.ts{,x}'],
+				typeCheck: true,
+				project: 'tsConfig.json'
+
 			}),
 			new CopyWebpackPlugin([
 				{ from: './assets' },

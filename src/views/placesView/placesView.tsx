@@ -6,17 +6,12 @@ import { Character, Place } from '../../models';
 
 export interface Props extends ViewProps<Place> {
   characters: Character[];
+  charactersOfPlace(place: Place): Character[];
 }
 
 export default class PlacesView extends BaseView<Place> {
   constructor(props: Props) {
     super(props);
-  }
-
-  get optionValueForCurrentIndex(): string {
-    const places: Place[] = this.props.objects;
-    const idx = this.selectionIdx;
-    return places[ idx ] ? places[ idx ].name : '';
   }
 
   render(): JSX.Element {
@@ -51,13 +46,16 @@ export default class PlacesView extends BaseView<Place> {
           />
         </div>
         <div className="container">
-          <label htmlFor="character-list">present characters</label>
+          <label htmlFor="character-list">present characters at any event</label>
           <div id="character-list">
             <ul> 
-              { characters.map(  (char: Character, idx: number) => <li key={idx}>{char.name}</li> ) }
+              { 
+                isEmptyView ? null :
+                this.props.charactersOfPlace(currentPlace).map(  (char: Character, idx: number) => <li key={idx}>{char.name}</li> ) 
+              }
             </ul>
           </div>
-      </div>
+        </div>
     </div> );
   }
 }

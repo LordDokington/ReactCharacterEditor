@@ -49,11 +49,26 @@ export default class CharacterView extends BaseView<Character> {
             />
           </div>
           <div className="container" >
-            <ul>
-              {
-                (this.props.placesOfCharacter(currentChar)).map( (p: Place, i: number) => <li key={i}>p.name</li> )
-              }
-            </ul>
+            <label htmlFor="places-list">places this character appears at</label>
+            <div id="places-list">
+              <ul>
+                {
+                  isEmptyView ? null :
+                  (this.props.placesOfCharacter(currentChar)).map( (p: Place, i: number) => <li key={i}>p.name</li> )
+                }
+              </ul>
+            </div>
+          </div>
+          <div className="container" >
+            <label htmlFor="places-list">events this character acts in</label>
+            <div id="places-list">
+              <ul>
+                {
+                  isEmptyView ? null :
+                  (this.props.eventsOfCharacter(currentChar)).map( (e: Event, i: number) => <li key={i}>e.name</li> )
+                }
+              </ul>
+            </div>
           </div>
         </div>
       );

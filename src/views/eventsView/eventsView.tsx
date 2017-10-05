@@ -25,8 +25,8 @@ export default class EventView extends BaseView<StoryEvent> {
       const isNew = this.state.isNew || events.length === 0;
       const isEmptyView: boolean = isNew;
 
-      const currentEvent = // isEmptyView ?
-        // { name: undefined, age: undefined, thumbnail: '' } : 
+      const currentEvent = isEmptyView ?
+       { name: undefined, description: undefined, thumbnail: '' } : 
         events[ this.selectionIdx ];
 
       return(
@@ -50,15 +50,16 @@ export default class EventView extends BaseView<StoryEvent> {
               deleteButtonVisible={this.props.objects.length > 0 && !isNew}
             />
           </div>
-          <div className="container" >
-            <SelectionGroup
-              index={this.selectionIdx}
-              listElements={ events.map( (event: StoryEvent) => event.name )}
-              handleSelect={this.updateIndex}
-              handleNewButtonClick={() => this.setNewMode(true)}
-              handleDeleteButtonClick={this.handleDeleteObject}
-              deleteButtonVisible={this.props.objects.length > 0 && !isNew}
-            />
+          <div className="container">
+            <label htmlFor="character-list">present characters</label>
+            <div id="character-list">
+              <ul> 
+                { 
+                  isEmptyView ? null :
+                  this.props.charactersOfEvent(currentEvent).map(  (char: Character, idx: number) => <li key={idx}>{char.name}</li> ) 
+                }
+              </ul>
+            </div>
           </div>
         </div>
       );

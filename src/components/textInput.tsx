@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Dropzone from 'react-dropzone';
 
 interface Props {
   id: string;
