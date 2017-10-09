@@ -3,9 +3,11 @@ import { BaseView, ViewProps } from '../baseView';
 import { Character, Place, StoryEvent } from '../../models';
 import EventEdit from './eventEdit';
 import { SelectionGroup } from '../selectionGroup';
+import { Checkbox } from '../../components';
 
 export interface EventViewProps extends ViewProps<StoryEvent> {
   places: Place[];
+  characters: Character[];
   charactersOfEvent: (event: StoryEvent) => Character[];
 }
 
@@ -14,20 +16,17 @@ export default class EventView extends BaseView<StoryEvent> {
     super(props);
   }
 
-  get optionValueForCurrentIndex(): string {
-    const events: StoryEvent[] = this.props.objects;
-    const idx = this.selectionIdx;
-    return events[ idx ] ? events[ idx ].name : '';
-  }
-
   render(): JSX.Element {
       const events = this.props.objects;
       const isNew = this.state.isNew || events.length === 0;
       const isEmptyView: boolean = isNew;
 
       const currentEvent = isEmptyView ?
-       { name: undefined, description: undefined, thumbnail: '' } : 
+        { name: undefined, description: undefined, thumbnail: '' } : 
         events[ this.selectionIdx ];
+
+      // TODO: only needed when view is not empty
+      const listOfChecked = isEmptyView ? null : this.props.charactersOfEvent(currentEvent);
 
       return(
         <div>
@@ -53,14 +52,24 @@ export default class EventView extends BaseView<StoryEvent> {
           <div className="container">
             <label htmlFor="character-list">present characters</label>
             <div id="character-list">
-              <ul> 
+              <ul>
                 { 
                   isEmptyView ? null :
-                  this.props.charactersOfEvent(currentEvent).map(  (char: Character, idx: number) => <li key={idx}>{char.name}</li> ) 
+                  this.props.characters.map( (char: Character, idx: number) => {
+                    <li key={idx}>
+                      <Checkbox
+                        id={char.id} 
+                        label={char.name} 
+                        checked={listOfChecked.includes(char)} 
+                        onChange={() => {}} 
+                      />
+                    </li>
+                  })
                 }
               </ul>
             </div>
           </div>
+          
         </div>
       );
   }

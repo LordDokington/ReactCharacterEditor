@@ -75,6 +75,8 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             update={this.updateEvent}
             delete={this.deleteEvent}
 
+            characters={this.state.characters.slice()}
+            places={this.state.places}
             charactersOfEvent={storage.CharactersOfEvent}
           />);
       case views.Timeline: return <TimelineView /> ;

@@ -13,12 +13,6 @@ export default class CharacterView extends BaseView<Character> {
     super(props);
   }
 
-  get optionValueForCurrentIndex(): string {
-    const characters: Character[] = this.props.objects;
-    const idx = this.selectionIdx;
-    return characters[ idx ] ? characters[ idx ].name : '';
-  }
-
   render(): JSX.Element {
       const characters = this.props.objects;
       const isNew = this.state.isNew || characters.length === 0;
@@ -65,7 +59,14 @@ export default class CharacterView extends BaseView<Character> {
               <ul>
                 {
                   isEmptyView ? null :
-                  (this.props.eventsOfCharacter(currentChar)).map( (e: Event, i: number) => <li key={i}>e.name</li> )
+                  (this.props.eventsOfCharacter(currentChar)).map( (e: Event, i: number) => <li key={i}>e.name</li>)
+                }
+              </ul>
+            </div>
+            <div id="places-list">
+              <ul>
+                {
+                  (this.props.objects.map( (char: Character, i: number) => <li key={i}>e.name</li>)
                 }
               </ul>
             </div>

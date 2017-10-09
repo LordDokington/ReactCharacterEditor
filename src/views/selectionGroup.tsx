@@ -10,7 +10,7 @@ interface Props extends SelectorProps {
 
 export const SelectionGroup = (props: Props) => ( 
   <div>
-    <Selector {...props} />
+    {props.listElements.length > 1 && <Selector {...props} />}
     <button 
       className="button button-primary"
       onClick={props.handleNewButtonClick}
