@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { BaseView, ViewProps } from '../baseView';
+import { Selector } from '../../components';
 import { Character, Place } from '../../models';
 import CharacterEdit from './characterEdit';
 import { SelectionGroup } from '../selectionGroup';
@@ -15,6 +16,7 @@ export default class CharacterView extends BaseView<Character> {
 
   render(): JSX.Element {
       const characters = this.props.objects;
+      const events = this.props.events;
       const isNew = this.state.isNew || characters.length === 0;
       const isEmptyView: boolean = isNew;
 
@@ -62,13 +64,11 @@ export default class CharacterView extends BaseView<Character> {
                   (this.props.eventsOfCharacter(currentChar)).map( (e: Event, i: number) => <li key={i}>e.name</li>)
                 }
               </ul>
-            </div>
-            <div id="places-list">
-              <ul>
-                {
-                  (this.props.objects.map( (char: Character, i: number) => <li key={i}>e.name</li>)
-                }
-              </ul>
+              <Selector
+                index={0}
+                listElements={events.map(event => event.name)}
+                handleSelect={() => {}}
+              />
             </div>
           </div>
         </div>

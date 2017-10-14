@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { GUID } from "../utils/guidUtils";
 
 interface Props {
-  id: string;
+  id?: string;
   content: string;
-  label: string;
+  label?: string;
   multiline?: boolean;
   placeholder?: string;
   onChange: (newContent: string) => void;
@@ -12,18 +13,20 @@ interface Props {
 const TextInput = (props: Props) => {
 
   const multiline: boolean = props.multiline as boolean;
+  const hasLabel = props.label !== undefined;
   const placeholder = props.placeholder || props.label;
+  const id = props.id || GUID();
   const handler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => props.onChange(e.target.value);
 
   return (
     <div>
-      <label htmlFor={props.id}>{props.label}</label>
+      {hasLabel && <label htmlFor={id}>{props.label}</label>}
       {multiline ?
         <textarea 
           className="form-textarea" 
           type="text"
           placeholder={placeholder}
-          id={props.id}
+          id={id}
           rows={10}
           value={props.content}
           onChange={handler}
@@ -31,10 +34,10 @@ const TextInput = (props: Props) => {
         <input
           className="u-full-width" 
           type="text" 
-          placeholder={props.label}
-          id={props.id}
+          placeholder={placeholder}
+          id={id}
           value={props.content} 
-          onChange={handler} 
+          onChange={handler}
         />
       }
     </div>);

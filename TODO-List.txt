@@ -24,6 +24,7 @@ event view:
 -DROPDOWN for places to select place
 -miniature timeline view of all events (scrollable? time slots?)
 -click on other events switches to view of that event? or switches to timeline view?
+-it should be impossible to create an event without a place reference (because an event without place is undefined)
 
 timeline view:
 

@@ -55,6 +55,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
 
             placesOfCharacter={storage.PlacesOfCharacter}    
             eventsOfCharacter={storage.EventsOfCharacter}
+            events={this.state.events}
           />);
       case views.Places: 
         return (
@@ -66,6 +67,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             delete={this.deletePlace}
 
             charactersOfPlace={storage.CharactersOfPlace}
+            eventsOfPlace={storage.EventsOfPlace}
           />);
       case views.Events: 
         return (

@@ -5,14 +5,14 @@ import EventEdit from './eventEdit';
 import { SelectionGroup } from '../selectionGroup';
 import { Checkbox } from '../../components';
 
-export interface EventViewProps extends ViewProps<StoryEvent> {
+export interface Props extends ViewProps<StoryEvent> {
   places: Place[];
   characters: Character[];
   charactersOfEvent: (event: StoryEvent) => Character[];
 }
 
 export default class EventView extends BaseView<StoryEvent> {
-  constructor(props: EventViewProps) {
+  constructor(props: Props) {
     super(props);
   }
 

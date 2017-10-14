@@ -2,11 +2,13 @@ import { GUID } from "../utils/guidUtils";
 import { Place, Character } from ".";
 
 export default class StoryEvent {
-  constructor(name: string, description: string, thumbnail: string) {
+  constructor(name: string, description: string, place: Place, thumbnail: string,) {
     this.id = GUID();
     this.name = name;
     this.description = description;
     this.thumbnail = thumbnail;
+
+    this.setPlace(place);
 
     this.characterIds = [];
   }

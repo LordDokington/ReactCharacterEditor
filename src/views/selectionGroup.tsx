@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as IconUtils from '../utils/iconUtils';
-import { Selector, Props as SelectorProps } from "./selector";
+import Selector, { Props as SelectorProps } from "../components/selector";
 
 interface Props extends SelectorProps {
   deleteButtonVisible: boolean;

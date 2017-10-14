@@ -2,11 +2,12 @@ import * as React from 'react';
 import { BaseView, ViewProps } from '../baseView';
 import PlaceEdit from './placeEdit';
 import { SelectionGroup } from '../selectionGroup';
-import { Character, Place } from '../../models';
+import { Character, Place, StoryEvent } from '../../models';
 
 export interface Props extends ViewProps<Place> {
   characters: Character[];
   charactersOfPlace(place: Place): Character[];
+  eventsOfPlace(place: Place): StoryEvent[];
 }
 
 export default class PlacesView extends BaseView<Place> {
@@ -44,6 +45,17 @@ export default class PlacesView extends BaseView<Place> {
             handleDeleteButtonClick={this.handleDeleteObject}
             deleteButtonVisible={this.props.objects.length > 0 && !isNew} 
           />
+        </div>
+        <div className="container">
+          <label htmlFor="event-list">events happening at this place</label>
+          <div id="event-list">
+            <ul> 
+              { 
+                isEmptyView ? null :
+                this.props.eventsOfPlace(currentPlace).map(  (event: StoryEvent, idx: number) => <li key={idx}>{event.name}</li> ) 
+              }
+            </ul>
+          </div>
         </div>
         <div className="container">
           <label htmlFor="character-list">present characters at any event</label>
