@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { GUID } from "../utils/guidUtils";
-import { Wrapper } from '.';
 
 export interface Props {
   id?: string;

@@ -20,11 +20,13 @@ export default class PlacesView extends BaseView<Place> {
     const places: Place[] = this.props.objects;
     const isNew: boolean = this.state.isNew || places.length === 0;
     const isEmptyView: boolean = isNew;
-    const characters = this.props.characters;
 
     const currentPlace = isEmptyView ?
       { name: undefined, description: undefined, thumbnail: '' } : 
       places[ selectionIdx ];
+
+    const eventsOfPlace = this.props.eventsOfPlace(currentPlace);
+    const charactersOfPlace = this.props.charactersOfPlace(currentPlace);
 
     return (
       <div>
@@ -52,7 +54,7 @@ export default class PlacesView extends BaseView<Place> {
             <ul> 
               { 
                 isEmptyView ? null :
-                this.props.eventsOfPlace(currentPlace).map(  (event: StoryEvent, idx: number) => <li key={idx}>{event.name}</li> ) 
+                eventsOfPlace.map( (e: StoryEvent, idx: number) => <li key={idx}>{e.name}</li> ) 
               }
             </ul>
           </div>
@@ -63,7 +65,7 @@ export default class PlacesView extends BaseView<Place> {
             <ul> 
               { 
                 isEmptyView ? null :
-                this.props.charactersOfPlace(currentPlace).map(  (char: Character, idx: number) => <li key={idx}>{char.name}</li> ) 
+                charactersOfPlace.map( (char: Character, idx: number) => <li key={idx}>{char.name}</li> ) 
               }
             </ul>
           </div>

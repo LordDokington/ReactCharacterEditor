@@ -152,3 +152,8 @@ input[type="file"].file-input {
   box-sizing: border-box;
   resize: vertical;
 }
+
+.checkbox input[type="submit"] {
+  display: inline;
+  margin-right: 1em;
+}

@@ -58,6 +58,7 @@ export default class EventEdit extends React.Component<Props, State> {
                                      place,
                                      this.state.thumbnail,
                                     );
+                                    
     this.props.handleSubmitEvent( newEvent );
   }
 

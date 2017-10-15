@@ -3,7 +3,7 @@ import { BaseView, ViewProps } from '../baseView';
 import { Character, Place, StoryEvent } from '../../models';
 import EventEdit from './eventEdit';
 import { SelectionGroup } from '../selectionGroup';
-import { Checkbox } from '../../components';
+import { Selector } from '../../components';
 
 export interface Props extends ViewProps<StoryEvent> {
   places: Place[];
@@ -17,16 +17,20 @@ export default class EventView extends BaseView<StoryEvent> {
   }
 
   render(): JSX.Element {
-      const events = this.props.objects;
+      const events: StoryEvent[] = this.props.objects;
       const isNew = this.state.isNew || events.length === 0;
       const isEmptyView: boolean = isNew;
 
-      const currentEvent = isEmptyView ?
-        { name: undefined, description: undefined, thumbnail: '' } : 
+      let currentEvent: StoryEvent | undefined = isEmptyView ?
+        undefined : 
         events[ this.selectionIdx ];
 
       // TODO: only needed when view is not empty
-      const listOfChecked = isEmptyView ? null : this.props.charactersOfEvent(currentEvent);
+      const charactersOfEvent = isEmptyView ? null : this.props.charactersOfEvent(currentEvent);
+      const characterIdsOfEvent = charactersOfEvent.map( char => char.id );
+
+      const selectableCharsAdd = this.props.characters
+        .filter( char => !characterIdsOfEvent.includes( char.id ) );
 
       return(
         <div>
@@ -46,7 +50,7 @@ export default class EventView extends BaseView<StoryEvent> {
               handleSelect={this.updateIndex}
               handleNewButtonClick={() => this.setNewMode(true)}
               handleDeleteButtonClick={this.handleDeleteObject}
-              deleteButtonVisible={this.props.objects.length > 0 && !isNew}
+              deleteButtonVisible={events.length > 0 && !isNew}
             />
           </div>
           <div className="container">
@@ -55,21 +59,53 @@ export default class EventView extends BaseView<StoryEvent> {
               <ul>
                 { 
                   isEmptyView ? null :
-                  this.props.characters.map( (char: Character, idx: number) => {
+                  charactersOfEvent.map( (char: Character, idx: number) => (
                     <li key={idx}>
-                      <Checkbox
-                        id={char.id} 
-                        label={char.name} 
-                        checked={listOfChecked.includes(char)} 
-                        onChange={() => {}} 
-                      />
+                      {char.name} 
                     </li>
-                  })
+                  ))
                 }
               </ul>
             </div>
+            <div>
+            <div className="six columns">
+              {selectableCharsAdd.length > 0 && (
+              <Selector
+                label="add character"
+                index={0}
+                listElements={[''].concat( selectableCharsAdd.map( char => char.name ) )}
+                handleSelect={(idxPlusOne: number) => {
+                  if( !currentEvent ) {
+                    alert('empty view');
+                    return;
+                  }
+                  const idx = idxPlusOne - 1;
+                  currentEvent.characterIds.push(selectableCharsAdd[idx].id);
+                  this.handleSubmitObject(currentEvent);
+                }}
+              />
+              )}
+            </div>
+            <div className="six columns">
+              {charactersOfEvent.length > 0 && (
+              <Selector
+                label="remove character"
+                index={0}
+                listElements={[''].concat( charactersOfEvent.map( char => char.name ) )}
+                handleSelect={(idxPlusOne: number) => {
+                  if( !currentEvent ) {
+                    alert('empty view');
+                    return;
+                  }
+                  const idx = idxPlusOne - 1;
+                  currentEvent.characterIds = currentEvent.characterIds.filter( id => id !== charactersOfEvent[idx].id);
+                  this.handleSubmitObject(currentEvent);
+                }}
+              />
+              )}
+            </div>
           </div>
-          
+          </div>
         </div>
       );
   }
