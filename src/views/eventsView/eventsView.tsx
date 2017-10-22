@@ -21,16 +21,26 @@ export default class EventView extends BaseView<StoryEvent> {
       const isNew = this.state.isNew || events.length === 0;
       const isEmptyView: boolean = isNew;
 
-      let currentEvent: StoryEvent | undefined = isEmptyView ?
-        undefined : 
+      let currentEvent: StoryEvent =
+        // | undefined = isEmptyView ?
+        // undefined : 
         events[ this.selectionIdx ];
 
-      // TODO: only needed when view is not empty
-      const charactersOfEvent = isEmptyView ? null : this.props.charactersOfEvent(currentEvent);
-      const characterIdsOfEvent = charactersOfEvent.map( char => char.id );
+        let charactersOfEvent, characterIdsOfEvent, selectableCharsAdd;
 
-      const selectableCharsAdd = this.props.characters
-        .filter( char => !characterIdsOfEvent.includes( char.id ) );
+      if( !isEmptyView ) {
+        // TODO: only needed when view is not empty
+        charactersOfEvent = this.props.charactersOfEvent(currentEvent);
+        characterIdsOfEvent = charactersOfEvent.map( char => char.id );
+
+        selectableCharsAdd = this.props.characters
+          .filter( char => !characterIdsOfEvent.includes( char.id ) );
+      } else {
+        charactersOfEvent = [];
+        characterIdsOfEvent = [];
+
+        selectableCharsAdd = this.props.characters;
+      }
 
       return(
         <div>
@@ -41,7 +51,7 @@ export default class EventView extends BaseView<StoryEvent> {
               isNew={isNew}
               handleSubmitEvent={this.handleSubmitObject} 
               handleAbort={() => this.setNewMode(false)}
-            />
+            />)
           </div>
           <div className="container" >
             <SelectionGroup

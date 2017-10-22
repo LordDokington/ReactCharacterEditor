@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const tsLintPlugin = require('tslint-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = (env) => {
 
@@ -16,11 +17,6 @@ module.exports = (env) => {
 	const urlLoaderOptions = {
 		limit: 10000,
 		name: './images/[hash].[ext]'
-	};
-
-	const cssLoaderOptions = {
-		modules: true,
-		localIdentName: env == 'release' ? '[hash]' : '[name]_[local]_[hash:base64:5]'
 	};
 
 	const postcssLoaderOptions = {
@@ -36,9 +32,8 @@ module.exports = (env) => {
 			app: [
 				'./app.tsx'
 			],
-			vendor: [
-				'babel-polyfill',
-				'jquery'
+			style: [
+				'./style.less'
 			]
 		},
 		devtool: env === 'release' ? 'false' : 'source-map',
@@ -62,15 +57,28 @@ module.exports = (env) => {
 				]
 			}, {
 				test: /\.css$/,
-				use: [{
-					loader: 'style-loader'
-				}, {
-					loader: 'css-loader',
-					options: cssLoaderOptions
-				}, {
-					loader: 'postcss-loader',
-					options: postcssLoaderOptions
-				}]
+				loader: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: [{
+						loader: 'css-loader'
+					}, {
+						loader: 'postcss-loader',
+						options: postcssLoaderOptions
+					}]
+				})
+			}, {
+				test: /\.less$/,
+				loader: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: [{
+						loader: 'css-loader'
+					}, {
+						loader: 'postcss-loader',
+						options: postcssLoaderOptions
+					}, {
+						loader: 'less-loader'
+					}]
+				})
 			}, {
 				test: /\.(png|gif|jpg|svg)$/,
 				use: [{
@@ -95,10 +103,8 @@ module.exports = (env) => {
 				project: 'tsConfig.json'
 
 			}),
-			new CopyWebpackPlugin([
-				{ from: './assets' },
-				{ from: './assets/Skeleton' }
-			])
+			new CopyWebpackPlugin([ { from: './assets' } ]),
+			new ExtractTextPlugin('[name].css')
 		]
 	}
 }

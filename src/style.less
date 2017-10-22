@@ -1,6 +1,3 @@
-/* TODO: css styles for components
-   Better yet: use css imports and configure webpack accordingly */
-
 body {
   background-color: #ccc;
 }
@@ -23,59 +20,25 @@ body {
   margin-right: auto;
 }
 
-.character-image {
+.portrait-image {
   width: 100%;
-  max-width: 30em;
-  display: block;
-  /*height: auto;*/
+  height: 30em;
+  display: flex;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1.5em;
-}
+  overflow: hidden;
 
-.place-image {
-  width: 100%;
-  max-width: 30em;
-  display: block;
-  /*height: auto;*/
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 1.5em;
-}
+  img {
+    height: 100%;
+    width: auto;
+    margin: 0 auto;
+  }
 
-.event-image {
-  width: 100%;
-  max-width: 30em;
-  display: block;
-  /*height: auto;*/
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 1.5em;
-}
-
-.character-image > img {
-  width: 100%;
-}
-
-.place-image > img {
-  width: 100%;
-  max-height: 40em;
-}
-
-.event-image > img {
-  width: 100%;
-  max-height: 40em;
-}
-
-.place-image-dragged:before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #33C3F0;
+  &.dragged:before {
+    content: "";
+    background: #33C3F0;
+  }
 }
 
 .selector {
