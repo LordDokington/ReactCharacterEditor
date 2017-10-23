@@ -49,36 +49,53 @@ body {
   margin-left: 1.0em;
 }
 
-#nav-bar ul {
+#nav-bar {
   list-style-type: none;
   margin: 0;
   padding: 0;
   background-color: #ccc;
   padding: 0;
   margin: 0;
-  overflow: hidden;
+  
+  display: flex;
+  flex-flow: row wrap;
+  /* This aligns items to the end line on main-axis */
+  justify-content: flex-start;
+
+  .tab-item {
+    float: left;
+    display: inline-block;
+    text-align: center;
+    padding: 1.1em 1.2em;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #8C8C8C;
+    color: white;
+    margin: 0; /*0 0.05em 0 0;*/
+
+    &.active-item {
+      background-color: white;
+      color: black;
+    }
+
+    &:hover {
+      background-color: #33C3F0;
+      color: white;
+    }
+  }
 }
 
-#nav-bar li {
-  float: left;
-  display: inline-block;
-  text-align: center;
-  padding: 1.1em 1.2em;
-  text-decoration: none;
-  cursor: pointer;
-  background-color: #8C8C8C;
-  color: white;
-  margin: 0; /*0 0.05em 0 0;*/
-}
+@media all and (max-width: 800px) {
+  #nav-bar {
+    /* On small screens, we are no longer using row direction but column */
+    flex-direction: column;
 
-#nav-bar li.active-item {
-  background-color: white;
-  color: black;
-}
-
-#nav-bar li:hover {
-  background-color: #33C3F0;
-  color: white;
+    .tab-item {
+      border-top: 1px solid rgba(255,255,255,0.3); 
+      border-bottom: 1px solid rgba(0,0,0,0.1); 
+      padding: 0.1em 0.2em;
+    }
+  }
 }
 
 #footer {
