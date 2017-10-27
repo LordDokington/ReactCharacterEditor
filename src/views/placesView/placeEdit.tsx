@@ -28,7 +28,7 @@ export default class PlaceEdit extends React.Component<Props, State> {
       name: props.name ? props.name : '',
       description: props.description ? props.description.toString() : '',
       invalidated: false,
-      thumbnail: ''
+      thumbnail: props.thumbnail,
     };
   }
 

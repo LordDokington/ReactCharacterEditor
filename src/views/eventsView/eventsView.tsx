@@ -51,7 +51,7 @@ export default class EventView extends BaseView<StoryEvent> {
               isNew={isNew}
               handleSubmitEvent={this.handleSubmitObject} 
               handleAbort={() => this.setNewMode(false)}
-            />)
+            />
           </div>
           <div className="container" >
             <SelectionGroup

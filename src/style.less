@@ -1,3 +1,6 @@
+@tab-background: #8C8C8C;
+@selection-blue: #33C3F0;
+
 body {
   background-color: #ccc;
 }
@@ -21,7 +24,6 @@ body {
 }
 
 .portrait-image {
-  width: 100%;
   height: 30em;
   display: flex;
   margin-left: auto;
@@ -32,12 +34,13 @@ body {
   img {
     height: 100%;
     width: auto;
-    margin: 0 auto;
+    margin: auto;
+    overflow: hidden;
   }
 
   &.dragged:before {
     content: "";
-    background: #33C3F0;
+    background: @selection-blue;
   }
 }
 
@@ -52,40 +55,45 @@ body {
 #nav-bar {
   list-style-type: none;
   margin: 0;
-  padding: 0;
-  background-color: #ccc;
-  padding: 0;
-  margin: 0;
-  
+  padding: 0.3em 0 0 0;
+  background-color: @tab-background;
+
   display: flex;
   flex-flow: row wrap;
   /* This aligns items to the end line on main-axis */
   justify-content: flex-start;
+  overflow: hidden;
 
   .tab-item {
     float: left;
-    display: inline-block;
     text-align: center;
-    padding: 1.1em 1.2em;
+    padding: 1.2em  2.9em 0.3em 1.5em;
+    margin: 0 0.2em; /*0 0.05em 0 0;*/
     text-decoration: none;
     cursor: pointer;
     background-color: #8C8C8C;
     color: white;
-    margin: 0; /*0 0.05em 0 0;*/
+    border-radius: 0 20px 0 0;
 
-    &.active-item {
+    &.active {
       background-color: white;
       color: black;
     }
 
+    &.active, &:hover {
+      z-index: 2;
+      box-shadow: 7px 3px 0px 0px rgba(0,0,0,0.44);
+      transition: all 0.3s;
+    }
+
     &:hover {
-      background-color: #33C3F0;
+      background-color: @selection-blue;
       color: white;
     }
   }
 }
 
-@media all and (max-width: 800px) {
+@media all and (max-width: 1000px) {
   #nav-bar {
     /* On small screens, we are no longer using row direction but column */
     flex-direction: column;
@@ -93,7 +101,13 @@ body {
     .tab-item {
       border-top: 1px solid rgba(255,255,255,0.3); 
       border-bottom: 1px solid rgba(0,0,0,0.1); 
-      padding: 0.1em 0.2em;
+      //padding: 0.1em 0;
+      margin: 0 0.2em;
+      border-radius: 0.3em 0.3em 0 0;
+      
+      &.active, &:hover {
+        box-shadow: none;
+      }
     }
   }
 }

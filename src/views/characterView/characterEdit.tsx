@@ -30,7 +30,7 @@ export default class CharacterEdit extends React.Component<Props, State> {
       name: props.name || '',
       description: props.description || '',
       age: props.age ? props.age.toString() : '',
-      thumbnail: '',
+      thumbnail: props.thumbnail,
       invalidated: false
     };
   }

@@ -28,7 +28,7 @@ export default class EventEdit extends React.Component<Props, State> {
       name: props.name ? props.name : '',
       description: props.description ? props.description.toString() : '',
       invalidated: false,
-      thumbnail: ''
+      thumbnail: props.thumbnail,
     };
   }
 
@@ -114,7 +114,8 @@ export default class EventEdit extends React.Component<Props, State> {
           onChange={ (e: React.ChangeEvent<HTMLTextAreaElement>) => this.updateDescription(e.target.value) }
         />
     
-        { this.state.invalidated && (
+        
+        {/* this.state.invalidated && (
           <button 
             onClick={this.submitEvent}
             className="button-primary"
@@ -129,7 +130,7 @@ export default class EventEdit extends React.Component<Props, State> {
           >
             discard {IconUtils.buttonIcon("fa-times")}
           </button>) 
-        }
+        */}
       </div>
     );
   }

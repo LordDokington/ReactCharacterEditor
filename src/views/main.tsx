@@ -195,10 +195,10 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     <div id="main">
       <div id="nav-bar">
           { Object.keys(views).map( (key, idx) => (
-              <div 
+              <div
                 key={idx}
                 onClick={() => this.updateView(views[key])}
-                className={ 'tab-item ' + (this.state.view === views[key] ? 'active-item' : '')}
+                className={ 'tab-item ' + (this.state.view === views[key] ? 'active' : '')}
               >
                 {key}
               </div> ) ) }
