@@ -115,7 +115,7 @@ export default class EventEdit extends React.Component<Props, State> {
         />
     
         
-        {/* this.state.invalidated && (
+        {this.state.invalidated && (
           <button 
             onClick={this.submitEvent}
             className="button-primary"
@@ -130,7 +130,7 @@ export default class EventEdit extends React.Component<Props, State> {
           >
             discard {IconUtils.buttonIcon("fa-times")}
           </button>) 
-        */}
+        }
       </div>
     );
   }
