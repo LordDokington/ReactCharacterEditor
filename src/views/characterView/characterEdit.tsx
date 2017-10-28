@@ -1,14 +1,15 @@
 import * as React from 'react';
 import * as IconUtils from "../../utils/iconUtils";
 import * as FileUtils from "../../utils/fileUtils";
-import { Character } from "../../models";
-import { Portrait, TextInput } from "../../components";
+import { Character, Gender } from "../../models";
+import { Portrait, TextInput, Selector } from "../../components";
 
 interface Props {
   name?: string;
   description?: string;
   age?: number;
   isNew?: boolean;
+  gender: Gender;
   thumbnail: string;
   handleSubmitCharacter: (char: Character) => void;
   handleAbort: () => void;
@@ -18,9 +19,14 @@ interface State {
   name: string;
   description: string;
   age: string;
+  gender: Gender;
   thumbnail: string;
   invalidated: boolean;
 }
+
+const genders: Gender[] = [
+  'male', 'female', 'transgender', 'agender', 'other'
+];
 
 export default class CharacterEdit extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -30,6 +36,7 @@ export default class CharacterEdit extends React.Component<Props, State> {
       name: props.name || '',
       description: props.description || '',
       age: props.age ? props.age.toString() : '',
+      gender: 'female',
       thumbnail: props.thumbnail,
       invalidated: false
     };
@@ -41,6 +48,7 @@ export default class CharacterEdit extends React.Component<Props, State> {
       description: nextProps.description || '',
       age: nextProps.age ? nextProps.age.toString() : '',
       thumbnail: nextProps.thumbnail,
+      gender: nextProps.gender,      
       invalidated: false
     } );
   }
@@ -48,13 +56,15 @@ export default class CharacterEdit extends React.Component<Props, State> {
   updateName = (name: string): void => this.setState({ name, invalidated: true });
   updateDescription = (description: string): void => this.setState({ description, invalidated: true });
   updateAge = (age: string): void => this.setState({ age, invalidated: true });
+  updateGender = (gender: Gender): void => this.setState({ gender, invalidated: true });
 
   submitCharacter = (): void => {
     const newChar = new Character(
       this.state.name, 
       this.state.description,
       Number(this.state.age), 
-      this.state.thumbnail 
+      this.state.thumbnail,
+      this.state.gender
     );
     // alert( "submit character " + JSON.stringify(newChar) );
 
@@ -89,7 +99,7 @@ export default class CharacterEdit extends React.Component<Props, State> {
               onChange={ (newContent: string) => this.updateName(newContent) } 
             />
           </div>
-          <div className="six columns">
+          <div className="three columns">
             <label htmlFor="character-age">age</label>
             <input
               onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateAge( e.target.value ) } 
@@ -101,6 +111,15 @@ export default class CharacterEdit extends React.Component<Props, State> {
               value={this.state.age} 
             />
           </div>
+          <div className="three columns">
+            <Selector
+                label="gender"
+                index={genders.indexOf( this.state.gender )}
+                listElements={genders}
+                handleSelect={(idx: number) => this.updateGender(genders[idx])}
+              />
+          </div>
+
           <TextInput
             id="character-description"
             multiline={true}

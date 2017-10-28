@@ -110,6 +110,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
 
   updateCharacter = (index: number) => (char: Character): void => {
     let characters = this.state.characters.slice();
+    // restore old UUID from object
+    const oldId = characters[index].id;
+    char.id = oldId;
     characters[index] = char;
 
     this.setState( { characters: characters }, this.toLocalStorage );
@@ -131,6 +134,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
 
   updatePlace = (index: number) => (place: Place): void => {
     let places = this.state.places.slice();
+    // restore old UUID from object
+    const oldId = places[index].id;
+    place.id = oldId;
     places[index] = place;
 
     this.setState( { places: places }, this.toLocalStorage );
@@ -152,6 +158,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
 
   updateEvent = (index: number) => (event: StoryEvent): void => {
     let events = this.state.events.slice();
+    // restore old UUID from object
+    const oldId = events[index].id;
+    event.id = oldId;
     events[index] = event;
 
     this.setState( { events }, this.toLocalStorage );
@@ -192,6 +201,8 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     console.log("render main");
 
     return (
+    <div>
+    <div style={{ backgroundColor: '#ff', float: 'left', width: '30px', height: '100px', zIndex: 5 }} />
     <div id="main">
       <div id="nav-bar">
           { Object.keys(views).map( (key, idx) => (
@@ -237,6 +248,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
           } 
         />
       </div>
+    </div>
     </div>
     );
   }

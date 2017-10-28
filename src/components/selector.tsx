@@ -14,11 +14,10 @@ const Selector = (props: Props): JSX.Element => {
   const id = props.id || GUID();
 
   return (
-    <div>
+    <div className="selector">
       {hasLabel && <label htmlFor={id}>{props.label}</label>}
       <select
         id={id}
-        className="selector"
         value={props.index.toString()}
         onChange={ (e: React.ChangeEvent<HTMLSelectElement>) => 
                       props.handleSelect( e.target.selectedIndex ) } 
