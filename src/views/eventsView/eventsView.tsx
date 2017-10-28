@@ -3,7 +3,6 @@ import { BaseView, ViewProps } from '../baseView';
 import { Character, Place, StoryEvent } from '../../models';
 import EventEdit from './eventEdit';
 import { SelectionGroup } from '../selectionGroup';
-import { Selector } from '../../components';
 import EventCharactersListEdit from './eventCharactersListEdit';
 
 export interface Props extends ViewProps<StoryEvent> {
@@ -18,16 +17,13 @@ export default class EventView extends BaseView<StoryEvent> {
   }
 
   render(): JSX.Element {
-      const events: StoryEvent[] = this.props.objects;
+      const events = this.props.objects;
       const isNew = this.state.isNew || events.length === 0;
       const isEmptyView: boolean = isNew;
 
-      let currentEvent: StoryEvent =
-        // | undefined = isEmptyView ?
-        // undefined : 
-        events[ this.selectionIdx ];
+      const currentEvent: StoryEvent = isEmptyView ? {} : events[ this.selectionIdx ];
 
-        let charactersOfEvent, characterIdsOfEvent, selectableCharsAdd;
+      let charactersOfEvent, characterIdsOfEvent, selectableCharsAdd;
 
       if( !isEmptyView ) {
         // TODO: only needed when view is not empty
@@ -46,15 +42,6 @@ export default class EventView extends BaseView<StoryEvent> {
       return(
         <div>
           <div className="container" >
-            <EventEdit
-              {...currentEvent}
-              places={this.props.places}
-              isNew={isNew}
-              handleSubmitEvent={this.handleSubmitObject} 
-              handleAbort={() => this.setNewMode(false)}
-            />
-          </div>
-          <div className="container" >
             <SelectionGroup
               index={this.selectionIdx}
               listElements={ events.map( (event: StoryEvent) => event.name )}
@@ -62,6 +49,15 @@ export default class EventView extends BaseView<StoryEvent> {
               handleNewButtonClick={() => this.setNewMode(true)}
               handleDeleteButtonClick={this.handleDeleteObject}
               deleteButtonVisible={events.length > 0 && !isNew}
+            />
+          </div>
+          <div className="container" >
+            <EventEdit
+              {...currentEvent}
+              places={this.props.places}
+              isNew={isNew}
+              handleSubmitEvent={this.handleSubmitObject} 
+              handleAbort={() => this.setNewMode(false)}
             />
           </div>
          <EventCharactersListEdit

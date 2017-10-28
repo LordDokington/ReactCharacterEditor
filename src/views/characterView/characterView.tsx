@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { BaseView, ViewProps } from '../baseView';
-import { Selector } from '../../components';
+import { Dropdown } from '../../components';
 import { Character, Place } from '../../models';
 import CharacterEdit from './characterEdit';
 import { SelectionGroup } from '../selectionGroup';
 
 export interface Props extends ViewProps<Character> {
   placesOfCharacter(char: Character): Place[];
+  //eventsOfCharacter(char: Character): Event[];
 }
 
 export default class CharacterView extends BaseView<Character> {
@@ -20,20 +21,10 @@ export default class CharacterView extends BaseView<Character> {
       const isNew = this.state.isNew || characters.length === 0;
       const isEmptyView: boolean = isNew;
 
-      const currentChar: Character = isEmptyView ?
-        { name: undefined, age: undefined, thumbnail: '' } : 
-        characters[ this.selectionIdx ];
+      const currentChar: Character = isEmptyView ? {} : characters[ this.selectionIdx ];
 
       return(
         <div>
-          <div className="container" >
-            <CharacterEdit
-              {...currentChar}
-              isNew={isNew}
-              handleSubmitCharacter={this.handleSubmitObject} 
-              handleAbort={() => this.setNewMode(false)}
-            />
-          </div>
           <div className="container" >
             <SelectionGroup
               index={this.selectionIdx}
@@ -42,6 +33,14 @@ export default class CharacterView extends BaseView<Character> {
               handleNewButtonClick={() => this.setNewMode(true)}
               handleDeleteButtonClick={this.handleDeleteObject}
               deleteButtonVisible={this.props.objects.length > 0 && !isNew}
+            />
+          </div>
+          <div className={'container' + (isNew ? ' new-edit' : '')} >
+            <CharacterEdit
+              {...currentChar}
+              isNew={isNew}
+              handleSubmitCharacter={this.handleSubmitObject} 
+              handleAbort={() => this.setNewMode(false)}
             />
           </div>
           <div className="container" >
@@ -64,7 +63,7 @@ export default class CharacterView extends BaseView<Character> {
                   (this.props.eventsOfCharacter(currentChar)).map( (e: Event, i: number) => <li key={i}>e.name</li>)
                 }
               </ul>
-              <Selector
+              <Dropdown
                 index={0}
                 listElements={events.map(event => event.name)}
                 handleSelect={() => {}}

@@ -2,14 +2,19 @@ import * as React from 'react';
 import * as IconUtils from "../../utils/iconUtils";
 import * as FileUtils from "../../utils/fileUtils";
 import { StoryEvent, Place } from "../../models";
-import { Portrait, Selector } from "../../components";
+import { Portrait, Dropdown } from "../../components";
 
-interface Props extends StoryEvent {
+interface Props {
+  name?: string;
+  description?: string;
+  thumbnail: string;
   places: Place[];
-  isNew: boolean;
+  isNew?: boolean;
+  placeId: string;
   handleSubmitEvent: (event: StoryEvent) => void;
   handleAbort: () => void;
 }
+
 
 interface State {
   name: string;
@@ -93,7 +98,7 @@ export default class EventEdit extends React.Component<Props, State> {
             />
           </div>
           <div className="six columns">
-            <Selector
+            <Dropdown
               label="select place"
               index={this.state.placeIdx}
               listElements={this.props.places.map( place => place.name )}

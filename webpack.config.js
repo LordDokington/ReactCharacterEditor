@@ -33,7 +33,7 @@ module.exports = (env) => {
 				'./app.tsx'
 			],
 			style: [
-				'./style.less'
+				'./styles/main.less'
 			]
 		},
 		devtool: env === 'release' ? 'false' : 'source-map',

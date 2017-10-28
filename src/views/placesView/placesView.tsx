@@ -20,24 +20,13 @@ export default class PlacesView extends BaseView<Place> {
     const places: Place[] = this.props.objects;
     const isNew: boolean = this.state.isNew || places.length === 0;
     const isEmptyView: boolean = isNew;
-
-    const currentPlace = isEmptyView ?
-      { name: undefined, description: undefined, thumbnail: '' } : 
-      places[ selectionIdx ];
+    const currentPlace = isEmptyView ? {} : places[ selectionIdx ];
 
     const eventsOfPlace = this.props.eventsOfPlace(currentPlace);
     const charactersOfPlace = this.props.charactersOfPlace(currentPlace);
 
     return (
       <div>
-        <div className="container" >
-          <PlaceEdit
-            {...currentPlace}
-            handleSubmitPlace={this.handleSubmitObject}
-            handleAbort={() => this.setNewMode(false)}
-            isNew={isNew}
-          />
-        </div>
         <div className="container">
           <SelectionGroup
             index={this.selectionIdx}
@@ -46,6 +35,14 @@ export default class PlacesView extends BaseView<Place> {
             handleNewButtonClick={() => this.setNewMode(true)}
             handleDeleteButtonClick={this.handleDeleteObject}
             deleteButtonVisible={this.props.objects.length > 0 && !isNew} 
+          />
+        </div>
+        <div className="container" >
+          <PlaceEdit
+            {...currentPlace}
+            handleSubmitPlace={this.handleSubmitObject}
+            handleAbort={() => this.setNewMode(false)}
+            isNew={isNew}
           />
         </div>
         <div className="container">

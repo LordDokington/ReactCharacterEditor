@@ -1,5 +1,5 @@
 import { GUID } from "../utils/guidUtils";
-import { Place, Character } from ".";
+import { Place } from ".";
 
 /*
   setPlace = (place: Place) => {

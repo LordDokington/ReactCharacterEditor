@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { BaseView, ViewProps } from '../baseView';
-import { Character, Place, StoryEvent } from '../../models';
-import EventEdit from './eventEdit';
-import { SelectionGroup } from '../selectionGroup';
-import { Selector } from '../../components';
+import { Character, StoryEvent } from '../../models';
+import { Dropdown } from '../../components';
 
 interface Props {
     isEmptyView: boolean;
@@ -37,7 +34,7 @@ const EventCharactersListEdit = (props: Props) => {
       </div>
       <div className="six columns">
         {selectableCharsAdd.length > 0 && (
-        <Selector
+        <Dropdown
           label="add character"
           index={0}
           listElements={[''].concat( selectableCharsAdd.map( char => char.name ) )}
@@ -55,7 +52,7 @@ const EventCharactersListEdit = (props: Props) => {
       </div>
       <div className="six columns">
         {charactersOfEvent.length > 0 && (
-        <Selector
+        <Dropdown
           label="remove character"
           index={0}
           listElements={[''].concat( charactersOfEvent.map( char => char.name ) )}
@@ -73,6 +70,6 @@ const EventCharactersListEdit = (props: Props) => {
       </div>
     </div>
     );
-}
+};
 
 export default EventCharactersListEdit;

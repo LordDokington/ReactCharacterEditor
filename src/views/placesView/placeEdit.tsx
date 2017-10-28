@@ -7,7 +7,7 @@ import { Portrait, TextInput } from "../../components";
 interface Props {
   name?: string;
   description?: string;
-  thumbnail: string;
+  thumbnail?: string;
   isNew: boolean;
   handleSubmitPlace: (place: Place) => void;
   handleAbort: () => void;
@@ -28,7 +28,7 @@ export default class PlaceEdit extends React.Component<Props, State> {
       name: props.name ? props.name : '',
       description: props.description ? props.description.toString() : '',
       invalidated: false,
-      thumbnail: props.thumbnail,
+      thumbnail: props.thumbnail || '',
     };
   }
 
@@ -36,7 +36,7 @@ export default class PlaceEdit extends React.Component<Props, State> {
     this.setState ( {
       name: nextProps.name ? nextProps.name : '',
       description: nextProps.description ? nextProps.description.toString() : '',
-      thumbnail: nextProps.thumbnail,
+      thumbnail: nextProps.thumbnail || '',
       invalidated: false
     } );
   }

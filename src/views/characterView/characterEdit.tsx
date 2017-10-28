@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as IconUtils from "../../utils/iconUtils";
 import * as FileUtils from "../../utils/fileUtils";
 import { Character, Gender } from "../../models";
-import { Portrait, TextInput, Selector } from "../../components";
+import { Portrait, TextInput, Dropdown } from "../../components";
 
 interface Props {
   name?: string;
@@ -24,9 +24,7 @@ interface State {
   invalidated: boolean;
 }
 
-const genders: Gender[] = [
-  'male', 'female', 'transgender', 'agender', 'other'
-];
+const genders: Gender[] = ['male', 'female', 'transgender', 'agender', 'other'];
 
 export default class CharacterEdit extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -112,12 +110,12 @@ export default class CharacterEdit extends React.Component<Props, State> {
             />
           </div>
           <div className="three columns">
-            <Selector
+            <Dropdown
                 label="gender"
                 index={genders.indexOf( this.state.gender )}
                 listElements={genders}
                 handleSelect={(idx: number) => this.updateGender(genders[idx])}
-              />
+            />
           </div>
 
           <TextInput
