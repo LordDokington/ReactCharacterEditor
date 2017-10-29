@@ -3,31 +3,34 @@ import * as IconUtils from '../utils/iconUtils';
 import Dropdown, { Props as DropdownProps } from "../components/dropdown";
 
 interface Props extends DropdownProps {
-  deleteButtonVisible: boolean;
+  newMode: boolean;
   handleDeleteButtonClick: () => void;
+  handleDiscardButtonClick: () => void;
   handleNewButtonClick: () => void;
 }
 
 export const SelectionGroup = (props: Props) => ( 
-  <div className="selection-group">
-    <h2>{props.listElements[props.index] || 'no character selected'}</h2>
+  <div className={'selection-group' + (props.newMode ? ' new' : '')}>
+    <h2>{props.newMode ? '<CREATE NEW>' : props.listElements[props.index] || 'no character selected' }</h2>
     <div>
+      {!props.newMode &&
       <button 
         className="button button-primary"
         onClick={props.handleNewButtonClick}
       >
         new {IconUtils.buttonIcon("fa-plus")}
       </button>
+      }
 
-      {props.listElements.length > 1 && <Dropdown {...props} />}
+      {!props.newMode && props.listElements.length > 1 && <Dropdown {...props} />}
 
-      { props.deleteButtonVisible && 
-        <button 
-          className="button button-primary button-left-margin"
-          onClick={props.handleDeleteButtonClick}
-        >
-          delete {IconUtils.buttonIcon("fa-trash")}
-        </button> }
+      <button 
+        className="button button-primary button-left-margin"
+        onClick={props.newMode ? props.handleDiscardButtonClick : props.handleDeleteButtonClick}
+      >
+        {props.newMode ? 'discard' : 'delete'} 
+        {IconUtils.buttonIcon("fa-trash")}
+      </button>
     </div>
 
   </div>

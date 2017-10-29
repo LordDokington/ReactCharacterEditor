@@ -117,15 +117,16 @@ export default class CharacterEdit extends React.Component<Props, State> {
                 handleSelect={(idx: number) => this.updateGender(genders[idx])}
             />
           </div>
-
-          <TextInput
-            id="character-description"
-            multiline={true}
-            placeholder="..." 
-            label="description" 
-            content={this.state.description}
-            onChange={ (newContent: string) => this.updateDescription(newContent) }
-          />
+          <div className="twelve columns">
+            <TextInput
+              id="character-description"
+              multiline={true}
+              placeholder="..." 
+              label="description" 
+              content={this.state.description}
+              onChange={ (newContent: string) => this.updateDescription(newContent) }
+            />
+          </div>
         </div>
     
         { this.state.invalidated && (

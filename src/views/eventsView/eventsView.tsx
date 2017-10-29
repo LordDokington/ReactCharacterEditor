@@ -41,14 +41,15 @@ export default class EventView extends BaseView<StoryEvent> {
 
       return(
         <div>
-          <div className="container" >
+          <div className={'container' + (isNew ? ' new' : '')} >
             <SelectionGroup
               index={this.selectionIdx}
               listElements={ events.map( (event: StoryEvent) => event.name )}
               handleSelect={this.updateIndex}
               handleNewButtonClick={() => this.setNewMode(true)}
               handleDeleteButtonClick={this.handleDeleteObject}
-              deleteButtonVisible={events.length > 0 && !isNew}
+              handleDiscardButtonClick={() => this.setNewMode(false)}
+              newMode={isNew}
             />
           </div>
           <div className="container" >

@@ -19,7 +19,7 @@ const TextInput = (props: Props) => {
   const handler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => props.onChange(e.target.value);
 
   return (
-    <div>
+    <div className="text-input">
       {hasLabel && <label htmlFor={id}>{props.label}</label>}
       {multiline ?
         <textarea 

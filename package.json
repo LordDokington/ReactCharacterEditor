@@ -1,5 +1,5 @@
 {
-  "name": "character-editor",
+  "name": "story-editor",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -48,6 +48,6 @@
     "react-dropzone": "^4.1.1",
     "react-router": "^3.0.5"
   },
-  "author": "Kay Illner",
+  "author": "Kay Illner <kay.illner@gmail.com>",
   "license": "UNLICENSED"
 }

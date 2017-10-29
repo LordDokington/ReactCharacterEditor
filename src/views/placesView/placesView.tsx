@@ -34,10 +34,11 @@ export default class PlacesView extends BaseView<Place> {
             handleSelect={this.updateIndex}
             handleNewButtonClick={() => this.setNewMode(true)}
             handleDeleteButtonClick={this.handleDeleteObject}
-            deleteButtonVisible={this.props.objects.length > 0 && !isNew} 
+            handleDiscardButtonClick={() => this.setNewMode(false)}
+            newMode={isNew} 
           />
         </div>
-        <div className="container" >
+        <div className={'container' + (isNew ? ' new' : '')} >
           <PlaceEdit
             {...currentPlace}
             handleSubmitPlace={this.handleSubmitObject}

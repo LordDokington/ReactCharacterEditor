@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { BaseView, ViewProps } from '../baseView';
-import { Dropdown } from '../../components';
 import { Character, Place, StoryEvent } from '../../models';
 import CharacterEdit from './characterEdit';
 import { SelectionGroup } from '../selectionGroup';
@@ -32,10 +31,11 @@ export default class CharacterView extends BaseView<Character> {
               handleSelect={this.updateIndex}
               handleNewButtonClick={() => this.setNewMode(true)}
               handleDeleteButtonClick={this.handleDeleteObject}
-              deleteButtonVisible={this.props.objects.length > 0 && !isNew}
+              handleDiscardButtonClick={() => this.setNewMode(false)}
+              newMode={isNew}
             />
           </div>
-          <div className={'container' + (isNew ? ' new-edit' : '')} >
+          <div className={'container' + (isNew ? ' new' : '')} >
             <CharacterEdit
               {...currentChar}
               isNew={isNew}

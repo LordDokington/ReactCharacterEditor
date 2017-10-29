@@ -29,7 +29,7 @@ export default class EventEdit extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      placeIdx: 0,
+      placeIdx: props.places.findIndex( (p: Place) => p.id === props.placeId ),
       name: props.name ? props.name : '',
       description: props.description ? props.description.toString() : '',
       invalidated: false,
@@ -43,7 +43,7 @@ export default class EventEdit extends React.Component<Props, State> {
       description: nextProps.description ? nextProps.description.toString() : '',
       thumbnail: nextProps.thumbnail,
       invalidated: false,
-      placeIdx: this.props.places.findIndex(place => place.id === this.props.placeId )
+      placeIdx: this.props.places.findIndex( (p: Place) => p.id === this.props.placeId )
     } );
   }
 

@@ -3,7 +3,6 @@ TODO-List:
 
 character view:
 
--discard new character
 -characterEdit is a bad name for the subcomponent
 -undo and redo (state chain)
 
@@ -19,12 +18,11 @@ places view:
 
 event view:
 
--shows characters relevant for event
--shows place where the event takes place
--DROPDOWN for places to select place
 -miniature timeline view of all events (scrollable? time slots?)
 -click on other events switches to view of that event? or switches to timeline view?
 -it should be impossible to create an event without a place reference (because an event without place is undefined)
+
+-bug: findIndex to initially select the place this event happens at does not work. find out why (maybe some bug lead to identical ids for 2 places???)
 
 timeline view:
 
@@ -35,6 +33,11 @@ thumbnails loading:
 
 -constraints for file selection -type: images, only one file
 -rondell with example images
+
+relationships view:
+
+-shuld show what relationship characters share and where they met
+-this could be relatedness, friendship, relationships...
 
 general:
 
