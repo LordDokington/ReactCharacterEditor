@@ -5,17 +5,48 @@ body {
 }
 
 #main {
-  display: block;
-  width: 60%;
+  display: flex;
+  align-items: stretch;
+  align-content: stretch;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   padding: 0 0.4em;
   background-color: #fff;
   .shadow;
+
+  div {
+    flex-grow: 1;
+  }
+}
+
+#main .color-bar { 
+  width: 10px; 
+  flex-basis: 10px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-right: 0.4em;
+  transition: color 2.4s;
+
+  &.Characters {
+    background-color: #00ff00; 
+  }
+
+  &.Places {
+    background-color: #ffff00; 
+  }
+
+  &.Events {
+    background-color: #00ffff; 
+  }
+
+  &.Timeline {
+    background-color: #ff8833; 
+  }
 }
 
 .container {
-  border: 1px solid #B6B6B6;
+  border: 1px solid @border-color;
   padding: 0.4em;
   margin: 0.5em;
   width: 100%;
@@ -101,7 +132,30 @@ body {
     background-color: #8C8C8C;
     color: white;
     border-radius: 0 20px 0 0;
-    user-select: none;    
+    user-select: none; 
+    
+    div {
+      width: 10px;
+      margin: 0.1em 0.4em -0.2em 0.4em;
+      height: 100%;
+      display: inline-block;
+
+      &.Characters {
+        background-color: #00ff00; 
+      }
+    
+      &.Places {
+        background-color: #ffff00; 
+      }
+    
+      &.Events {
+        background-color: #00ffff; 
+      }
+    
+      &.Timeline {
+        background-color: #ff8833; 
+      }
+    }
 
     &.active {
       background-color: white;

@@ -201,16 +201,17 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     console.log("render main");
 
     return (
-    <div>
-    <div style={{ backgroundColor: '#ff', float: 'left', width: '30px', height: '100px', zIndex: 5 }} />
     <div id="main">
+    <div className={'color-bar ' + Object.keys(views)[this.state.view]} />
+    <div>
       <div id="nav-bar">
           { Object.keys(views).map( (key, idx) => (
               <div
                 key={idx}
                 onClick={() => this.updateView(views[key])}
-                className={ 'tab-item ' + (this.state.view === views[key] ? 'active' : '')}
+                className={ 'tab-item ' + (this.state.view === views[key] ? ' active' : '')}
               >
+                <div className={key} />
                 {key}
               </div> ) ) }
       </div>

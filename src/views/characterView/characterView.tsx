@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { BaseView, ViewProps } from '../baseView';
 import { Dropdown } from '../../components';
-import { Character, Place } from '../../models';
+import { Character, Place, StoryEvent } from '../../models';
 import CharacterEdit from './characterEdit';
 import { SelectionGroup } from '../selectionGroup';
 
@@ -49,7 +49,7 @@ export default class CharacterView extends BaseView<Character> {
               <ul>
                 {
                   isEmptyView ? null :
-                  (this.props.placesOfCharacter(currentChar)).map( (p: Place, i: number) => <li key={i}>p.name</li> )
+                  (this.props.placesOfCharacter(currentChar)).map( (p: Place, i: number) => <li key={i}>{p.name}</li> )
                 }
               </ul>
             </div>
@@ -60,14 +60,9 @@ export default class CharacterView extends BaseView<Character> {
               <ul>
                 {
                   isEmptyView ? null :
-                  (this.props.eventsOfCharacter(currentChar)).map( (e: Event, i: number) => <li key={i}>e.name</li>)
+                  (this.props.eventsOfCharacter(currentChar)).map( (e: StoryEvent, i: number) => <li key={i}>{e.name}</li>)
                 }
               </ul>
-              <Dropdown
-                index={0}
-                listElements={events.map(event => event.name)}
-                handleSelect={() => {}}
-              />
             </div>
           </div>
         </div>

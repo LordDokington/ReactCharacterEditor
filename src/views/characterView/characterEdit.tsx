@@ -97,7 +97,7 @@ export default class CharacterEdit extends React.Component<Props, State> {
               onChange={ (newContent: string) => this.updateName(newContent) } 
             />
           </div>
-          <div className="three columns">
+          <div className="two columns">
             <label htmlFor="character-age">age</label>
             <input
               onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateAge( e.target.value ) } 
@@ -109,7 +109,7 @@ export default class CharacterEdit extends React.Component<Props, State> {
               value={this.state.age} 
             />
           </div>
-          <div className="three columns">
+          <div className="four columns">
             <Dropdown
                 label="gender"
                 index={genders.indexOf( this.state.gender )}

@@ -6,32 +6,52 @@
 
   .dropbutton {
     display: inline-block;
-    
     cursor: pointer;
   
     margin-right: 0.4em;
-    margin-bottom: 02em;
-    
-    select {
-      width: 100%;
+    margin-bottom: 0.2em;
+
+    padding-right: 0;
+
+    span {
+      float: right;
+      border-left: 1px solid @border-color;
+      margin-left: 2.3em;
+      margin-right: 1.2em;
     }
   }
 
   .content {
     display: none;
     position: absolute;
-    background-color: rgb(155, 155, 155);
+    background-color: #f2f2f2;
     min-width: 160px;
+    border-radius: 4px;
     .shadow;
     z-index: 1;
   
     a {
       color: black;
-      padding: 12px 16px;
+      padding: 0.5em 16px;
       text-decoration: none;
       display: block;
+      white-space: nowrap;
+
+      &.selected {
+        background-color: @selection-blue;
+
+        &:hover {
+          background-color: @highlighted-blue;
+        }
+      }
   
-      &:hover {background-color: #666666}
+      &:hover {
+        background-color: #cccccc;
+      }
+
+      &:hover:last-child {
+        border-radius: 0 0 4px 4px;
+      }
     }
   }
 }
@@ -40,6 +60,6 @@
   .content { display: block; }
 
   .dropbutton {
-    background-color: rgb(99, 220, 44);
+    //background-color: @highlighted-blue;//rgb(99, 220, 44);
   }
 }
