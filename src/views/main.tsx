@@ -15,12 +15,16 @@ const views = {
   Timeline: 3
 };
 
+type StoryEntity = Character | Place | StoryEvent;
+
 interface EditorState {
   view: number;
 
   characters: Character[];
   places: Place[];
   events: StoryEvent[];
+
+  selectedEntity?: StoryEntity;
 }
 
 export default class EditorMain extends React.Component<{}, EditorState> {
@@ -36,13 +40,23 @@ export default class EditorMain extends React.Component<{}, EditorState> {
         view: views.Characters,
         characters: [],
         places: [],
-        events: []
+        events: [],
+
+        currentEntity: undefined
       };
+
+    // TODO: this kinda works but is no longer needed, keepling it in for reference - or better yet: remove if you see this :P
+    //document.addEventListener('change', (e) => { e.preventDefault(); alert('preventdefault'); })
   }
 
   getView = (view: number): JSX.Element => {
 
+    console.log('chars: ' + this.state.characters);
+    console.log('places: ' + this.state.places);
+    console.log('events: ' + this.state.events);
+
     const storage: Storage = new Storage(this.state.characters, this.state.places, this.state.events);
+    const selectedEntity = this.state.selectedEntity;
 
     switch(view) {
       case views.Characters: 
@@ -52,6 +66,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             append={this.appendCharacter}
             update={this.updateCharacter}
             delete={this.deleteCharacter}
+
+            currentObject={selectedEntity}
+            toObjectView={this.toViewOfObject}
 
             placesOfCharacter={storage.PlacesOfCharacter}    
             eventsOfCharacter={storage.EventsOfCharacter}
@@ -66,6 +83,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             update={this.updatePlace}
             delete={this.deletePlace}
 
+            currentObject={selectedEntity}
+            toObjectView={this.toViewOfObject}
+
             charactersOfPlace={storage.CharactersOfPlace}
             eventsOfPlace={storage.EventsOfPlace}
           />);
@@ -76,6 +96,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             append={this.appendEvent}
             update={this.updateEvent}
             delete={this.deleteEvent}
+
+            currentObject={selectedEntity}
+            toObjectView={this.toViewOfObject}
 
             characters={this.state.characters.slice()}
             places={this.state.places}
@@ -194,7 +217,48 @@ export default class EditorMain extends React.Component<{}, EditorState> {
   }
 
   formattedState = (): string => {
-    return JSON.stringify(this.state, null, 2);
+
+    let state = Object.assign({}, this.state);
+
+    // TODO: this just removes all thumbnail data (which is most of the file's content) for easier reading and debugging of export
+    function iterate(obj, stack) {
+      for (var property in obj) {
+          if (obj.hasOwnProperty(property)) {
+              if (typeof obj[property] == "object") {
+                  iterate(obj[property], stack + '.' + property);
+              } else {
+                console.log(property + "   " + obj[property]);
+                if( property === 'thumbnail') {
+                  obj[property] = '';
+                }
+              }
+          }
+      }
+    }
+    iterate(state, '')
+
+    return JSON.stringify(state, null, 2);
+  }
+
+  toViewOfObject = (newEntity: StoryEntity) => {
+    
+    let newView: number;
+
+    switch (newEntity.kind) {
+      case 'Character': newView = views.Characters;
+      alert('Character');
+      break;
+      case "Place": newView = views.Places;
+      alert('Place');
+      break;
+      case "StoryEvent": newView = views.Events;
+      alert('StoryEvent');
+      break;
+      default: newView = this.state.view;
+      alert('default: ' + newEntity.kind);
+    }
+
+    this.setState( { selectedEntity: newEntity, view: newView }, this.toLocalStorage )
   }
 
   render() {
@@ -203,7 +267,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     return (
     <div id="main">
     <div className={'color-bar ' + Object.keys(views)[this.state.view]} />
-    <div>
+    <div id="main-content">
       <div id="nav-bar">
           { Object.keys(views).map( (key, idx) => (
               <div

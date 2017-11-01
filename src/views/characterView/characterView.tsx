@@ -24,7 +24,7 @@ export default class CharacterView extends BaseView<Character> {
 
       return(
         <div>
-          <div className="container" >
+          <div className="container-box" >
             <SelectionGroup
               index={this.selectionIdx}
               listElements={ characters.map( (char: Character) => char.name )}
@@ -35,7 +35,7 @@ export default class CharacterView extends BaseView<Character> {
               newMode={isNew}
             />
           </div>
-          <div className={'container' + (isNew ? ' new' : '')} >
+          <div className={'container-box' + (isNew ? ' new' : '')} >
             <CharacterEdit
               {...currentChar}
               isNew={isNew}
@@ -43,24 +43,34 @@ export default class CharacterView extends BaseView<Character> {
               handleAbort={() => this.setNewMode(false)}
             />
           </div>
-          <div className="container" >
+          <div className="container-box" >
             <label htmlFor="places-list">places this character appears at</label>
             <div id="places-list">
               <ul>
                 {
                   isEmptyView ? null :
-                  (this.props.placesOfCharacter(currentChar)).map( (p: Place, i: number) => <li key={i}>{p.name}</li> )
+                  (this.props.placesOfCharacter(currentChar)).map( (p: Place, i: number) => 
+                    <li key={i} onClick={() => this.props.toObjectView(p)}>
+                      <a href="#">
+                      {p.name}
+                      </a>
+                    </li> )
                 }
               </ul>
             </div>
           </div>
-          <div className="container" >
+          <div className="container-box" >
             <label htmlFor="places-list">events this character acts in</label>
             <div id="places-list">
               <ul>
                 {
                   isEmptyView ? null :
-                  (this.props.eventsOfCharacter(currentChar)).map( (e: StoryEvent, i: number) => <li key={i}>{e.name}</li>)
+                  (this.props.eventsOfCharacter(currentChar)).map( (e: StoryEvent, i: number) => 
+                  <li key={i} onClick={() => this.props.toObjectView(e)}>
+                    <a href="#">
+                    {e.name}
+                    </a>
+                  </li>)
                 }
               </ul>
             </div>

@@ -27,7 +27,7 @@ export default class PlacesView extends BaseView<Place> {
 
     return (
       <div>
-        <div className="container">
+        <div className="container-box">
           <SelectionGroup
             index={this.selectionIdx}
             listElements={ places.map( (place: Place) => place.name )}
@@ -38,7 +38,7 @@ export default class PlacesView extends BaseView<Place> {
             newMode={isNew} 
           />
         </div>
-        <div className={'container' + (isNew ? ' new' : '')} >
+        <div className={'container-box' + (isNew ? ' new' : '')} >
           <PlaceEdit
             {...currentPlace}
             handleSubmitPlace={this.handleSubmitObject}
@@ -46,24 +46,37 @@ export default class PlacesView extends BaseView<Place> {
             isNew={isNew}
           />
         </div>
-        <div className="container">
+        <div className="container-box">
           <label htmlFor="event-list">events happening at this place</label>
           <div id="event-list">
             <ul> 
               { 
                 isEmptyView ? null :
-                eventsOfPlace.map( (e: StoryEvent, idx: number) => <li key={idx}>{e.name}</li> ) 
+                eventsOfPlace.map( (e: StoryEvent, idx: number) => (
+                  <li key={idx} onClick={() => this.props.toObjectView(e)}>
+                    <a href="#">
+                    {e.name}
+                    </a>
+                  </li>
+               ) )
               }
             </ul>
           </div>
         </div>
-        <div className="container">
+        <div className="container-box">
           <label htmlFor="character-list">present characters at any event</label>
           <div id="character-list">
             <ul> 
               { 
                 isEmptyView ? null :
-                charactersOfPlace.map( (char: Character, idx: number) => <li key={idx}>{char.name}</li> ) 
+                charactersOfPlace.map( (char: Character, idx: number) => (
+                  <li key={idx} onClick={() => this.props.toObjectView(char)}>
+                    <a href="#">
+                    {char.name}
+                    </a>
+                  </li> ) 
+                )
+                
               }
             </ul>
           </div>

@@ -20,36 +20,40 @@ body {
   }
 }
 
-#main .color-bar { 
-  width: 10px; 
-  flex-basis: 10px;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-right: 0.4em;
-  transition: color 2.4s;
+#main {
+  .color-bar { 
+    width: 10px; 
+    flex-basis: 10px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-right: 0.4em;
+    transition: color 2.4s;
 
-  &.Characters {
-    background-color: #00ff00; 
-  }
+    &.Characters {
+      background-color: #00ff00; 
+    }
 
-  &.Places {
-    background-color: #ffff00; 
-  }
+    &.Places {
+      background-color: #ffff00; 
+    }
 
-  &.Events {
-    background-color: #00ffff; 
-  }
+    &.Events {
+      background-color: #00ffff; 
+    }
 
-  &.Timeline {
-    background-color: #ff8833; 
+    &.Timeline {
+      background-color: #ff8833; 
+    }
   }
 }
 
-.container {
+.container-box {
   border: 1px solid @border-color;
   padding: 0.4em;
   margin: 0.5em;
   width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
 }
@@ -232,4 +236,10 @@ input[type="file"].file-input {
 .checkbox input[type="submit"] {
   display: inline;
   margin-right: 1em;
+}
+
+.test-stl {
+  float: left;
+  display: inline;
+  margin-right: 0.4em;
 }

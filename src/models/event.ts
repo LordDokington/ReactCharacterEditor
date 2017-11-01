@@ -1,5 +1,4 @@
 import { GUID } from "../utils/guidUtils";
-import { Place } from ".";
 
 /*
   setPlace = (place: Place) => {
@@ -16,14 +15,17 @@ import { Place } from ".";
 */
 
 export default class StoryEvent {
-  constructor(name: string, description: string, place: Place, thumbnail: string) {
+  constructor(name: string, description: string, placeId: string, thumbnail: string) {
     this.id = GUID();
     this.name = name;
     this.description = description;
     this.thumbnail = thumbnail;
 
-    this.placeId = place.id;
+    this.placeId = placeId;
     this.characterIds = [];
+
+    // TODO: remove
+    this.kind = 'StoryEvent';
   }
 
   id: string;
@@ -34,4 +36,6 @@ export default class StoryEvent {
   // contains UUIDs as references
   placeId: string;
   characterIds: string[];
+
+  readonly kind: string = 'StoryEvent';
 }

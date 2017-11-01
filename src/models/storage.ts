@@ -8,6 +8,10 @@ class Storage {
     this.characters = characters;
     this.places = places;
     this.events = events;
+
+    console.log('storage chars: ' + this.characters);
+    console.log('storage places: ' + this.places);
+    console.log('storage events: ' + this.events);
   }
 
   Character = (id: string): Character | undefined => {

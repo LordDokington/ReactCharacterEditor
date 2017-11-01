@@ -2,9 +2,11 @@ import * as React from 'react';
 
 export interface ViewProps<T> {
   objects: T[];
+  currentObject?: T;
   append: (object: T) => void;
   update: (index: number) => (object: T) => void;
   delete: (index: number) => void;
+  toObjectView: (o: any) => void;
 }
 
 interface ViewState {
@@ -30,12 +32,17 @@ export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, 
   componentWillReceiveProps(nextProps: ViewProps<T>) {
     const thisObjectsCount = this.props.objects.length;
     const nextObjectsCount = nextProps.objects.length;
+
     // if new character list is longer than previous one, characters were added, so set index to last new one
     if(nextObjectsCount > thisObjectsCount)
       this.setState( {selectionIdx: nextObjectsCount - 1, isNew: false} );
     // if new character list is shorter than the previous one, fix selectionIdx to avoid out of bounds error
     else if(nextObjectsCount - 1 < this.state.selectionIdx)
       this.setState( {selectionIdx: nextObjectsCount - 1, isNew: false} );
+
+    // TODO: fixme - this does not yet work
+    const nextObject = nextProps.currentObject;
+    if(nextObject) this.setState( {selectionIdx: (this.props.objects as T[]).findIndex( o => o['id'] === nextObject['id'] )} );
   }
 
   updateIndex = (idx: number) => {

@@ -41,7 +41,7 @@ export default class EventView extends BaseView<StoryEvent> {
 
       return(
         <div>
-          <div className={'container' + (isNew ? ' new' : '')} >
+          <div className={'container-box' + (isNew ? ' new' : '')} >
             <SelectionGroup
               index={this.selectionIdx}
               listElements={ events.map( (event: StoryEvent) => event.name )}
@@ -52,7 +52,7 @@ export default class EventView extends BaseView<StoryEvent> {
               newMode={isNew}
             />
           </div>
-          <div className="container" >
+          <div className="container-box" >
             <EventEdit
               {...currentEvent}
               places={this.props.places}

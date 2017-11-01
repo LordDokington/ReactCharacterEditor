@@ -21,7 +21,7 @@ interface State {
   description: string;
   invalidated: boolean;
   thumbnail: string;
-  placeIdx: number;
+  placeId: string;
 }
 
 export default class EventEdit extends React.Component<Props, State> {
@@ -29,21 +29,22 @@ export default class EventEdit extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      placeIdx: props.places.findIndex( (p: Place) => p.id === props.placeId ),
       name: props.name ? props.name : '',
       description: props.description ? props.description.toString() : '',
-      invalidated: false,
       thumbnail: props.thumbnail,
+      invalidated: false,
+      placeId: props.placeId
     };
   }
 
   componentWillReceiveProps(nextProps: Props) {
+
     this.setState ( {
       name: nextProps.name ? nextProps.name : '',
       description: nextProps.description ? nextProps.description.toString() : '',
       thumbnail: nextProps.thumbnail,
       invalidated: false,
-      placeIdx: this.props.places.findIndex( (p: Place) => p.id === this.props.placeId )
+      placeId: nextProps.placeId
     } );
   }
 
@@ -53,14 +54,10 @@ export default class EventEdit extends React.Component<Props, State> {
   submitEvent = (): void => {
     // cannot create event without place
     // TODO: inform user that nothing is done and why
-    const place = this.props.places[this.state.placeIdx];
-    if(!place) {
-      alert('no update because undefined place');
-      return;
-    }
+    const placeId = this.state.placeId;
     const newEvent = new StoryEvent( this.state.name, 
                                      this.state.description, 
-                                     place,
+                                     placeId,
                                      this.state.thumbnail,
                                     );
                                     
@@ -78,6 +75,9 @@ export default class EventEdit extends React.Component<Props, State> {
   }
 
   render() {
+    const places = this.props.places;
+    const placeId = this.state.placeId;
+
     return (
       <div>
         <Portrait 
@@ -100,10 +100,10 @@ export default class EventEdit extends React.Component<Props, State> {
           <div className="six columns">
             <Dropdown
               label="select place"
-              index={this.state.placeIdx}
+              index={places.findIndex( (p: Place) => p.id === placeId )}
               listElements={this.props.places.map( place => place.name )}
               handleSelect={(idx) => {
-                this.setState( {placeIdx: idx, invalidated: true} );
+                this.setState( {placeId: places[idx].id, invalidated: true} );
               }}
             />
           </div>

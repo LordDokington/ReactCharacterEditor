@@ -10,6 +10,9 @@ export default class Character {
     this.thumbnail = thumbnail;
     this.age = age;
     this.gender = gender;
+
+    // TODO: remove
+    this.kind = 'Character';
   }
 
   id: string;
@@ -18,4 +21,6 @@ export default class Character {
   age: number;
   thumbnail: string;
   gender: Gender;
+
+  readonly kind: string = 'Character';
 }

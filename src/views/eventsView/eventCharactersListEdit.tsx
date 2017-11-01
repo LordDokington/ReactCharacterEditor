@@ -18,15 +18,17 @@ const EventCharactersListEdit = (props: Props) => {
     const handleUpdateEvent = props.handleUpdateEvent;
 
     return (
-    <div className="container">
+    <div className="container-box">
       <label htmlFor="character-list">present characters</label>
       <div id="character-list">
         <ul>
           { 
             isEmptyView ? null :
             charactersOfEvent.map( (char: Character, idx: number) => (
-              <li key={idx}>
-                {char.name} 
+              <li key={idx} onClick={() => this.props.toObjectView(char)}>
+                <a href="#">
+                {char.name}
+                </a> 
               </li>
             ))
           }

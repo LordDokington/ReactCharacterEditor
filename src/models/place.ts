@@ -7,6 +7,9 @@ export default class Place {
     this.name = name;
     this.description = description;
     this.thumbnail = thumbnailData;
+
+    // TODO: remove
+    this.kind = 'Place';
   }
 
   /*
@@ -20,4 +23,6 @@ export default class Place {
   description: string;
   //thumbnail as data string
   thumbnail: string;
+
+  readonly kind: string = 'Place';
 }
