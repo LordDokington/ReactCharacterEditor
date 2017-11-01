@@ -40,13 +40,13 @@ export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, 
     // if new character list is longer than previous one, characters were added, so set index to last new one
     if(nextObjectsCount > thisObjectsCount) {
       //this.setState( {selectionIdx: nextObjectsCount - 1, isNew: false} );
-      this.setState( {isNew: false} );
+      this.setNewMode( false );
       this.updateIndex(nextObjectsCount - 1);
     }
     // if new character list is shorter than the previous one, fix selectionIdx to avoid out of bounds error
     else if(nextObjectsCount - 1 < this.props.selectionIdx) {
       //this.setState( {selectionIdx: nextObjectsCount - 1, isNew: false} );
-      this.setState( {isNew: false} );
+      this.setNewMode( nextObjectsCount == 0 );
       this.updateIndex(nextObjectsCount - 1);
     }
 
@@ -60,7 +60,7 @@ export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, 
   updateIndex = (idx: number) => {
     // the 2nd argument is a function that is executed after the state is updated
     //this.setState( { selectionIdx: idx, isNew: false }, this.toLocalStorage );
-    this.setState( {isNew: false} );
+    this.setNewMode( false );
     this.props.updateSelectionIdx(idx);
   }
 
@@ -83,7 +83,7 @@ export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, 
   }
 
   handleSubmitObject = (obj: T) => {
-    if (this.state.isNew)
+    if (this.state.isNew) 
       this.props.append(obj);
     else
       this.props.update(this.selectionIdx)(obj);
