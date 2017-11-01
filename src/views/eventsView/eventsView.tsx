@@ -25,7 +25,7 @@ export default class EventView extends BaseView<StoryEvent> {
 
       let charactersOfEvent, characterIdsOfEvent, selectableCharsAdd;
 
-      if( !isEmptyView ) {
+      if( !isEmptyView && currentEvent ) {
         // TODO: only needed when view is not empty
         charactersOfEvent = this.props.charactersOfEvent(currentEvent);
         characterIdsOfEvent = charactersOfEvent.map( char => char.id );
@@ -67,6 +67,7 @@ export default class EventView extends BaseView<StoryEvent> {
           selectableCharsAdd={selectableCharsAdd}
           currentEvent={currentEvent}
           handleUpdateEvent={this.handleSubmitObject}
+          toObjectView={this.props.toObjectView}
          />
         </div>
       );

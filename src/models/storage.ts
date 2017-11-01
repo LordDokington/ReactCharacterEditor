@@ -9,9 +9,9 @@ class Storage {
     this.places = places;
     this.events = events;
 
-    console.log('storage chars: ' + this.characters);
-    console.log('storage places: ' + this.places);
-    console.log('storage events: ' + this.events);
+    //console.log('storage chars: ' + this.characters);
+    //console.log('storage places: ' + this.places);
+    //console.log('storage events: ' + this.events);
   }
 
   Character = (id: string): Character | undefined => {
@@ -42,7 +42,7 @@ class Storage {
 
   // return characters, filter out undefined ones
   CharactersOfEvent = (event: StoryEvent): Character[] => {
-    return event.characterIds.map( this.Character ).filter( char => !!char ) as Character[] || [];
+    return event.characterIds.map( this.Character ).filter( char => !!char ) as Character[];
   }
 
   PlaceOfEvent = (event: StoryEvent): Place => {

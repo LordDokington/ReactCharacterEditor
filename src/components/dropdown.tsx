@@ -16,7 +16,7 @@ const Dropdown = (props: Props): JSX.Element => {
   const index = props.index;
   const listElements = props.listElements;
 
-  const clickHandler = (idx: number) => (e: React.MouseEvent<HTMLDivElement>) => 
+  const clickHandler = (idx: number) => (e: React.MouseEvent<HTMLAnchorElement>) => 
     props.handleSelect(idx);
 
   return (
@@ -30,15 +30,14 @@ const Dropdown = (props: Props): JSX.Element => {
       </button>
       <div className="content">
         { listElements.map( (element: string, i: number) => 
-          <div 
-            className={'entry' + (i === index ? 'selected' : '')}
-            //href="#" 
+          <a 
+            className={'entry' + (i === index ? ' selected' : '')}
             key={i} 
             value={i}
             onClick={ clickHandler(i) } 
           >
             {element}
-          </div> 
+          </a> 
           ) 
         }
       </div>

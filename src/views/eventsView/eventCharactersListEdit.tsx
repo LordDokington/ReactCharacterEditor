@@ -8,6 +8,7 @@ interface Props {
     selectableCharsAdd: Character[];
     currentEvent: StoryEvent;
     handleUpdateEvent: (e: StoryEvent) => void;
+    toObjectView: (o: any) => void;
 }
 
 const EventCharactersListEdit = (props: Props) => {
@@ -25,7 +26,7 @@ const EventCharactersListEdit = (props: Props) => {
           { 
             isEmptyView ? null :
             charactersOfEvent.map( (char: Character, idx: number) => (
-              <li key={idx} onClick={() => this.props.toObjectView(char)}>
+              <li key={idx} onClick={() => props.toObjectView(char)}>
                 <a href="#">
                 {char.name}
                 </a> 

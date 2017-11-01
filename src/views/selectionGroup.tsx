@@ -11,7 +11,7 @@ interface Props extends DropdownProps {
 
 export const SelectionGroup = (props: Props) => ( 
   <div className={'selection-group' + (props.newMode ? ' new' : '')}>
-    <h2>{props.newMode ? '<CREATE NEW>' : props.listElements[props.index] || 'no character selected' }</h2>
+    <h2>{props.newMode ? '<CREATE NEW>' : props.listElements[props.index] || 'no object selected' }</h2>
     <div>
       {!props.newMode &&
       <button 

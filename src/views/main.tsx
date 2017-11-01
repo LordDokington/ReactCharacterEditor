@@ -24,6 +24,10 @@ interface EditorState {
   places: Place[];
   events: StoryEvent[];
 
+  characterIdx: number;
+  placeIdx: number;
+  eventIdx: number;
+
   selectedEntity?: StoryEntity;
 }
 
@@ -42,7 +46,11 @@ export default class EditorMain extends React.Component<{}, EditorState> {
         places: [],
         events: [],
 
-        currentEntity: undefined
+        characterIdx: 0,
+        placeIdx: 0,
+        eventIdx: 0,
+
+        selectedEntity: undefined
       };
 
     // TODO: this kinda works but is no longer needed, keepling it in for reference - or better yet: remove if you see this :P
@@ -51,9 +59,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
 
   getView = (view: number): JSX.Element => {
 
-    console.log('chars: ' + this.state.characters);
-    console.log('places: ' + this.state.places);
-    console.log('events: ' + this.state.events);
+    //console.log('chars: ' + this.state.characters);
+    //console.log('places: ' + this.state.places);
+    //console.log('events: ' + this.state.events);
 
     const storage: Storage = new Storage(this.state.characters, this.state.places, this.state.events);
     const selectedEntity = this.state.selectedEntity;
@@ -69,6 +77,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
 
             currentObject={selectedEntity}
             toObjectView={this.toViewOfObject}
+
+            selectionIdx={this.state.characterIdx}
+            updateSelectionIdx={idx => this.setState({ characterIdx: idx }, this.toLocalStorage)}
 
             placesOfCharacter={storage.PlacesOfCharacter}    
             eventsOfCharacter={storage.EventsOfCharacter}
@@ -86,6 +97,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             currentObject={selectedEntity}
             toObjectView={this.toViewOfObject}
 
+            selectionIdx={this.state.placeIdx}
+            updateSelectionIdx={idx => this.setState({ placeIdx: idx }, this.toLocalStorage)}
+
             charactersOfPlace={storage.CharactersOfPlace}
             eventsOfPlace={storage.EventsOfPlace}
           />);
@@ -99,6 +113,9 @@ export default class EditorMain extends React.Component<{}, EditorState> {
 
             currentObject={selectedEntity}
             toObjectView={this.toViewOfObject}
+
+            selectionIdx={this.state.eventIdx}
+            updateSelectionIdx={idx => this.setState({ eventIdx: idx }, this.toLocalStorage)}
 
             characters={this.state.characters.slice()}
             places={this.state.places}
@@ -244,21 +261,25 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     
     let newView: number;
 
+    //alert(newEntity.name);
+
     switch (newEntity.kind) {
-      case 'Character': newView = views.Characters;
-      alert('Character');
+      case 'Character': 
+      newView = views.Characters;
+      this.setState( { characterIdx: this.state.characters.findIndex( c => c.id === newEntity.id ) } )
       break;
-      case "Place": newView = views.Places;
-      alert('Place');
+      case "Place": 
+      newView = views.Places;
+      this.setState( { placeIdx: this.state.places.findIndex( p => p.id === newEntity.id ) } )
       break;
-      case "StoryEvent": newView = views.Events;
-      alert('StoryEvent');
+      case "StoryEvent": 
+      newView = views.Events;
+      this.setState( { eventIdx: this.state.events.findIndex( e => e.id === newEntity.id ) } )
       break;
       default: newView = this.state.view;
-      alert('default: ' + newEntity.kind);
     }
 
-    this.setState( { selectedEntity: newEntity, view: newView }, this.toLocalStorage )
+    this.setState( { selectedEntity: newEntity, view: newView }, this.toLocalStorage );
   }
 
   render() {
