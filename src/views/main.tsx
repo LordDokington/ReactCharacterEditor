@@ -27,8 +27,6 @@ interface EditorState {
   characterIdx: number;
   placeIdx: number;
   eventIdx: number;
-
-  selectedEntity?: StoryEntity;
 }
 
 export default class EditorMain extends React.Component<{}, EditorState> {
@@ -64,7 +62,6 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     //console.log('events: ' + this.state.events);
 
     const storage: Storage = new Storage(this.state.characters, this.state.places, this.state.events);
-    const selectedEntity = this.state.selectedEntity;
 
     switch(view) {
       case views.Characters: 
@@ -75,7 +72,6 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             update={this.updateCharacter}
             delete={this.deleteCharacter}
 
-            currentObject={selectedEntity}
             toObjectView={this.toViewOfObject}
 
             selectionIdx={this.state.characterIdx}
@@ -94,7 +90,6 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             update={this.updatePlace}
             delete={this.deletePlace}
 
-            currentObject={selectedEntity}
             toObjectView={this.toViewOfObject}
 
             selectionIdx={this.state.placeIdx}
@@ -111,7 +106,6 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             update={this.updateEvent}
             delete={this.deleteEvent}
 
-            currentObject={selectedEntity}
             toObjectView={this.toViewOfObject}
 
             selectionIdx={this.state.eventIdx}
@@ -259,27 +253,25 @@ export default class EditorMain extends React.Component<{}, EditorState> {
 
   toViewOfObject = (newEntity: StoryEntity) => {
     
-    let newView: number;
-
-    //alert(newEntity.name);
+    let newView, newIdx;
 
     switch (newEntity.kind) {
       case 'Character': 
       newView = views.Characters;
-      this.setState( { characterIdx: this.state.characters.findIndex( c => c.id === newEntity.id ) } )
+      newIdx = this.state.characters.findIndex( c => c.id === newEntity.id );
+      this.setState( { view: newView, characterIdx: newIdx }, this.toLocalStorage );
       break;
       case "Place": 
       newView = views.Places;
-      this.setState( { placeIdx: this.state.places.findIndex( p => p.id === newEntity.id ) } )
+      newIdx = this.state.places.findIndex( p => p.id === newEntity.id );
+      this.setState( { view: newView, placeIdx: newIdx }, this.toLocalStorage );
       break;
       case "StoryEvent": 
       newView = views.Events;
-      this.setState( { eventIdx: this.state.events.findIndex( e => e.id === newEntity.id ) } )
+      newIdx = this.state.events.findIndex( e => e.id === newEntity.id );
+      this.setState( { view: newView, eventIdx: newIdx }, this.toLocalStorage );
       break;
-      default: newView = this.state.view;
     }
-
-    this.setState( { selectedEntity: newEntity, view: newView }, this.toLocalStorage );
   }
 
   render() {

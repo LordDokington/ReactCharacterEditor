@@ -18,7 +18,7 @@ export default class PlacesView extends BaseView<Place> {
   render(): JSX.Element {
     const selectionIdx = this.selectionIdx;
     const places: Place[] = this.props.objects;
-    const isNew: boolean = this.state.isNew || places.length === 0;
+    const isNew: boolean = this.isNew;
     const isEmptyView: boolean = isNew;
     const currentPlace = isEmptyView ? {} : places[ selectionIdx ];
 

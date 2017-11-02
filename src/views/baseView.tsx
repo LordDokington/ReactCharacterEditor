@@ -73,6 +73,10 @@ export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, 
     return Math.min(this.props.selectionIdx, numObjs - 1);
   }
 
+  protected get isNew() {
+    return this.props.objects.length === 0 || this.state.isNew;
+  }
+
   toLocalStorage = () => {
     localStorage.setItem( this.LOCALSTORAGE_KEY, JSON.stringify( this.state ) );
   }
@@ -83,7 +87,7 @@ export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, 
   }
 
   handleSubmitObject = (obj: T) => {
-    if (this.state.isNew) 
+    if (this.isNew)
       this.props.append(obj);
     else
       this.props.update(this.selectionIdx)(obj);

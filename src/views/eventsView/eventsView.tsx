@@ -3,7 +3,6 @@ import { BaseView, ViewProps } from '../baseView';
 import { Character, Place, StoryEvent } from '../../models';
 import EventEdit from './eventEdit';
 import { SelectionGroup } from '../selectionGroup';
-import EventCharactersListEdit from './eventCharactersListEdit';
 
 export interface Props extends ViewProps<StoryEvent> {
   places: Place[];
@@ -18,14 +17,13 @@ export default class EventView extends BaseView<StoryEvent> {
 
   render(): JSX.Element {
       const events = this.props.objects;
-      const isNew = this.state.isNew || events.length === 0;
-      const isEmptyView: boolean = isNew;
+      const isNew = this.isNew;
 
-      const currentEvent: StoryEvent = isEmptyView ? {} : events[ this.selectionIdx ];
+      const currentEvent: StoryEvent = isNew ? {} : events[ this.selectionIdx ];
 
       let charactersOfEvent, characterIdsOfEvent, selectableCharsAdd;
 
-      if( !isEmptyView && currentEvent ) {
+      if( !isNew && currentEvent ) {
         // TODO: only needed when view is not empty
         charactersOfEvent = this.props.charactersOfEvent(currentEvent);
         characterIdsOfEvent = charactersOfEvent.map( char => char.id );
@@ -36,6 +34,7 @@ export default class EventView extends BaseView<StoryEvent> {
         charactersOfEvent = [];
         characterIdsOfEvent = [];
 
+        // TODO: is this correct in case of !currentEvent ???
         selectableCharsAdd = this.props.characters;
       }
 
@@ -59,16 +58,11 @@ export default class EventView extends BaseView<StoryEvent> {
               isNew={isNew}
               handleSubmitEvent={this.handleSubmitObject} 
               handleAbort={() => this.setNewMode(false)}
+              charactersOfEvent={charactersOfEvent}
+              availableCharacters={selectableCharsAdd}
+              toObjectView={this.props.toObjectView}
             />
           </div>
-         <EventCharactersListEdit
-          isEmptyView={isEmptyView}
-          charactersOfEvent={charactersOfEvent}
-          selectableCharsAdd={selectableCharsAdd}
-          currentEvent={currentEvent}
-          handleUpdateEvent={this.handleSubmitObject}
-          toObjectView={this.props.toObjectView}
-         />
         </div>
       );
   }

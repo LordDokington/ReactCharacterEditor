@@ -3,20 +3,18 @@ import { Character, StoryEvent } from '../../models';
 import { Dropdown } from '../../components';
 
 interface Props {
-    isEmptyView: boolean;
+    isNew: boolean;
     charactersOfEvent: Character[];
     selectableCharsAdd: Character[];
-    currentEvent: StoryEvent;
-    handleUpdateEvent: (e: StoryEvent) => void;
+    handleAppendCharacter: (c: Character) => void;
+    handleRemoveCharacter: (c: Character) => void;
     toObjectView: (o: any) => void;
 }
 
 const EventCharactersListEdit = (props: Props) => {
     const charactersOfEvent = props.charactersOfEvent;
-    const isEmptyView = props.isEmptyView;
+    const isNew = props.isNew;
     const selectableCharsAdd = props.selectableCharsAdd;
-    const currentEvent: StoryEvent = props.currentEvent;
-    const handleUpdateEvent = props.handleUpdateEvent;
 
     return (
     <div className="container-box">
@@ -24,7 +22,7 @@ const EventCharactersListEdit = (props: Props) => {
       <div id="character-list">
         <ul>
           { 
-            isEmptyView ? null :
+            isNew ? null :
             charactersOfEvent.map( (char: Character, idx: number) => (
               <li key={idx} onClick={() => props.toObjectView(char)}>
                 <a href="#">
@@ -40,15 +38,11 @@ const EventCharactersListEdit = (props: Props) => {
         <Dropdown
           label="add character"
           index={0}
+          // list of characters not yet added to the event
           listElements={[''].concat( selectableCharsAdd.map( char => char.name ) )}
           handleSelect={(idxPlusOne: number) => {
-            if( !currentEvent ) {
-              alert('empty view');
-              return;
-            }
             const idx = idxPlusOne - 1;
-            currentEvent.characterIds.push(selectableCharsAdd[idx].id);
-            handleUpdateEvent(currentEvent);
+            props.handleAppendCharacter(selectableCharsAdd[idx]);
           }}
         />
         )}
@@ -58,15 +52,11 @@ const EventCharactersListEdit = (props: Props) => {
         <Dropdown
           label="remove character"
           index={0}
+          // list of characters already added to the event
           listElements={[''].concat( charactersOfEvent.map( char => char.name ) )}
           handleSelect={(idxPlusOne: number) => {
-            if( !currentEvent ) {
-              alert('empty view');
-              return;
-            }
             const idx = idxPlusOne - 1;
-            currentEvent.characterIds = currentEvent.characterIds.filter( id => id !== charactersOfEvent[idx].id);
-            handleUpdateEvent(currentEvent);
+            props.handleRemoveCharacter(selectableCharsAdd[idx]);
           }}
         />
         )}

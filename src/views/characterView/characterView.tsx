@@ -17,7 +17,7 @@ export default class CharacterView extends BaseView<Character> {
   render(): JSX.Element {
       const characters = this.props.objects;
       const events = this.props.events;
-      const isNew = this.state.isNew || characters.length === 0;
+      const isNew = this.isNew;
       const isEmptyView: boolean = isNew;
 
       const currentChar: Character = isEmptyView ? {} : characters[ this.selectionIdx ];

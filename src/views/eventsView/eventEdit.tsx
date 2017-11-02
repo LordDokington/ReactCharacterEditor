@@ -1,18 +1,22 @@
 import * as React from 'react';
 import * as IconUtils from "../../utils/iconUtils";
 import * as FileUtils from "../../utils/fileUtils";
-import { StoryEvent, Place } from "../../models";
+import { StoryEvent, Place, Character } from "../../models";
 import { Portrait, Dropdown } from "../../components";
+import EventCharactersListEdit from './eventCharactersListEdit';
 
 interface Props {
   name?: string;
   description?: string;
   thumbnail: string;
   places: Place[];
+  charactersOfEvent: Character[];
+  availableCharacters: Character[];
   isNew?: boolean;
   placeId: string;
   handleSubmitEvent: (event: StoryEvent) => void;
   handleAbort: () => void;
+  toObjectView: (o: any) => void;
 }
 
 
@@ -22,6 +26,7 @@ interface State {
   invalidated: boolean;
   thumbnail: string;
   placeId: string;
+  characters: Character[];
 }
 
 export default class EventEdit extends React.Component<Props, State> {
@@ -33,7 +38,8 @@ export default class EventEdit extends React.Component<Props, State> {
       description: props.description ? props.description.toString() : '',
       thumbnail: props.thumbnail,
       invalidated: false,
-      placeId: props.placeId
+      placeId: props.placeId,
+      characters: props.charactersOfEvent.slice()
     };
   }
 
@@ -44,7 +50,8 @@ export default class EventEdit extends React.Component<Props, State> {
       description: nextProps.description ? nextProps.description.toString() : '',
       thumbnail: nextProps.thumbnail,
       invalidated: false,
-      placeId: nextProps.placeId
+      placeId: nextProps.placeId,
+      characters: nextProps.charactersOfEvent.slice()
     } );
   }
 
@@ -59,6 +66,7 @@ export default class EventEdit extends React.Component<Props, State> {
                                      this.state.description, 
                                      placeId,
                                      this.state.thumbnail,
+                                     this.state.characters.map((c: Character) => c.id)
                                     );
                                     
     this.props.handleSubmitEvent( newEvent );
@@ -118,6 +126,21 @@ export default class EventEdit extends React.Component<Props, State> {
           value={this.state.description}
           onChange={ (e: React.ChangeEvent<HTMLTextAreaElement>) => this.updateDescription(e.target.value) }
         />
+        <EventCharactersListEdit
+          isNew={false /*TODO*/}
+          charactersOfEvent={this.state.characters}
+          selectableCharsAdd={this.props.availableCharacters}
+          handleAppendCharacter={(char: Character) => { 
+            const characters = this.state.characters.slice();
+            characters.push( char );
+            this.setState( { characters, invalidated: true } );
+           }}
+          handleRemoveCharacter={(char: Character) => { 
+            const characters = this.state.characters.filter( c => c.id !== char.id);
+            this.setState( { characters, invalidated: true } );
+           }}
+          toObjectView={this.props.toObjectView}
+         />
     
         
         {this.state.invalidated && (

@@ -15,14 +15,14 @@ import { GUID } from "../utils/guidUtils";
 */
 
 export default class StoryEvent {
-  constructor(name: string, description: string, placeId: string, thumbnail: string) {
+  constructor(name: string, description: string, placeId: string, thumbnail: string, characterIds: string[]) {
     this.id = GUID();
     this.name = name;
     this.description = description;
     this.thumbnail = thumbnail;
 
     this.placeId = placeId;
-    this.characterIds = [];
+    this.characterIds = characterIds;
 
     // TODO: remove
     this.kind = 'StoryEvent';
