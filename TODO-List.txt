@@ -38,6 +38,16 @@ relationships view:
 
 -shuld show what relationship characters share and where they met
 -this could be relatedness, friendship, relationships...
+-relationships of groups, relationshp graphs
+
+relationship between places:
+
+-paths between places: distance, mode of transportation, time it takes, places in-between
+
+objects view:
+
+-there are stories revolving about objects (think LOTR)
+-objects can be in someone's posession, or they can be at a place
 
 general:
 
@@ -47,6 +57,4 @@ general:
 -drag&drop for preview images into the views (the placeholders can be customized by user)
 -or add/select image-button: that allows to select/load an image file
 -custom smaller components for code reuse and better reading
-
--List of references per view (e.g. character associated with place or places a character visits)
 

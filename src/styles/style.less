@@ -15,7 +15,7 @@ body {
   background-color: #fff;
   .shadow;
 
-  div {
+  & > div {
     flex-grow: 1;
   }
 }
@@ -59,17 +59,14 @@ body {
 }
 
 .portrait-image {
-  height: 30em;
-  display: flex;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 1.5em;
-  overflow: hidden;
+  height: 23em;
+  margin: 0;
+  flex-grow: 0;
+  display: inline-block;
 
   img {
     height: 100%;
     width: auto;
-    margin: auto;
     overflow: hidden;
   }
 
@@ -242,4 +239,31 @@ input[type="file"].file-input {
   float: left;
   display: inline;
   margin-right: 0.4em;
+}
+
+.maindata-container {
+  display: flex;
+  align-content: stretch;
+  width: 100%;
+}
+
+.character-edit {
+  button, .button {
+    margin-top: 0.4em;
+  }
+}
+
+.other-content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.4em;
+  flex-grow: 1;
+
+  > .text-input:last-child  {
+    flex-grow: 1;
+    
+    .u-full-width, .form-textarea {
+      margin-bottom: 0; 
+    }
+  }
 }

@@ -2,16 +2,20 @@
 
 .dropdown {
   position: relative;
-  display: inline-block;
 
   .dropbutton {
     display: inline-block;
     cursor: pointer;
+    width: 100%;
+    border-color: @border-color;
   
+    margin-top: 0;
     margin-right: 0.4em;
     margin-bottom: 0.2em;
 
     padding-right: 0;
+    padding-left: 16px;
+    text-align: left;
 
     span {
       float: right;
@@ -62,5 +66,14 @@
 
   .dropbutton {
     //background-color: @highlighted-blue;//rgb(99, 220, 44);
+  }
+}
+
+.text-input {
+  display: flex;
+  flex-direction: column;  
+
+  .u-full-width, .form-textarea {
+    flex-grow: 1; 
   }
 }

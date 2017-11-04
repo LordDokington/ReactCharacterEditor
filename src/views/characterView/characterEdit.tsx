@@ -81,43 +81,48 @@ export default class CharacterEdit extends React.Component<Props, State> {
 
   render() {
     return (
-      <div>
-        <Portrait 
-          image={this.state.thumbnail}
-          placeholder="placeholder.png"
-          onDrop={this.onDrop} 
-        />
-        <div className="row">
-          <div className="six columns">
-            <TextInput 
-              id="character-name"
-              placeholder="name" 
-              label="name"
-              content={this.state.name}
-              onChange={ (newContent: string) => this.updateName(newContent) } 
-            />
-          </div>
-          <div className="two columns">
-            <label htmlFor="character-age">age</label>
-            <input
-              onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateAge( e.target.value ) } 
-              className="u-full-width" 
-              type="number" 
-              placeholder="age" 
-              id="character-age" 
-              min={0} 
-              value={this.state.age} 
-            />
-          </div>
-          <div className="four columns">
-            <Dropdown
-                label="gender"
-                index={genders.indexOf( this.state.gender )}
-                listElements={genders}
-                handleSelect={(idx: number) => this.updateGender(genders[idx])}
-            />
-          </div>
-          <div className="twelve columns">
+      <div className="character-edit">
+        <div className="maindata-container">
+          <Portrait 
+            image={this.state.thumbnail}
+            placeholder="placeholder.png"
+            onDrop={this.onDrop} 
+          />
+          <div className="other-content">
+            <div className="row">
+              <div className="twelve columns">
+                <TextInput 
+                  id="character-name"
+                  placeholder="name" 
+                  label="name"
+                  content={this.state.name}
+                  onChange={ (newContent: string) => this.updateName(newContent) } 
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="six columns">
+                <label htmlFor="character-age">age</label>
+                <input
+                  onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateAge( e.target.value ) } 
+                  className="u-full-width" 
+                  type="number" 
+                  placeholder="age" 
+                  id="character-age" 
+                  min={0} 
+                  value={this.state.age} 
+                />
+              </div>
+              <div className="six columns">
+                <Dropdown
+                    label="gender"
+                    index={genders.indexOf( this.state.gender )}
+                    listElements={genders}
+                    handleSelect={(idx: number) => this.updateGender(genders[idx])}
+                />
+              </div>
+            </div>
+
             <TextInput
               id="character-description"
               multiline={true}
@@ -126,6 +131,7 @@ export default class CharacterEdit extends React.Component<Props, State> {
               content={this.state.description}
               onChange={ (newContent: string) => this.updateDescription(newContent) }
             />
+
           </div>
         </div>
     
@@ -144,7 +150,7 @@ export default class CharacterEdit extends React.Component<Props, State> {
           >
             discard {IconUtils.buttonIcon("fa-times")}
           </button>) }
-      </div>
+        </div>
     );
   }
 }
