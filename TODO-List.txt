@@ -57,4 +57,4 @@ general:
 -drag&drop for preview images into the views (the placeholders can be customized by user)
 -or add/select image-button: that allows to select/load an image file
 -custom smaller components for code reuse and better reading
-
+-female and other genders placeholder image

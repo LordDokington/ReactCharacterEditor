@@ -37,22 +37,18 @@ export default class EditorMain extends React.Component<{}, EditorState> {
 
     const storedState = this.fromLocalStorage();
     
-    this.state = storedState || 
-      {
-        view: views.Characters,
-        characters: [],
-        places: [],
-        events: [],
+    this.state = storedState || {
+      view: views.Characters,
+      characters: [],
+      places: [],
+      events: [],
 
-        characterIdx: 0,
-        placeIdx: 0,
-        eventIdx: 0,
+      characterIdx: 0,
+      placeIdx: 0,
+      eventIdx: 0,
 
-        selectedEntity: undefined
-      };
-
-    // TODO: this kinda works but is no longer needed, keepling it in for reference - or better yet: remove if you see this :P
-    //document.addEventListener('change', (e) => { e.preventDefault(); alert('preventdefault'); })
+      selectedEntity: undefined
+    };
   }
 
   getView = (view: number): JSX.Element => {
@@ -231,22 +227,20 @@ export default class EditorMain extends React.Component<{}, EditorState> {
 
     let state = Object.assign({}, this.state);
 
-    // TODO: this just removes all thumbnail data (which is most of the file's content) for easier reading and debugging of export
-    function iterate(obj, stack) {
+    // TODO: remve later! this just removes all thumbnail data (which is most of the file's content) 
+    // for easier reading and debugging of export
+    function iterate(obj, stack) { // tslint:disable-line
       for (var property in obj) {
-          if (obj.hasOwnProperty(property)) {
-              if (typeof obj[property] == "object") {
-                  iterate(obj[property], stack + '.' + property);
-              } else {
-                console.log(property + "   " + obj[property]);
-                if( property === 'thumbnail') {
-                  obj[property] = '';
-                }
-              }
+        if (obj.hasOwnProperty(property)) {
+          if (typeof obj[property] === "object") iterate(obj[property], stack + '.' + property);
+          else {
+            console.log(property + "   " + obj[property]);
+            if( property === 'thumbnail') obj[property] = '';
           }
+        }
       }
     }
-    iterate(state, '')
+    //iterate(state, '');
 
     return JSON.stringify(state, null, 2);
   }
@@ -271,6 +265,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
       newIdx = this.state.events.findIndex( e => e.id === newEntity.id );
       this.setState( { view: newView, eventIdx: newIdx }, this.toLocalStorage );
       break;
+      default: break;
     }
   }
 

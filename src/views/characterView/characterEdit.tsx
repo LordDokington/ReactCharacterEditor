@@ -81,14 +81,14 @@ export default class CharacterEdit extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className="character-edit">
-        <div className="maindata-container">
+      <div className="edit-view character-edit">
+        <div className="edit-container">
           <Portrait 
             image={this.state.thumbnail}
             placeholder="placeholder.png"
             onDrop={this.onDrop} 
           />
-          <div className="other-content">
+          <div className="editform-content">
             <div className="row">
               <div className="twelve columns">
                 <TextInput 

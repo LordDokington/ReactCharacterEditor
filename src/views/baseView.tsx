@@ -37,29 +37,20 @@ export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, 
     const thisObjectsCount = this.props.objects.length;
     const nextObjectsCount = nextProps.objects.length;
 
-    // if new character list is longer than previous one, characters were added, so set index to last new one
+    // if new character list is longer than previous one, characters were added, 
+    // so set index to last new one
     if(nextObjectsCount > thisObjectsCount) {
-      //this.setState( {selectionIdx: nextObjectsCount - 1, isNew: false} );
-      this.setNewMode( false );
       this.updateIndex(nextObjectsCount - 1);
     }
-    // if new character list is shorter than the previous one, fix selectionIdx to avoid out of bounds error
+    // if new character list is shorter than the previous one, 
+    // fix selectionIdx to avoid out of bounds error
     else if(nextObjectsCount - 1 < this.props.selectionIdx) {
-      //this.setState( {selectionIdx: nextObjectsCount - 1, isNew: false} );
-      this.setNewMode( nextObjectsCount == 0 );
       this.updateIndex(nextObjectsCount - 1);
     }
-
-    // TODO: fixme - this does not yet work
-    //const nextObject = nextProps.currentObject;
-
-    //if(nextObject) alert('nextObject: ' + nextObject['name']);
-    //if(nextObject) this.setState( {selectionIdx: (this.props.objects as T[]).findIndex( o => o['id'] === nextObject['id'] )} );
   }
 
   updateIndex = (idx: number) => {
-    // the 2nd argument is a function that is executed after the state is updated
-    //this.setState( { selectionIdx: idx, isNew: false }, this.toLocalStorage );
+    if(idx === this.props.idx) return;
     this.setNewMode( false );
     this.props.updateSelectionIdx(idx);
   }

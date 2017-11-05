@@ -6,7 +6,7 @@ import { SelectionGroup } from '../selectionGroup';
 
 export interface Props extends ViewProps<Character> {
   placesOfCharacter(char: Character): Place[];
-  //eventsOfCharacter(char: Character): Event[];
+  eventsOfCharacter(char: Character): Event[];
 }
 
 export default class CharacterView extends BaseView<Character> {
@@ -16,7 +16,6 @@ export default class CharacterView extends BaseView<Character> {
 
   render(): JSX.Element {
       const characters = this.props.objects;
-      const events = this.props.events;
       const isNew = this.isNew;
       const isEmptyView: boolean = isNew;
 

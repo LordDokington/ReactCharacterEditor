@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as IconUtils from "../../utils/iconUtils";
 import * as FileUtils from "../../utils/fileUtils";
 import { StoryEvent, Place, Character } from "../../models";
-import { Portrait, Dropdown } from "../../components";
+import { Portrait, Dropdown, TextInput } from "../../components";
 import EventCharactersListEdit from './eventCharactersListEdit';
 
 interface Props {
@@ -87,45 +87,49 @@ export default class EventEdit extends React.Component<Props, State> {
     const placeId = this.state.placeId;
 
     return (
-      <div>
-        <Portrait 
-          image={this.state.thumbnail}
-          placeholder="event.jpg"
-          onDrop={this.onDrop} 
-        />
-        <div className="row">
-          <div className="six columns">
-            <label htmlFor="place-name">name</label>
-            <input 
-              onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateName(e.target.value) }
-              className="u-full-width" 
-              type="text" 
-              placeholder="name" 
-              id="place-description" 
-              value={this.state.name} 
-            />
-          </div>
-          <div className="six columns">
-            <Dropdown
-              label="select place"
-              index={places.findIndex( (p: Place) => p.id === placeId )}
-              listElements={this.props.places.map( place => place.name )}
-              handleSelect={(idx) => {
-                this.setState( {placeId: places[idx].id, invalidated: true} );
-              }}
+      <div className="edit-view">
+        <div className="edit-container">
+          <Portrait 
+            image={this.state.thumbnail}
+            placeholder="event.jpg"
+            onDrop={this.onDrop} 
+          />
+          <div className="editform-content">
+
+            <div className="row">
+              <div className="six columns">
+                <label htmlFor="place-name">name</label>
+                <input 
+                  onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateName(e.target.value) }
+                  className="u-full-width" 
+                  type="text" 
+                  placeholder="name" 
+                  id="place-description" 
+                  value={this.state.name} 
+                />
+              </div>
+              <div className="six columns">
+                <Dropdown
+                  label="select place"
+                  index={places.findIndex( (p: Place) => p.id === placeId )}
+                  listElements={this.props.places.map( place => place.name )}
+                  handleSelect={(idx) => {
+                    this.setState( {placeId: places[idx].id, invalidated: true} );
+                  }}
+                />
+              </div>
+            </div>
+
+            <TextInput
+              id="place-description"
+              multiline={true}
+              placeholder="..." 
+              label="description" 
+              content={this.state.description}
+              onChange={ (newContent: string) => this.updateDescription(newContent) }
             />
           </div>
         </div>
-        <label htmlFor="place-description">description</label>
-        <textarea 
-          type="text" 
-          placeholder="..." 
-          id="place-description" 
-          className="form-textarea" 
-          rows={10} 
-          value={this.state.description}
-          onChange={ (e: React.ChangeEvent<HTMLTextAreaElement>) => this.updateDescription(e.target.value) }
-        />
         <EventCharactersListEdit
           isNew={false /*TODO*/}
           charactersOfEvent={this.state.characters}
@@ -140,7 +144,7 @@ export default class EventEdit extends React.Component<Props, State> {
             this.setState( { characters, invalidated: true } );
            }}
           toObjectView={this.props.toObjectView}
-         />
+        />
     
         
         {this.state.invalidated && (

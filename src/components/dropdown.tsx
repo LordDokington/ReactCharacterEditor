@@ -20,9 +20,7 @@ const Dropdown = (props: Props): JSX.Element => {
     props.handleSelect(idx);
 
   return (
-    <div className="dropdown"
-      id={id}
-    >
+    <div className="dropdown" id={id}>
       {hasLabel && <label htmlFor={id}>{props.label}</label>}
       <button className="dropbutton">
         {listElements[index]}

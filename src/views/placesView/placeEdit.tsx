@@ -61,47 +61,53 @@ export default class PlaceEdit extends React.Component<Props, State> {
 
   render() {
     return (
-      <div>
-        <Portrait 
-          image={this.state.thumbnail}
-          placeholder="landscape-sketch.jpg"
-          onDrop={this.onDrop} 
-        />
-        <div className="row">
-          <div className="six columns">
-            <label htmlFor="place-name">name</label>
-            <input 
-              onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateName(e.target.value) }
-              className="u-full-width" 
-              type="text" 
-              placeholder="name" 
-              id="place-description" 
-              value={this.state.name} 
+      <div className="edit-view">
+        <div className="edit-container">
+          <Portrait 
+            image={this.state.thumbnail}
+            placeholder="landscape-sketch.jpg"
+            onDrop={this.onDrop} 
+          />
+          <div className="editform-content">
+            <div className="row">
+              <div className="six columns">
+                <label htmlFor="place-name">name</label>
+                <input 
+                  onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateName(e.target.value) }
+                  className="u-full-width" 
+                  type="text" 
+                  placeholder="name" 
+                  id="place-description" 
+                  value={this.state.name} 
+                />
+              </div>
+              <div className="six columns"/>
+            </div>
+            <TextInput
+              id="place-description"
+              multiline={true}
+              placeholder="..." 
+              label="description" 
+              content={this.state.description}
+              onChange={ (newContent: string) => this.updateDescription(newContent) }
             />
           </div>
-          <div className="six columns"/>
-        </div>
-        <TextInput
-          id="place-description"
-          multiline={true}
-          placeholder="..." 
-          label="description" 
-          content={this.state.description}
-          onChange={ (newContent: string) => this.updateDescription(newContent) }
-        />
-        { this.state.invalidated &&
-          <button onClick={this.submitPlace} className="button-primary" >
-            {this.props.isNew ? "add" : "update"}
-            {IconUtils.buttonIcon("fa-check")}
-          </button> 
-        }
-        { (this.props.isNew || this.state.invalidated) && 
-          <button  onClick={this.props.handleAbort} className="button-primary" >
-            discard
-            {IconUtils.buttonIcon("fa-times")}
-          </button> 
-        }
       </div>
+
+      { this.state.invalidated &&
+        <button onClick={this.submitPlace} className="button-primary" >
+          {this.props.isNew ? "add" : "update"}
+          {IconUtils.buttonIcon("fa-check")}
+        </button> 
+      }
+      { (this.props.isNew || this.state.invalidated) && 
+        <button  onClick={this.props.handleAbort} className="button-primary" >
+          discard
+          {IconUtils.buttonIcon("fa-times")}
+        </button> 
+      }
+
+    </div>
     );
   }
 }

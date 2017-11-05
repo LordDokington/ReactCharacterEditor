@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Character, StoryEvent } from '../../models';
+import { Character } from '../../models';
 import { Dropdown } from '../../components';
 
 interface Props {
