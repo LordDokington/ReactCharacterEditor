@@ -68,11 +68,25 @@
   }
 }
 
-.text-input {
+.input-component {
   display: flex;
   flex-direction: column;  
 
   .u-full-width, .form-textarea {
     flex-grow: 1; 
+  }
+}
+
+.thumbnail {
+  padding: 0.5em;
+  border: 1px solid @border-color;
+  width: 100px;
+  height: 150px;
+  display: inline-block;
+
+  img {
+    width: 90px;
+    height: 90px;
+    display: inline-block;
   }
 }

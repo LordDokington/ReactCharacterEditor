@@ -71,14 +71,12 @@ export default class PlaceEdit extends React.Component<Props, State> {
           <div className="editform-content">
             <div className="row">
               <div className="six columns">
-                <label htmlFor="place-name">name</label>
-                <input 
-                  onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateName(e.target.value) }
-                  className="u-full-width" 
-                  type="text" 
+                <TextInput
+                  id="place-name"
                   placeholder="name" 
-                  id="place-description" 
-                  value={this.state.name} 
+                  label="name" 
+                  content={this.state.name}
+                  onChange={ (newContent: string) => this.updateName(newContent) }
                 />
               </div>
               <div className="six columns"/>

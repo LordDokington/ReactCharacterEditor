@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Character } from '../../models';
-import { Dropdown } from '../../components';
+import { Dropdown, Thumbnail } from '../../components';
 
 interface Props {
     isNew: boolean;
@@ -20,6 +20,7 @@ const EventCharactersListEdit = (props: Props) => {
     <div className="container-box">
       <label htmlFor="character-list">present characters</label>
       <div id="character-list">
+        {/*
         <ul>
           { 
             isNew ? null :
@@ -32,6 +33,18 @@ const EventCharactersListEdit = (props: Props) => {
             ))
           }
         </ul>
+        */}
+        { 
+          isNew ? null :
+          charactersOfEvent.map( (char: Character, idx: number) => (
+            <Thumbnail
+              key={idx}
+              image={char.thumbnail}
+              label={char.name}
+            />
+          ))
+        }
+
       </div>
       <div className="six columns">
         {selectableCharsAdd.length > 0 && (

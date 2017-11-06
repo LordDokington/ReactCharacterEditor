@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as IconUtils from "../../utils/iconUtils";
 import * as FileUtils from "../../utils/fileUtils";
 import { Character, Gender } from "../../models";
-import { Portrait, TextInput, Dropdown } from "../../components";
+import { Portrait, TextInput, NumberInput, Dropdown } from "../../components";
 
 interface Props {
   name?: string;
@@ -102,15 +102,13 @@ export default class CharacterEdit extends React.Component<Props, State> {
             </div>
             <div className="row">
               <div className="six columns">
-                <label htmlFor="character-age">age</label>
-                <input
-                  onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateAge( e.target.value ) } 
-                  className="u-full-width" 
-                  type="number" 
-                  placeholder="age" 
-                  id="character-age" 
-                  min={0} 
-                  value={this.state.age} 
+                <NumberInput
+                  id="character-age"
+                  placeholder="age"
+                  label="age"
+                  min={0}
+                  content={this.state.age}
+                  onChange={ (newContent: string) => this.updateAge(newContent) }
                 />
               </div>
               <div className="six columns">

@@ -98,14 +98,12 @@ export default class EventEdit extends React.Component<Props, State> {
 
             <div className="row">
               <div className="six columns">
-                <label htmlFor="place-name">name</label>
-                <input 
-                  onChange={ (e: React.ChangeEvent<HTMLInputElement>) => this.updateName(e.target.value) }
-                  className="u-full-width" 
-                  type="text" 
-                  placeholder="name" 
-                  id="place-description" 
-                  value={this.state.name} 
+                <TextInput
+                  id="event-name"
+                  placeholder="name"
+                  label="name"
+                  content={this.state.name}
+                  onChange={ (newContent: string) => this.updateName(newContent) }
                 />
               </div>
               <div className="six columns">
@@ -121,7 +119,7 @@ export default class EventEdit extends React.Component<Props, State> {
             </div>
 
             <TextInput
-              id="place-description"
+              id="event-description"
               multiline={true}
               placeholder="..." 
               label="description" 

@@ -246,6 +246,7 @@ input[type="file"].file-input {
 .edit-view {
   button, .button {
     margin-top: 0.4em;
+    transition: height 0.4s;
   }
 }
 
@@ -255,11 +256,11 @@ input[type="file"].file-input {
   margin-left: 0.4em;
   flex-grow: 1;
 
-  > .text-input:last-child  {
+  > .input-component:last-child  {
     flex-grow: 1;
     
     .u-full-width, .form-textarea {
-      margin-bottom: 0; 
+      margin-bottom: 0;
     }
   }
 }
