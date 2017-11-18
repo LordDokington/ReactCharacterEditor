@@ -7,6 +7,7 @@ export interface Props {
   label?: string;
   index: number;
   listElements: string[];
+  icons?: (JSX.Element | undefined)[];
   handleSelect: (idx: number) => void;
 }
 
@@ -15,6 +16,7 @@ const Dropdown = (props: Props): JSX.Element => {
   const id = props.id || GUID();
   const index = props.index;
   const listElements = props.listElements;
+  const icons = props.icons;
 
   const clickHandler = (idx: number) => (e: React.MouseEvent<HTMLAnchorElement>) => 
     props.handleSelect(idx);
@@ -23,8 +25,11 @@ const Dropdown = (props: Props): JSX.Element => {
     <div className="dropdown" id={id}>
       {hasLabel && <label htmlFor={id}>{props.label}</label>}
       <button className="dropbutton">
+        <div>
         {listElements[index]}
-        <span>{IconUtils.buttonIcon("fa-lg fa-caret-down")}</span>
+        {icons && icons[index] && <span className="icon">{icons[index]}</span>}
+        </div>
+        <span className="arrow-down">{IconUtils.buttonIcon("fa-lg fa-caret-down")}</span>
       </button>
       <div className="content">
         { listElements.map( (element: string, i: number) => 
@@ -35,6 +40,7 @@ const Dropdown = (props: Props): JSX.Element => {
             onClick={ clickHandler(i) } 
           >
             {element}
+            {icons && icons[i] && <span style={{ float: 'right' }}>{icons[i]}</span>}
           </a> 
           ) 
         }

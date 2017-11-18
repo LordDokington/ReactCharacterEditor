@@ -7,11 +7,12 @@ interface Props {
 
 const Thumbnail = (props: Props) => (
   <div className="thumbnail">
-  <img 
-    src={props.image}
-    alt={"source: " + props.image} 
-  />
-  <div>{props.label}</div>
+    <div className="image-frame">
+      <img 
+        src={props.image}
+      />
+    </div>
+    <div>{props.label}</div>
   </div>
 );
 

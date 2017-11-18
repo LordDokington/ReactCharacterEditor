@@ -26,6 +26,13 @@ interface State {
 
 const genders: Gender[] = ['male', 'female', 'transgender', 'agender', 'other'];
 
+const genderIcons = [
+  IconUtils.buttonIcon("fa-lg fa-mars"), 
+  IconUtils.buttonIcon("fa-lg fa-venus"), 
+  IconUtils.buttonIcon("fa-lg fa-transgender"), 
+  IconUtils.buttonIcon("fa-lg fa-agender")
+];
+
 export default class CharacterEdit extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -116,6 +123,7 @@ export default class CharacterEdit extends React.Component<Props, State> {
                     label="gender"
                     index={genders.indexOf( this.state.gender )}
                     listElements={genders}
+                    icons={genderIcons}
                     handleSelect={(idx: number) => this.updateGender(genders[idx])}
                 />
               </div>

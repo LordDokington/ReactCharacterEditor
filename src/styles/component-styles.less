@@ -1,73 +1,5 @@
 @import "general.less";
 
-.dropdown {
-  position: relative;
-
-  .dropbutton {
-    display: inline-block;
-    cursor: pointer;
-    width: 100%;
-    border-color: @border-color;
-  
-    margin-top: 0;
-    margin-bottom: 0.2em;
-
-    padding-right: 0;
-    padding-left: 16px;
-    text-align: left;
-
-    span {
-      float: right;
-      border-left: 1px solid @border-color;
-      margin-left: 16px;
-      margin-right: 1.2em;
-    }
-  }
-
-  .content {
-    display: none;
-    position: absolute;
-    background-color: #f2f2f2;
-    min-width: 160px;
-    border-radius: 4px;
-    .shadow;
-    z-index: 1;
-  
-    .entry {
-      color: black;
-      padding: 0.5em 16px;
-      text-decoration: none;
-      display: block;
-      white-space: nowrap;
-      cursor: pointer;
-
-      &.selected {
-        background-color: @selection-blue;
-
-        &:hover {
-          background-color: @highlighted-blue;
-        }
-      }
-  
-      &:hover {
-        background-color: #cccccc;
-      }
-
-      &:hover:last-child {
-        border-radius: 0 0 4px 4px;
-      }
-    }
-  }
-}
-
-.dropdown:hover {
-  .content { display: block; }
-
-  .dropbutton {
-    //background-color: @highlighted-blue;//rgb(99, 220, 44);
-  }
-}
-
 .input-component {
   display: flex;
   flex-direction: column;  
@@ -83,10 +15,53 @@
   width: 100px;
   height: 150px;
   display: inline-block;
+  overflow: hidden;
+  font-size: 14px;
 
-  img {
-    width: 90px;
-    height: 90px;
-    display: inline-block;
+  .image-frame {
+    display: block;
+    height: 100px;
+    overflow: hidden;
+    position: relative;
+    background-color: #ddd;
+
+    img {
+      width: 110%;
+      display: inline-block;
+      position: absolute;
+      margin-left: 50%;
+      margin-top: -8%;
+      transform: translate(-50%);
+    }
+  }
+}
+
+.character-list {
+  display: flex;
+}
+
+.form-textarea {
+  display: block;
+  width: 100%;
+  height: 5em;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.checkbox input[type="submit"] {
+  display: inline;
+  margin-right: 1em;
+}
+
+.edit-container {
+  display: flex;
+  align-content: stretch;
+  width: 100%;
+}
+
+.edit-view {
+  button, .button {
+    margin-top: 0.4em;
+    transition: height 0.4s;
   }
 }

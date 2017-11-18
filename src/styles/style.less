@@ -4,6 +4,10 @@ body {
   background-color: #ccc;
 }
 
+.icon-margin {
+  margin-left: 1.0em;
+}
+
 #main {
   display: flex;
   align-items: stretch;
@@ -19,9 +23,7 @@ body {
   & > div {
     flex-grow: 1;
   }
-}
 
-#main {
   .color-bar { 
     width: 10px; 
     flex-basis: 10px;
@@ -46,65 +48,6 @@ body {
       background-color: #ff8833; 
     }
   }
-}
-
-.container-box {
-  border: 1px solid @border-color;
-  padding: 0.4em;
-  margin: 0.5em;
-  width: 100%;
-  display: inline-block;
-  box-sizing: border-box;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.portrait-image {
-  height: 23em;
-  margin: 0;
-  flex-grow: 0;
-  display: inline-block;
-
-  img {
-    height: 100%;
-    width: auto;
-    overflow: hidden;
-  }
-
-  &.dragged:before {
-    content: "";
-    background: @selection-blue;
-  }
-}
-
-.new-edit {
-  background-color: fade(@selection-blue, 20%);
-  transition: color 0.4s;
-}
-
-.selection-group {
-  .selection-main {
-    display: block;
-    min-width: 500px;
-  }
-
-  h2 {
-    display: inline-block;
-    margin: 0;
-    margin-bottom: 0.4em;
-  }
-
-  button, .button {
-    margin-bottom: 0;
-  }
-
-  .dropdown {
-    float: right;
-  }
-}
-
-.icon-margin {
-  margin-left: 1.0em;
 }
 
 #nav-bar {
@@ -216,53 +159,6 @@ input[type="file"].file-input {
   overflow: hidden;
   position: absolute;
   z-index: -1;
-}
-
-.form-textarea {
-  display: block;
-  width: 100%;
-  height: 5em;
-  box-sizing: border-box;
-  resize: vertical;
-}
-
-.checkbox input[type="submit"] {
-  display: inline;
-  margin-right: 1em;
-}
-
-.test-stl {
-  float: left;
-  display: inline;
-  margin-right: 0.4em;
-}
-
-.edit-container {
-  display: flex;
-  align-content: stretch;
-  width: 100%;
-}
-
-.edit-view {
-  button, .button {
-    margin-top: 0.4em;
-    transition: height 0.4s;
-  }
-}
-
-.editform-content {
-  display: flex;
-  flex-direction: column;
-  margin-left: 0.4em;
-  flex-grow: 1;
-
-  > .input-component:last-child  {
-    flex-grow: 1;
-    
-    .u-full-width, .form-textarea {
-      margin-bottom: 0;
-    }
-  }
 }
 
 h2 {

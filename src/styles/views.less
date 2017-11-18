@@ -1,0 +1,65 @@
+@import "general.less";
+
+.container-box {
+border: 1px solid @border-color;
+padding: 0.4em;
+margin: 0.5em;
+width: 100%;
+display: inline-block;
+box-sizing: border-box;
+margin-left: auto;
+margin-right: auto;
+}
+
+.portrait-image {
+height: 23em;
+margin: 0;
+flex-grow: 0;
+display: inline-block;
+
+img {
+    height: 100%;
+    width: auto;
+    overflow: hidden;
+}
+
+&.dragged {
+    filter: invert(100%);
+}
+}
+
+.selection-group {
+    .selection-main {
+      display: block;
+      min-width: 500px;
+    }
+  
+    h2 {
+      display: inline-block;
+      margin: 0;
+      margin-bottom: 0.4em;
+    }
+  
+    button, .button {
+      margin-bottom: 0;
+    }
+  
+    .dropdown {
+      float: right;
+    }
+  }
+
+  .editform-content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.4em;
+    flex-grow: 1;
+  
+    > .input-component:last-child  {
+      flex-grow: 1;
+      
+      .u-full-width, .form-textarea {
+        margin-bottom: 0;
+      }
+    }
+  }
