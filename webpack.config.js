@@ -23,18 +23,13 @@ module.exports = (env) => {
 		plugins: () => [autoprefixer]
 	};
 
-
 	return {
 		name: 'Client',
 		target: 'web',
 		context: path.resolve(__dirname, 'src'),
 		entry: {
-			app: [
-				'./app.tsx'
-			],
-			style: [
-				'./styles/main.less'
-			]
+			app: ['./app.tsx'],
+			//style: './styles/main.less'
 		},
 		devtool: env === 'release' ? 'false' : 'source-map',
 		resolve: {
@@ -57,28 +52,28 @@ module.exports = (env) => {
 				]
 			}, {
 				test: /\.css$/,
-				loader: ExtractTextPlugin.extract({
-					fallback: 'style-loader',
-					use: [{
-						loader: 'css-loader'
-					}, {
-						loader: 'postcss-loader',
-						options: postcssLoaderOptions
-					}]
-				})
+				use: [{
+					loader: 'style-loader'
+				}, {
+					loader: 'css-loader',
+					//options: cssLoaderOptions
+				}, {
+					loader: 'postcss-loader',
+					options: postcssLoaderOptions
+				}]
 			}, {
 				test: /\.less$/,
-				loader: ExtractTextPlugin.extract({
-					fallback: 'style-loader',
-					use: [{
-						loader: 'css-loader'
-					}, {
-						loader: 'postcss-loader',
-						options: postcssLoaderOptions
-					}, {
-						loader: 'less-loader'
-					}]
-				})
+				use: [{
+					loader: 'style-loader'
+				}, {
+					loader: 'css-loader',
+					//options: cssLoaderOptions
+				}, {
+					loader: 'postcss-loader',
+					options: postcssLoaderOptions
+				}, {
+					loader: 'less-loader',
+				}]
 			}, {
 				test: /\.(png|gif|jpg|svg)$/,
 				use: [{
@@ -108,3 +103,33 @@ module.exports = (env) => {
 		]
 	}
 }
+
+	/*
+	// use those rules for release
+
+	{
+		test: /\.css$/,
+		loader: ExtractTextPlugin.extract({
+			fallback: 'style-loader',
+			use: [{
+				loader: 'css-loader'
+			}, {
+				loader: 'postcss-loader',
+				options: postcssLoaderOptions
+			}]
+		})
+	}, {
+		test: /\.less$/,
+		loader: ExtractTextPlugin.extract({
+			fallback: 'style-loader',
+			use: [{
+				loader: 'css-loader'
+			}, {
+				loader: 'postcss-loader',
+				options: postcssLoaderOptions
+			}, {
+				loader: 'less-loader'
+			}]
+		})
+	}
+*/

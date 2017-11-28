@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-export const buttonIcon = (faName: string) => (
+export const buttonIcon = (faName: string, additionalClasses: string = '') => (
   <i 
-    className={"icon-margin fa " + faName} 
+    className={additionalClasses + " icon-margin fa " + faName} 
     aria-hidden="true"
   />
 );

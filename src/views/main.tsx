@@ -8,6 +8,8 @@ import PlacesView from './placesView/placesView';
 import * as FileUtils from '../utils/fileUtils';
 import * as IconUtils from '../utils/iconUtils';
 
+import '../styles/main.less';
+
 const views = {
   Characters: 0,
   Places: 1,
