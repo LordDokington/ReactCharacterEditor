@@ -11,11 +11,11 @@ interface Props {
   onChange: (newContent: string) => void;
 }
 
-const NumberInput = (props: Props) => {
+const NumberInput: React.SFC<Props> = (props: Props) => {
 
   const hasLabel = props.label !== undefined;
   const placeholder = props.placeholder || props.label;
-  const id = props.id || GUID();
+  const id = props.id;
   const handler = (e: React.ChangeEvent<HTMLInputElement>) => props.onChange( e.target.value );
 
   return (
@@ -33,4 +33,10 @@ const NumberInput = (props: Props) => {
       />
     </div>);
 };
+
+NumberInput.defaultProps = {
+  id: GUID()
+};
+
+
 export default NumberInput;

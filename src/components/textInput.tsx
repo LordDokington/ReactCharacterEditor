@@ -10,12 +10,11 @@ interface Props {
   onChange: (newContent: string) => void;
 }
 
-const TextInput = (props: Props) => {
-
-  const multiline: boolean = props.multiline as boolean;
+const TextInput: React.SFC<Props> = (props: Props) => {
+  const multiline = props.multiline as boolean;
   const hasLabel = props.label !== undefined;
   const placeholder = props.placeholder || props.label;
-  const id = props.id || GUID();
+  const id = props.id;
   const handler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => props.onChange(e.target.value);
 
   return (
@@ -42,4 +41,10 @@ const TextInput = (props: Props) => {
       }
     </div>);
 };
+
+TextInput.defaultProps = {
+  id: GUID(),
+  multiline: false
+};
+
 export default TextInput;

@@ -2,16 +2,11 @@ import { Character, Place, StoryEvent } from ".";
 
 const removeDuplicates = (list) => list.filter( (elem, pos, arr) => arr.indexOf(elem) === pos );
 
-
 class Storage {
   constructor(characters: Character[], places: Place[], events: StoryEvent[]) {
     this.characters = characters;
     this.places = places;
     this.events = events;
-
-    //console.log('storage chars: ' + this.characters);
-    //console.log('storage places: ' + this.places);
-    //console.log('storage events: ' + this.events);
   }
 
   Character = (id: string): Character | undefined => {
@@ -31,7 +26,7 @@ class Storage {
       this.EventsOfPlace(place)
       .map( this.CharactersOfEvent )
       // flatten array
-      .reduce( (list1, list2) => Array.prototype.concat(list1 || [], list2 || []), [] );
+      .reduce( (list1, list2) => Array.prototype.concat(list1, list2), [] );
 
     return removeDuplicates( charactersForEvents );
   }

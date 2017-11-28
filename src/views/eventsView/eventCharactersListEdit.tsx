@@ -41,6 +41,7 @@ const EventCharactersListEdit = (props: Props) => {
               key={idx}
               image={char.thumbnail}
               label={char.name}
+              onActivate={() => props.toObjectView(char)}
             />
           ))
         }

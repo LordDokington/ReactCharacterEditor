@@ -11,9 +11,9 @@ export interface Props {
   handleSelect: (idx: number) => void;
 }
 
-const Dropdown = (props: Props): JSX.Element => {
+const Dropdown: React.SFC<Props> = (props: Props): JSX.Element => {
   const hasLabel = props.label !== undefined;
-  const id = props.id || GUID();
+  const id = props.id;
   const index = props.index;
   const listElements = props.listElements;
   const icons = props.icons;
@@ -47,6 +47,10 @@ const Dropdown = (props: Props): JSX.Element => {
       </div>
     </div>
   );
+};
+
+Dropdown.defaultProps = {
+  id: GUID(),
 };
 
 export default Dropdown;
