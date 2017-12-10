@@ -27,10 +27,10 @@ interface State {
 const genders: Gender[] = ['male', 'female', 'transgender', 'agender', 'other'];
 
 const genderIcons = [
-  IconUtils.buttonIcon("fa-lg fa-mars"), 
-  IconUtils.buttonIcon("fa-lg fa-venus"), 
-  IconUtils.buttonIcon("fa-lg fa-transgender"), 
-  IconUtils.buttonIcon("fa-lg fa-agender")
+  IconUtils.buttonIcon("fa-lg fa-mars", "gender-icon"), 
+  IconUtils.buttonIcon("fa-lg fa-venus", "gender-icon"), 
+  IconUtils.buttonIcon("fa-lg fa-transgender", "gender-icon"), 
+  IconUtils.buttonIcon("fa-lg fa-agender", "gender-icon")
 ];
 
 export default class CharacterEdit extends React.Component<Props, State> {

@@ -17,6 +17,27 @@
   display: inline-block;
   overflow: hidden;
   font-size: 14px;
+  position: relative;
+  transition: all 1s ease;
+
+  .thumbnail-delete {
+    display: none;
+  }
+
+  &:hover {
+    .thumbnail-delete {
+      display: inline;
+      position: absolute;
+      right: 9px;
+      top: 9px;
+      color: @selection-blue;
+      cursor: pointer;
+  
+      &:hover {
+        color: red;
+      }
+    }
+  } 
 
   .image-frame {
     display: block;
@@ -33,6 +54,18 @@
       margin-left: 50%;
       margin-top: -8%;
       transform: translate(-50%);
+    }
+
+    &.add {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    
+      i {
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
     }
   }
 }

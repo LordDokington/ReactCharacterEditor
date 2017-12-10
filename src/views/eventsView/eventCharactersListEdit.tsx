@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Character } from '../../models';
-import { Dropdown, Thumbnail } from '../../components';
+import { Dropdown, Thumbnail, ThumbnailAdd } from '../../components';
 
 interface Props {
     isNew: boolean;
@@ -42,9 +42,12 @@ const EventCharactersListEdit = (props: Props) => {
               image={char.thumbnail}
               label={char.name}
               onActivate={() => props.toObjectView(char)}
+              onDiscard={() => props.handleRemoveCharacter(charactersOfEvent[idx])}
             />
           ))
         }
+
+        <ThumbnailAdd label="Add Char"/>
 
       </div>
       <div className="six columns">

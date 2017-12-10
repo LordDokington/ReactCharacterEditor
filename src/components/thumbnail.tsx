@@ -1,12 +1,14 @@
 import * as React from 'react';
+import { buttonIcon } from './../utils/iconUtils';
 
 interface Props {
   image?: string;
   label: string;
-  onActivate: () => void;
+  onActivate?: () => void;
+  onDiscard?: () => void;
 }
 
-const Thumbnail: React.SFC<Props> = (props: Props) => (
+export const Thumbnail: React.SFC<Props> = (props: Props) => (
   <div className="thumbnail" >
     <a href="#" className="thumbnail-label" onClick={props.onActivate}>
       <div className="image-frame">
@@ -16,11 +18,28 @@ const Thumbnail: React.SFC<Props> = (props: Props) => (
       </div>
     </a>
     <a href="#" className="thumbnail-label" onClick={props.onActivate}>{props.label}</a>
+    <div className="thumbnail-delete" onClick={props.onDiscard}>{buttonIcon("fa-2x fa-times-circle")}</div>
+  </div>
+);
+
+export const ThumbnailAdd: React.SFC<Props> = (props: { onActivate?: () => void, label?: string }) => (
+  <div className="thumbnail" >
+    <div className="thumbnail-label" onClick={props.onActivate}>
+      <div className="image-frame add">
+        {buttonIcon("fa-3x fa-plus-circle")}
+      </div>
+    </div>
+    <a href="#" className="thumbnail-label" onClick={props.onActivate}>{props.label}</a>
   </div>
 );
 
 Thumbnail.defaultProps = {
-  image: "<no image>"
+  image: "<no image>",
+  onActivate: () => {},
+  onDiscard: () => {}
 };
 
-export default Thumbnail;
+ThumbnailAdd.defaultProps = {
+  label: "Add",
+  onActivate: () => {}
+};
