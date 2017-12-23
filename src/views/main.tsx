@@ -38,7 +38,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     //localStorage.clear();
 
     const storedState = this.fromLocalStorage();
-    
+
     this.state = storedState || {
       view: views.Characters,
       characters: [],
@@ -61,11 +61,11 @@ export default class EditorMain extends React.Component<{}, EditorState> {
 
     const storage: Storage = new Storage(this.state.characters, this.state.places, this.state.events);
 
-    switch(view) {
-      case views.Characters: 
-        return  (
-          <CharacterView 
-            objects={this.state.characters.slice()} 
+    switch (view) {
+      case views.Characters:
+        return (
+          <CharacterView
+            objects={this.state.characters.slice()}
             append={this.appendCharacter}
             update={this.updateCharacter}
             delete={this.deleteCharacter}
@@ -75,14 +75,14 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             selectionIdx={this.state.characterIdx}
             updateSelectionIdx={idx => this.setState({ characterIdx: idx }, this.toLocalStorage)}
 
-            placesOfCharacter={storage.PlacesOfCharacter}    
+            placesOfCharacter={storage.PlacesOfCharacter}
             eventsOfCharacter={storage.EventsOfCharacter}
             events={this.state.events}
           />);
-      case views.Places: 
+      case views.Places:
         return (
-          <PlacesView 
-            characters={this.state.characters.slice()} 
+          <PlacesView
+            characters={this.state.characters.slice()}
             objects={this.state.places.slice()}
             append={this.appendPlace}
             update={this.updatePlace}
@@ -96,7 +96,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             charactersOfPlace={storage.CharactersOfPlace}
             eventsOfPlace={storage.EventsOfPlace}
           />);
-      case views.Events: 
+      case views.Events:
         return (
           <EventsView
             objects={this.state.events.slice()}
@@ -113,31 +113,31 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             places={this.state.places}
             charactersOfEvent={storage.CharactersOfEvent}
           />);
-      case views.Timeline: return <TimelineView /> ;
-  
+      case views.Timeline: return <TimelineView />;
+
       default: return <h3>CURRENT VIEW STATE UNDEFINED</h3>;
     }
   }
 
   toLocalStorage = () => {
-    localStorage.setItem( "state", JSON.stringify( this.state ) );
+    localStorage.setItem("state", JSON.stringify(this.state));
   }
 
   fromLocalStorage = (): EditorState => {
-    const levelsJson = localStorage.getItem( "state" );
+    const levelsJson = localStorage.getItem("state");
     // alert( "loading state:\n" + levelsJson )
-    return levelsJson ? JSON.parse( levelsJson ) : undefined;
+    return levelsJson ? JSON.parse(levelsJson) : undefined;
   }
 
   updateView = (view: number) => {
-    this.setState( { view: view }, this.toLocalStorage );
+    this.setState({ view: view }, this.toLocalStorage);
   }
 
   appendCharacter = (char: Character): void => {
     let characters = this.state.characters.slice();
-    characters.push( char );
+    characters.push(char);
 
-    this.setState( {  characters: characters }, this.toLocalStorage );
+    this.setState({ characters: characters }, this.toLocalStorage);
   }
 
   updateCharacter = (index: number) => (char: Character): void => {
@@ -147,21 +147,21 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     char.id = oldId;
     characters[index] = char;
 
-    this.setState( { characters: characters }, this.toLocalStorage );
+    this.setState({ characters: characters }, this.toLocalStorage);
   }
 
   deleteCharacter = (index: number) => {
     let newCharacters = this.state.characters.slice();
     newCharacters.splice(index, 1);
 
-    this.setState( { characters: newCharacters }, this.toLocalStorage );
+    this.setState({ characters: newCharacters }, this.toLocalStorage);
   }
 
   appendPlace = (place: Place): void => {
     let places = this.state.places.slice();
-    places.push( place );
+    places.push(place);
 
-    this.setState( {  places: places }, this.toLocalStorage );
+    this.setState({ places: places }, this.toLocalStorage);
   }
 
   updatePlace = (index: number) => (place: Place): void => {
@@ -171,21 +171,21 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     place.id = oldId;
     places[index] = place;
 
-    this.setState( { places: places }, this.toLocalStorage );
+    this.setState({ places: places }, this.toLocalStorage);
   }
 
   deletePlace = (index: number) => {
     let places = this.state.places.slice();
     places.splice(index, 1);
 
-    this.setState( { places }, this.toLocalStorage );
+    this.setState({ places }, this.toLocalStorage);
   }
 
   appendEvent = (event: StoryEvent): void => {
     let events = this.state.events.slice();
-    events.push( event );
+    events.push(event);
 
-    this.setState( { events }, this.toLocalStorage );
+    this.setState({ events }, this.toLocalStorage);
   }
 
   updateEvent = (index: number) => (event: StoryEvent): void => {
@@ -195,14 +195,14 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     event.id = oldId;
     events[index] = event;
 
-    this.setState( { events }, this.toLocalStorage );
+    this.setState({ events }, this.toLocalStorage);
   }
 
   deleteEvent = (index: number) => {
     let events = this.state.events.slice();
     events.splice(index, 1);
 
-    this.setState( { events }, this.toLocalStorage );
+    this.setState({ events }, this.toLocalStorage);
   }
 
   updateStateWithFileContents = (event) => {
@@ -213,14 +213,14 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     let loadedState = null;
 
     try {
-      let contents = event.target.result;  
+      let contents = event.target.result;
       loadedState = JSON.parse(contents);
-    } catch(error) {
+    } catch (error) {
       alertFail(error);
     }
-   
-    if( loadedState ) {
-      this.setState( loadedState );
+
+    if (loadedState) {
+      this.setState(loadedState);
       alertSuccess();
     }
   }
@@ -237,7 +237,7 @@ export default class EditorMain extends React.Component<{}, EditorState> {
           if (typeof obj[property] === "object") iterate(obj[property], stack + '.' + property);
           else {
             console.log(property + "   " + obj[property]);
-            if( property === 'thumbnail') obj[property] = '';
+            if (property === 'thumbnail') obj[property] = '';
           }
         }
       }
@@ -248,25 +248,25 @@ export default class EditorMain extends React.Component<{}, EditorState> {
   }
 
   toViewOfObject = (newEntity: StoryEntity) => {
-    
+
     let newView, newIdx;
 
     switch (newEntity.kind) {
-      case 'Character': 
-      newView = views.Characters;
-      newIdx = this.state.characters.findIndex( c => c.id === newEntity.id );
-      this.setState( { view: newView, characterIdx: newIdx }, this.toLocalStorage );
-      break;
-      case "Place": 
-      newView = views.Places;
-      newIdx = this.state.places.findIndex( p => p.id === newEntity.id );
-      this.setState( { view: newView, placeIdx: newIdx }, this.toLocalStorage );
-      break;
-      case "StoryEvent": 
-      newView = views.Events;
-      newIdx = this.state.events.findIndex( e => e.id === newEntity.id );
-      this.setState( { view: newView, eventIdx: newIdx }, this.toLocalStorage );
-      break;
+      case 'Character':
+        newView = views.Characters;
+        newIdx = this.state.characters.findIndex(c => c.id === newEntity.id);
+        this.setState({ view: newView, characterIdx: newIdx }, this.toLocalStorage);
+        break;
+      case "Place":
+        newView = views.Places;
+        newIdx = this.state.places.findIndex(p => p.id === newEntity.id);
+        this.setState({ view: newView, placeIdx: newIdx }, this.toLocalStorage);
+        break;
+      case "StoryEvent":
+        newView = views.Events;
+        newIdx = this.state.events.findIndex(e => e.id === newEntity.id);
+        this.setState({ view: newView, eventIdx: newIdx }, this.toLocalStorage);
+        break;
       default: break;
     }
   }
@@ -275,56 +275,56 @@ export default class EditorMain extends React.Component<{}, EditorState> {
     console.log("render main");
 
     return (
-    <div id="main">
-    <div className={'color-bar ' + Object.keys(views)[this.state.view]} />
-    <div id="main-content">
-      <div id="nav-bar">
-          { Object.keys(views).map( (key, idx) => (
+      <div id="main">
+        <div className={'color-bar ' + Object.keys(views)[this.state.view]} />
+        <div id="main-content">
+          <div id="nav-bar">
+            {Object.keys(views).map((key, idx) => (
               <div
                 key={idx}
                 onClick={() => this.updateView(views[key])}
-                className={ 'tab-item ' + (this.state.view === views[key] ? ' active' : '')}
+                className={'tab-item ' + (this.state.view === views[key] ? ' active' : '')}
               >
                 <div className={key} />
                 {key}
-              </div> ) ) }
-      </div>
-      { this.getView(this.state.view) }
+              </div>))}
+          </div>
+          {this.getView(this.state.view)}
 
-      <div id="footer">
-        <a 
-            className="button button-primary save-button"
-            download={"character_editor_save_" + new Date().toLocaleString() + ".json"} 
-            href={ "data:application/octet-stream;charset=utf-16le;base64," + 
-                  window.btoa( this.formattedState() ) }
-        >
-          download {IconUtils.buttonIcon("fa-download")}
-        </a>
-        <label 
-          htmlFor="file-select"
-          className="button button-primary load-button button-left-margin"
-        >
-          import {IconUtils.buttonIcon("fa-file")}
-        </label>
-        <input 
-          type="file" 
-          className="file-input" 
-          id="file-select" 
-          name="file-select"
-          ref={ 
-            // this deletes the file reference stored in the input directly after loading
-            // if this is not done, the same file cannot be reloaded, which is quite annoying
-            (input) => { if(input) input.value = ''; }
-          }
-          onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { 
-              if( e.target && e.target.files ) 
-                FileUtils.loadFileAsText(e.target.files[0], this.updateStateWithFileContents);
-            }
-          } 
-        />
+          <div id="footer">
+            <a
+              className="button button-primary save-button"
+              download={"character_editor_save_" + new Date().toLocaleString() + ".json"}
+              href={"data:application/octet-stream;charset=utf-16le;base64," +
+                window.btoa(this.formattedState())}
+            >
+              download {IconUtils.buttonIcon("fa-download")}
+            </a>
+            <label
+              htmlFor="file-select"
+              className="button button-primary load-button button-left-margin"
+            >
+              import {IconUtils.buttonIcon("fa-file")}
+            </label>
+            <input
+              type="file"
+              className="file-input"
+              id="file-select"
+              name="file-select"
+              ref={
+                // this deletes the file reference stored in the input directly after loading
+                // if this is not done, the same file cannot be reloaded, which is quite annoying
+                (input) => { if (input) input.value = ''; }
+              }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                if (e.target && e.target.files)
+                  FileUtils.loadFileAsText(e.target.files[0], this.updateStateWithFileContents);
+              }
+              }
+            />
+          </div>
+        </div>
       </div>
-    </div>
-    </div>
     );
   }
 }

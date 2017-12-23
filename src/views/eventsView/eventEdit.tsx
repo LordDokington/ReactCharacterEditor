@@ -1,8 +1,8 @@
 import * as React from 'react';
-import * as IconUtils from "../../utils/iconUtils";
-import * as FileUtils from "../../utils/fileUtils";
-import { StoryEvent, Place, Character } from "../../models";
-import { Portrait, Dropdown, TextInput } from "../../components";
+import * as IconUtils from '../../utils/iconUtils';
+import * as FileUtils from '../../utils/fileUtils';
+import { StoryEvent, Place, Character } from '../../models';
+import { Portrait, Dropdown, TextInput } from '../../components';
 import EventCharactersListEdit from './eventCharactersListEdit';
 
 interface Props {
@@ -18,7 +18,6 @@ interface Props {
   handleAbort: () => void;
   toObjectView: (o: any) => void;
 }
-
 
 interface State {
   name: string;
@@ -39,48 +38,48 @@ export default class EventEdit extends React.Component<Props, State> {
       thumbnail: props.thumbnail,
       invalidated: false,
       placeId: props.placeId,
-      characters: props.charactersOfEvent.slice()
+      characters: props.charactersOfEvent.slice(),
     };
   }
 
   componentWillReceiveProps(nextProps: Props) {
-
-    this.setState ( {
+    this.setState({
       name: nextProps.name ? nextProps.name : '',
       description: nextProps.description ? nextProps.description.toString() : '',
       thumbnail: nextProps.thumbnail,
       invalidated: false,
       placeId: nextProps.placeId,
-      characters: nextProps.charactersOfEvent.slice()
-    } );
+      characters: nextProps.charactersOfEvent.slice(),
+    });
   }
 
   updateName = (name: string): void => this.setState({ name: name, invalidated: true });
-  updateDescription = (description: string): void => this.setState({ description: description, invalidated: true });
+  updateDescription = (description: string): void => this.setState({ description, invalidated: true });
 
   submitEvent = (): void => {
     // cannot create event without place
     // TODO: inform user that nothing is done and why
     const placeId = this.state.placeId;
-    const newEvent = new StoryEvent( this.state.name, 
-                                     this.state.description, 
-                                     placeId,
-                                     this.state.thumbnail,
-                                     this.state.characters.map((c: Character) => c.id)
-                                    );
-                                    
-    this.props.handleSubmitEvent( newEvent );
-  }
+    const newEvent = new StoryEvent(
+      this.state.name,
+      this.state.description,
+      placeId,
+      this.state.thumbnail,
+      this.state.characters.map((c: Character) => c.id)
+    );
+
+    this.props.handleSubmitEvent(newEvent);
+  };
 
   onDrop = (files: File[]) => {
-    FileUtils.loadFileAsData(files[0], (event) => {
+    FileUtils.loadFileAsData(files[0], event => {
       this.setState({
         // tslint:disable-next-line:no-any
         thumbnail: (event.target as any).result,
-        invalidated: true
+        invalidated: true,
       });
     });
-  }
+  };
 
   render() {
     const places = this.props.places;
@@ -89,13 +88,8 @@ export default class EventEdit extends React.Component<Props, State> {
     return (
       <div className="edit-view">
         <div className="edit-container">
-          <Portrait 
-            image={this.state.thumbnail}
-            placeholder="event.jpg"
-            onDrop={this.onDrop} 
-          />
+          <Portrait image={this.state.thumbnail} placeholder="event.jpg" onDrop={this.onDrop} />
           <div className="editform-content">
-
             <div className="row">
               <div className="six columns">
                 <TextInput
@@ -103,16 +97,16 @@ export default class EventEdit extends React.Component<Props, State> {
                   placeholder="name"
                   label="name"
                   content={this.state.name}
-                  onChange={ (newContent: string) => this.updateName(newContent) }
+                  onChange={(newContent: string) => this.updateName(newContent)}
                 />
               </div>
               <div className="six columns">
                 <Dropdown
                   label="select place"
-                  index={places.findIndex( (p: Place) => p.id === placeId )}
-                  listElements={this.props.places.map( place => place.name )}
-                  handleSelect={(idx) => {
-                    this.setState( {placeId: places[idx].id, invalidated: true} );
+                  index={places.findIndex((p: Place) => p.id === placeId)}
+                  listElements={this.props.places.map(place => place.name)}
+                  handleSelect={idx => {
+                    this.setState({ placeId: places[idx].id, invalidated: true });
                   }}
                 />
               </div>
@@ -121,10 +115,10 @@ export default class EventEdit extends React.Component<Props, State> {
             <TextInput
               id="event-description"
               multiline={true}
-              placeholder="..." 
-              label="description" 
+              placeholder="..."
+              label="description"
               content={this.state.description}
-              onChange={ (newContent: string) => this.updateDescription(newContent) }
+              onChange={(newContent: string) => this.updateDescription(newContent)}
             />
           </div>
         </div>
@@ -132,35 +126,28 @@ export default class EventEdit extends React.Component<Props, State> {
           isNew={false /*TODO*/}
           charactersOfEvent={this.state.characters}
           selectableCharsAdd={this.props.availableCharacters}
-          handleAppendCharacter={(char: Character) => { 
+          handleAppendCharacter={(char: Character) => {
             const characters = this.state.characters.slice();
-            characters.push( char );
-            this.setState( { characters, invalidated: true } );
-           }}
-          handleRemoveCharacter={(char: Character) => { 
-            const characters = this.state.characters.filter( c => c.id !== char.id);
-            this.setState( { characters, invalidated: true } );
-           }}
+            characters.push(char);
+            this.setState({ characters, invalidated: true });
+          }}
+          handleRemoveCharacter={(char: Character) => {
+            const characters = this.state.characters.filter(c => c.id !== char.id);
+            this.setState({ characters, invalidated: true });
+          }}
           toObjectView={this.props.toObjectView}
         />
-    
-        
+
         {this.state.invalidated && (
-          <button 
-            onClick={this.submitEvent}
-            className="button-primary"
-          >
-            {this.props.isNew ? "add" : "update"} {IconUtils.buttonIcon("fa-check")}
-          </button>) 
-        } 
-        { (this.props.isNew || this.state.invalidated) && (
-          <button 
-            onClick={this.props.handleAbort}
-            className="button-primary"
-          >
-            discard {IconUtils.buttonIcon("fa-times")}
-          </button>) 
-        }
+          <button onClick={this.submitEvent} className="button-primary">
+            {this.props.isNew ? 'add' : 'update'} {IconUtils.buttonIcon('fa-check')}
+          </button>
+        )}
+        {(this.props.isNew || this.state.invalidated) && (
+          <button onClick={this.props.handleAbort} className="button-primary">
+            discard {IconUtils.buttonIcon('fa-times')}
+          </button>
+        )}
       </div>
     );
   }

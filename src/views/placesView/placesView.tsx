@@ -1,4 +1,4 @@
-import * as React from 'react';   
+import * as React from 'react';
 import { BaseView, ViewProps } from '../baseView';
 import PlaceEdit from './placeEdit';
 import { SelectionGroup } from '../selectionGroup';
@@ -20,7 +20,7 @@ export default class PlacesView extends BaseView<Place> {
     const places: Place[] = this.props.objects;
     const isNew: boolean = this.isNew;
     const isEmptyView: boolean = isNew;
-    const currentPlace = isEmptyView ? {} : places[ selectionIdx ];
+    const currentPlace = isEmptyView ? {} : places[selectionIdx];
 
     const eventsOfPlace = this.props.eventsOfPlace(currentPlace);
     const charactersOfPlace = this.props.charactersOfPlace(currentPlace);
@@ -30,15 +30,15 @@ export default class PlacesView extends BaseView<Place> {
         <div className="container-box">
           <SelectionGroup
             index={this.selectionIdx}
-            listElements={ places.map( (place: Place) => place.name )}
+            listElements={places.map((place: Place) => place.name)}
             handleSelect={this.updateIndex}
             handleNewButtonClick={() => this.setNewMode(true)}
             handleDeleteButtonClick={this.handleDeleteObject}
             handleDiscardButtonClick={() => this.setNewMode(false)}
-            newMode={isNew} 
+            newMode={isNew}
           />
         </div>
-        <div className={'container-box' + (isNew ? ' new' : '')} >
+        <div className={'container-box' + (isNew ? ' new' : '')}>
           <PlaceEdit
             {...currentPlace}
             handleSubmitPlace={this.handleSubmitObject}
@@ -49,38 +49,32 @@ export default class PlacesView extends BaseView<Place> {
         <div className="container-box">
           <label htmlFor="event-list">events happening at this place</label>
           <div id="event-list">
-            <ul> 
-              { 
-                isEmptyView ? null :
-                eventsOfPlace.map( (e: StoryEvent, idx: number) => (
-                  <li key={idx} onClick={() => this.props.toObjectView(e)}>
-                    <a href="#">
-                    {e.name}
-                    </a>
-                  </li>
-               ) )
-              }
+            <ul>
+              {isEmptyView
+                ? null
+                : eventsOfPlace.map((e: StoryEvent, idx: number) => (
+                    <li key={idx} onClick={() => this.props.toObjectView(e)}>
+                      <a href="#">{e.name}</a>
+                    </li>
+                  ))}
             </ul>
           </div>
         </div>
         <div className="container-box">
           <label htmlFor="character-list">present characters at any event</label>
           <div id="character-list">
-            <ul> 
-              { 
-                isEmptyView ? null :
-                charactersOfPlace.map( (char: Character, idx: number) => (
-                  <li key={idx} onClick={() => this.props.toObjectView(char)}>
-                    <a href="#">
-                    {char.name}
-                    </a>
-                  </li> ) 
-                )
-                
-              }
+            <ul>
+              {isEmptyView
+                ? null
+                : charactersOfPlace.map((char: Character, idx: number) => (
+                    <li key={idx} onClick={() => this.props.toObjectView(char)}>
+                      <a href="#">{char.name}</a>
+                    </li>
+                  ))}
             </ul>
           </div>
         </div>
-    </div> );
+      </div>
+    );
   }
 }

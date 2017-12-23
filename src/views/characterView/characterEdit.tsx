@@ -1,8 +1,8 @@
 import * as React from 'react';
-import * as IconUtils from "../../utils/iconUtils";
-import * as FileUtils from "../../utils/fileUtils";
-import { Character, Gender } from "../../models";
-import { Portrait, TextInput, NumberInput, Dropdown } from "../../components";
+import * as IconUtils from '../../utils/iconUtils';
+import * as FileUtils from '../../utils/fileUtils';
+import { Character, Gender } from '../../models';
+import { Portrait, TextInput, NumberInput, Dropdown } from '../../components';
 
 interface Props {
   name?: string;
@@ -27,10 +27,10 @@ interface State {
 const genders: Gender[] = ['male', 'female', 'transgender', 'agender', 'other'];
 
 const genderIcons = [
-  IconUtils.buttonIcon("fa-lg fa-mars", "gender-icon"), 
-  IconUtils.buttonIcon("fa-lg fa-venus", "gender-icon"), 
-  IconUtils.buttonIcon("fa-lg fa-transgender", "gender-icon"), 
-  IconUtils.buttonIcon("fa-lg fa-agender", "gender-icon")
+  IconUtils.buttonIcon('fa-lg fa-mars', 'gender-icon'),
+  IconUtils.buttonIcon('fa-lg fa-venus', 'gender-icon'),
+  IconUtils.buttonIcon('fa-lg fa-transgender', 'gender-icon'),
+  IconUtils.buttonIcon('fa-lg fa-agender', 'gender-icon'),
 ];
 
 export default class CharacterEdit extends React.Component<Props, State> {
@@ -43,19 +43,19 @@ export default class CharacterEdit extends React.Component<Props, State> {
       age: props.age ? props.age.toString() : '',
       gender: 'female',
       thumbnail: props.thumbnail,
-      invalidated: false
+      invalidated: false,
     };
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    this.setState ( {
+    this.setState({
       name: nextProps.name || '',
       description: nextProps.description || '',
       age: nextProps.age ? nextProps.age.toString() : '',
       thumbnail: nextProps.thumbnail,
-      gender: nextProps.gender,      
-      invalidated: false
-    } );
+      gender: nextProps.gender,
+      invalidated: false,
+    });
   }
 
   updateName = (name: string): void => this.setState({ name, invalidated: true });
@@ -65,45 +65,41 @@ export default class CharacterEdit extends React.Component<Props, State> {
 
   submitCharacter = (): void => {
     const newChar = new Character(
-      this.state.name, 
+      this.state.name,
       this.state.description,
-      Number(this.state.age), 
+      Number(this.state.age),
       this.state.thumbnail,
       this.state.gender
     );
     // alert( "submit character " + JSON.stringify(newChar) );
 
-    this.props.handleSubmitCharacter( newChar );
-  }
+    this.props.handleSubmitCharacter(newChar);
+  };
 
   onDrop = (files: File[]) => {
-    FileUtils.loadFileAsData(files[0], (event) => {
+    FileUtils.loadFileAsData(files[0], event => {
       this.setState({
         // tslint:disable-next-line:no-any
         thumbnail: (event.target as any).result,
-        invalidated: true
+        invalidated: true,
       });
     });
-  }
+  };
 
   render() {
     return (
       <div className="edit-view character-edit">
         <div className="edit-container">
-          <Portrait 
-            image={this.state.thumbnail}
-            placeholder="placeholder.png"
-            onDrop={this.onDrop} 
-          />
+          <Portrait image={this.state.thumbnail} placeholder="placeholder.png" onDrop={this.onDrop} />
           <div className="editform-content">
             <div className="row">
               <div className="twelve columns">
-                <TextInput 
+                <TextInput
                   id="character-name"
-                  placeholder="name" 
+                  placeholder="name"
                   label="name"
                   content={this.state.name}
-                  onChange={ (newContent: string) => this.updateName(newContent) } 
+                  onChange={(newContent: string) => this.updateName(newContent)}
                 />
               </div>
             </div>
@@ -115,16 +111,16 @@ export default class CharacterEdit extends React.Component<Props, State> {
                   label="age"
                   min={0}
                   content={this.state.age}
-                  onChange={ (newContent: string) => this.updateAge(newContent) }
+                  onChange={(newContent: string) => this.updateAge(newContent)}
                 />
               </div>
               <div className="six columns">
                 <Dropdown
-                    label="gender"
-                    index={genders.indexOf( this.state.gender )}
-                    listElements={genders}
-                    icons={genderIcons}
-                    handleSelect={(idx: number) => this.updateGender(genders[idx])}
+                  label="gender"
+                  index={genders.indexOf(this.state.gender)}
+                  listElements={genders}
+                  icons={genderIcons}
+                  handleSelect={(idx: number) => this.updateGender(genders[idx])}
                 />
               </div>
             </div>
@@ -132,31 +128,26 @@ export default class CharacterEdit extends React.Component<Props, State> {
             <TextInput
               id="character-description"
               multiline={true}
-              placeholder="..." 
-              label="description" 
+              placeholder="..."
+              label="description"
               content={this.state.description}
-              onChange={ (newContent: string) => this.updateDescription(newContent) }
+              onChange={(newContent: string) => this.updateDescription(newContent)}
             />
-
           </div>
         </div>
-    
-        { this.state.invalidated && (
-          <button 
-            onClick={this.submitCharacter}
-            className="button-primary"
-          >
-            {this.props.isNew ? "add" : "update"} {IconUtils.buttonIcon("fa-check")}
-          </button>) }
 
-        { (this.state.invalidated || this.props.isNew) && (
-          <button 
-            onClick={this.props.handleAbort}
-            className="button-primary button-left-margin"
-          >
-            discard {IconUtils.buttonIcon("fa-times")}
-          </button>) }
-        </div>
+        {this.state.invalidated && (
+          <button onClick={this.submitCharacter} className="button-primary">
+            {this.props.isNew ? 'add' : 'update'} {IconUtils.buttonIcon('fa-check')}
+          </button>
+        )}
+
+        {(this.state.invalidated || this.props.isNew) && (
+          <button onClick={this.props.handleAbort} className="button-primary button-left-margin">
+            discard {IconUtils.buttonIcon('fa-times')}
+          </button>
+        )}
+      </div>
     );
   }
 }
