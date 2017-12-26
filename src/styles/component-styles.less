@@ -1,11 +1,12 @@
-@import "general.less";
+@import 'general.less';
 
 .input-component {
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
 
-  .u-full-width, .form-textarea {
-    flex-grow: 1; 
+  .u-full-width,
+  .form-textarea {
+    flex-grow: 1;
   }
 }
 
@@ -15,7 +16,7 @@
   width: 100px;
   height: 150px;
   display: inline-block;
-  overflow: hidden;
+  //overflow: hidden;
   font-size: 14px;
   position: relative;
   transition: all 1s ease;
@@ -32,12 +33,12 @@
       top: 9px;
       color: @selection-blue;
       cursor: pointer;
-  
+
       &:hover {
         color: red;
       }
     }
-  } 
+  }
 
   .image-frame {
     display: block;
@@ -60,7 +61,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-    
+
       i {
         margin: 0;
         padding: 0;
@@ -86,7 +87,7 @@
   resize: vertical;
 }
 
-.checkbox input[type="submit"] {
+.checkbox input[type='submit'] {
   display: inline;
   margin-right: 1em;
 }
@@ -98,7 +99,8 @@
 }
 
 .edit-view {
-  button, .button {
+  button,
+  .button {
     margin-top: 0.4em;
     transition: height 0.4s;
   }
@@ -108,4 +110,30 @@
   width: 2em;
   text-align: center;
   display: none;
+}
+
+.sortableListItem {
+  margin: 5px;
+  display: inline-block;
+  background-color: white;
+
+  &:hover,
+  &:active {
+    transform: scale(1.1);
+    .shadow;
+  }
+}
+
+.add-item-button {
+  color: @selection-blue;
+  display: inline;
+  margin-left: 10px;
+
+  i {
+    margin-left: 0;
+  }
+
+  &:hover {
+    color: red;
+  }
 }

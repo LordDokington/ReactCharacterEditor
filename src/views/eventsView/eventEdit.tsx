@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as IconUtils from '../../utils/iconUtils';
+import { buttonIcon } from '../../utils/iconUtils';
 import * as FileUtils from '../../utils/fileUtils';
 import { StoryEvent, Place, Character } from '../../models';
 import { Portrait, Dropdown, TextInput } from '../../components';
@@ -82,13 +82,13 @@ export default class EventEdit extends React.Component<Props, State> {
   };
 
   render() {
-    const places = this.props.places;
-    const placeId = this.state.placeId;
+    const { isNew, places, placeId, toObjectView, handleAbort, availableCharacters } = this.props;
+    const { thumbnail, name, description, invalidated, characters } = this.state;
 
     return (
       <div className="edit-view">
         <div className="edit-container">
-          <Portrait image={this.state.thumbnail} placeholder="event.jpg" onDrop={this.onDrop} />
+          <Portrait image={thumbnail} placeholder="event.jpg" onDrop={this.onDrop} />
           <div className="editform-content">
             <div className="row">
               <div className="six columns">
@@ -96,7 +96,7 @@ export default class EventEdit extends React.Component<Props, State> {
                   id="event-name"
                   placeholder="name"
                   label="name"
-                  content={this.state.name}
+                  content={name}
                   onChange={(newContent: string) => this.updateName(newContent)}
                 />
               </div>
@@ -117,35 +117,29 @@ export default class EventEdit extends React.Component<Props, State> {
               multiline={true}
               placeholder="..."
               label="description"
-              content={this.state.description}
+              content={description}
               onChange={(newContent: string) => this.updateDescription(newContent)}
             />
           </div>
         </div>
         <EventCharactersListEdit
           isNew={false /*TODO*/}
-          charactersOfEvent={this.state.characters}
-          selectableCharsAdd={this.props.availableCharacters}
-          handleAppendCharacter={(char: Character) => {
-            const characters = this.state.characters.slice();
-            characters.push(char);
+          charactersOfEvent={characters.slice()}
+          selectableCharsAdd={availableCharacters}
+          updateCharacterList={(characters: Character[]) => {
             this.setState({ characters, invalidated: true });
           }}
-          handleRemoveCharacter={(char: Character) => {
-            const characters = this.state.characters.filter(c => c.id !== char.id);
-            this.setState({ characters, invalidated: true });
-          }}
-          toObjectView={this.props.toObjectView}
+          toObjectView={toObjectView}
         />
 
-        {this.state.invalidated && (
+        {invalidated && (
           <button onClick={this.submitEvent} className="button-primary">
-            {this.props.isNew ? 'add' : 'update'} {IconUtils.buttonIcon('fa-check')}
+            {isNew ? 'add' : 'update'} {buttonIcon('fa-check')}
           </button>
         )}
-        {(this.props.isNew || this.state.invalidated) && (
-          <button onClick={this.props.handleAbort} className="button-primary">
-            discard {IconUtils.buttonIcon('fa-times')}
+        {(isNew || invalidated) && (
+          <button onClick={handleAbort} className="button-primary">
+            discard {buttonIcon('fa-times')}
           </button>
         )}
       </div>

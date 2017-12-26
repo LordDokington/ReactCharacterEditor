@@ -36,9 +36,10 @@ module.exports = env => {
       mainFields: ['browser', 'main'],
       alias: {
         components: path.resolve(__dirname, 'src/components'),
-        views: path.resolve(__dirname, 'src/views'),
-        styles: path.resolve(__dirname, 'src/styles'),
-        models: path.resolve(__dirname, 'src/models'),
+        views: path.resolve(__dirname, 'src/views/'),
+        styles: path.resolve(__dirname, 'src/styles/'),
+        models: path.resolve(__dirname, 'src/models/'),
+        utils: path.resolve(__dirname, 'src/utils/'),
       },
     },
     output: {
