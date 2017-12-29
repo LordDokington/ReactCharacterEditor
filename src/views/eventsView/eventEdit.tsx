@@ -3,7 +3,7 @@ import { buttonIcon } from '../../utils/iconUtils';
 import * as FileUtils from '../../utils/fileUtils';
 import { StoryEvent, Place, Character } from '../../models';
 import { Portrait, Dropdown, TextInput } from '../../components';
-import EventCharactersListEdit from './eventCharactersListEdit';
+import ThumbnailList from './thumbnailList';
 
 interface Props {
   name?: string;
@@ -18,6 +18,8 @@ interface Props {
   handleAbort: () => void;
   toObjectView: (o: any) => void;
 }
+
+class CharactersList extends ThumbnailList<Character> {}
 
 interface State {
   name: string;
@@ -59,14 +61,9 @@ export default class EventEdit extends React.Component<Props, State> {
   submitEvent = (): void => {
     // cannot create event without place
     // TODO: inform user that nothing is done and why
-    const placeId = this.state.placeId;
-    const newEvent = new StoryEvent(
-      this.state.name,
-      this.state.description,
-      placeId,
-      this.state.thumbnail,
-      this.state.characters.map((c: Character) => c.id)
-    );
+    const { placeId, name, description, thumbnail, characters } = this.state;
+    const characterIds = characters.map((c: Character) => c.id);
+    const newEvent = new StoryEvent(name, description, placeId, thumbnail, characterIds);
 
     this.props.handleSubmitEvent(newEvent);
   };
@@ -83,7 +80,9 @@ export default class EventEdit extends React.Component<Props, State> {
 
   render() {
     const { isNew, places, placeId, toObjectView, handleAbort, availableCharacters } = this.props;
-    const { thumbnail, name, description, invalidated, characters } = this.state;
+    const { thumbnail, name, description, invalidated, characters: allCharacters } = this.state;
+
+    const addableCharacters = availableCharacters.filter(char => !allCharacters.includes(char));
 
     return (
       <div className="edit-view">
@@ -104,7 +103,7 @@ export default class EventEdit extends React.Component<Props, State> {
                 <Dropdown
                   label="select place"
                   index={places.findIndex((p: Place) => p.id === placeId)}
-                  listElements={this.props.places.map(place => place.name)}
+                  listElements={places.map(place => place.name)}
                   handleSelect={idx => {
                     this.setState({ placeId: places[idx].id, invalidated: true });
                   }}
@@ -122,11 +121,11 @@ export default class EventEdit extends React.Component<Props, State> {
             />
           </div>
         </div>
-        <EventCharactersListEdit
+        <CharactersList
           isNew={false /*TODO*/}
-          charactersOfEvent={characters.slice()}
-          selectableCharsAdd={availableCharacters}
-          updateCharacterList={(characters: Character[]) => {
+          items={allCharacters.slice()}
+          addableItems={addableCharacters}
+          udateItems={(characters: Character[]) => {
             this.setState({ characters, invalidated: true });
           }}
           toObjectView={toObjectView}
