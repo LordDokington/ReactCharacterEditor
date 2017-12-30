@@ -1,4 +1,4 @@
-import { GUID } from "../utils/guidUtils";
+import { GUID } from 'utils/guidUtils';
 
 export type Gender = 'male' | 'female' | 'transgender' | 'agender' | 'other';
 

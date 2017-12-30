@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Character } from '../../models';
-import { Dropdown, Thumbnail, ThumbnailAdd } from '../../components';
-import { Props as ThumbnailProps } from '../../components/thumbnail';
+import { Character } from 'models';
+import { Dropdown, Thumbnail } from 'components';
+import { Props as ThumbnailProps } from 'components/thumbnail';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
-import { buttonIcon } from '../../utils/iconUtils';
+import { buttonIcon } from 'utils/iconUtils';
 
 interface Props<T> {
   isNew: boolean;
@@ -12,6 +12,21 @@ interface Props<T> {
   udateItems: (items: T[]) => void;
   toObjectView: (o: any) => void;
 }
+
+const AddItemButton = ({ addableItems, onAdd }) => {
+  return (
+    <div className="add-item-button">
+      {buttonIcon('fa-5x fa-plus-circle fa')}
+      <ul className="add-list">
+        {addableItems.map((char: Character, idx: number) => (
+          <li className="add-list-item" onClick={() => onAdd(char)}>
+            {char.name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 class ThumbnailList<T> extends React.Component<Props<T>, {}> {
   constructor(props: Props<T>) {
@@ -47,7 +62,7 @@ class ThumbnailList<T> extends React.Component<Props<T>, {}> {
       <div className="container-box">
         <label htmlFor="character-list">present characters</label>
         <SortableThumbnailList items={thumbnails} onSortEnd={this.onSortEnd} axis="xy" />
-        <AddtemButton
+        <AddItemButton
           addableItems={addableItems}
           onAdd={(item: T) => {
             const itemsNext = items.slice();
@@ -71,20 +86,5 @@ const SortableListItem = SortableElement((props: ThumbnailProps) => {
 const SortableThumbnailList = SortableContainer(({ items }) => {
   return <div>{items.map((item, idx) => <SortableListItem key={idx} index={idx} {...item} />)}</div>;
 });
-
-const AddtemButton = ({ addableItems, onAdd }) => {
-  return (
-    <div className="add-item-button">
-      {buttonIcon('fa-5x fa-plus-circle fa')}
-      <div className="add-list">
-        {addableItems.map((char: Character, idx: number) => (
-          <div className="add-list-item" onClick={() => onAdd(char)}>
-            {char.name}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 export default ThumbnailList;

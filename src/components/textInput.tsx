@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GUID } from "../utils/guidUtils";
+import { GUID } from 'utils/guidUtils';
 
 interface Props {
   id?: string;
@@ -20,31 +20,32 @@ const TextInput: React.SFC<Props> = (props: Props) => {
   return (
     <div className="input-component">
       {hasLabel && <label htmlFor={id}>{props.label}</label>}
-      {multiline ?
-        <textarea 
-          className="form-textarea" 
-          type="text"
+      {multiline ? (
+        <textarea
+          className="form-textarea"
           placeholder={placeholder}
           id={id}
           rows={10}
           value={props.content}
           onChange={handler}
-        /> :
+        />
+      ) : (
         <input
-          className="u-full-width" 
-          type="text" 
+          className="u-full-width"
+          type="text"
           placeholder={placeholder}
           id={id}
-          value={props.content} 
+          value={props.content}
           onChange={handler}
         />
-      }
-    </div>);
+      )}
+    </div>
+  );
 };
 
 TextInput.defaultProps = {
   id: GUID(),
-  multiline: false
+  multiline: false,
 };
 
 export default TextInput;

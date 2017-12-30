@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { BaseView, ViewProps } from '../baseView';
-import { Character, Place, StoryEvent } from '../../models';
+import { BaseView, ViewProps } from 'views/baseView';
+import { Character, Place, StoryEvent } from 'models';
 import EventEdit from './eventEdit';
-import { SelectionGroup } from '../selectionGroup';
+import { SelectionGroup } from 'views/selectionGroup';
 
 export interface Props extends ViewProps<StoryEvent> {
   places: Place[];
@@ -16,54 +16,48 @@ export default class EventView extends BaseView<StoryEvent> {
   }
 
   render(): JSX.Element {
-      const events = this.props.objects;
-      const isNew = this.isNew;
+    const { objects: events, characters } = this.props;
+    const isNew = this.isNew;
 
-      const currentEvent: StoryEvent = isNew ? {} : events[ this.selectionIdx ];
+    const currentEvent: StoryEvent = isNew ? {} : events[this.selectionIdx];
 
-      let charactersOfEvent, characterIdsOfEvent, selectableCharsAdd;
+    let charactersOfEvent, characterIdsOfEvent;
 
-      if( !isNew && currentEvent ) {
-        // TODO: only needed when view is not empty
-        charactersOfEvent = this.props.charactersOfEvent(currentEvent);
-        characterIdsOfEvent = charactersOfEvent.map( char => char.id );
+    if (!isNew && currentEvent) {
+      // TODO: only needed when view is not empty
+      charactersOfEvent = this.props.charactersOfEvent(currentEvent);
+      characterIdsOfEvent = charactersOfEvent.map(char => char.id);
+    } else {
+      charactersOfEvent = [];
+      characterIdsOfEvent = [];
+    }
 
-        selectableCharsAdd = this.props.characters
-          .filter( char => !characterIdsOfEvent.includes( char.id ) );
-      } else {
-        charactersOfEvent = [];
-        characterIdsOfEvent = [];
-
-        // TODO: is this correct in case of !currentEvent ???
-        selectableCharsAdd = this.props.characters;
-      }
-
-      return(
-        <div>
-          <div className={'container-box' + (isNew ? ' new' : '')} >
-            <SelectionGroup
-              index={this.selectionIdx}
-              listElements={ events.map( (event: StoryEvent) => event.name )}
-              handleSelect={this.updateIndex}
-              handleNewButtonClick={() => this.setNewMode(true)}
-              handleDeleteButtonClick={this.handleDeleteObject}
-              handleDiscardButtonClick={() => this.setNewMode(false)}
-              newMode={isNew}
-            />
-          </div>
-          <div className="container-box" >
-            <EventEdit
-              {...currentEvent}
-              places={this.props.places}
-              isNew={isNew}
-              handleSubmitEvent={this.handleSubmitObject} 
-              handleAbort={() => this.setNewMode(false)}
-              charactersOfEvent={charactersOfEvent}
-              availableCharacters={selectableCharsAdd}
-              toObjectView={this.props.toObjectView}
-            />
-          </div>
+    return (
+      <div>
+        <div className={'container-box' + (isNew ? ' new' : '')}>
+          <SelectionGroup
+            index={this.selectionIdx}
+            listElements={events.map((event: StoryEvent) => event.name)}
+            handleSelect={this.updateIndex}
+            handleNewButtonClick={() => this.setNewMode(true)}
+            handleDeleteButtonClick={this.handleDeleteObject}
+            handleDiscardButtonClick={() => this.setNewMode(false)}
+            newMode={isNew}
+          />
         </div>
-      );
+        <div className="container-box">
+          <EventEdit
+            {...currentEvent}
+            places={this.props.places}
+            isNew={isNew}
+            handleSubmitEvent={this.handleSubmitObject}
+            handleAbort={() => this.setNewMode(false)}
+            charactersOfEvent={charactersOfEvent}
+            availableCharacters={characters}
+            toObjectView={this.props.toObjectView}
+          />
+        </div>
+      </div>
+    );
   }
 }

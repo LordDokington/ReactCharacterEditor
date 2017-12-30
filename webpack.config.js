@@ -120,7 +120,7 @@ module.exports = env => {
       new tsLintPlugin({
         files: ['./src/**/*.ts{,x}'],
         typeCheck: true,
-        project: 'tsConfig.json',
+        project: './tsconfig.json',
       }),
       new CopyWebpackPlugin([{ from: './assets' }]),
       new ExtractTextPlugin('[name].css'),

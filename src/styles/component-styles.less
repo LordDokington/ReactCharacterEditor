@@ -20,6 +20,7 @@
   font-size: 14px;
   position: relative;
   transition: all 1s ease;
+  overflow: hidden;
 
   .thumbnail-delete {
     display: none;
@@ -45,7 +46,7 @@
     height: 100px;
     overflow: hidden;
     position: relative;
-    background-color: #ddd;
+    background: linear-gradient(#000000 0%, #666666 29%, #474747 39%, #131313 90%, #000000);
     cursor: pointer;
 
     img {
@@ -55,6 +56,7 @@
       margin-left: 50%;
       margin-top: -8%;
       transform: translate(-50%);
+      min-height: 110%;
     }
 
     &.add {
@@ -135,5 +137,11 @@
 
   &:hover {
     color: red;
+  }
+
+  ul {
+    li.add-list-item {
+      list-style-type: none;
+    }
   }
 }

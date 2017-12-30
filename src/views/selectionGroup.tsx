@@ -1,6 +1,6 @@
 import * as React from 'react';
-import * as IconUtils from '../utils/iconUtils';
-import Dropdown, { Props as DropdownProps } from '../components/dropdown';
+import * as IconUtils from 'utils/iconUtils';
+import Dropdown, { Props as DropdownProps } from 'components/dropdown';
 
 interface Props extends DropdownProps {
   newMode: boolean;

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import * as IconUtils from "../../utils/iconUtils";
-import * as FileUtils from "../../utils/fileUtils";
-import { Place } from "../../models";
-import { Portrait, TextInput } from "../../components";
+import * as IconUtils from 'utils/iconUtils';
+import * as FileUtils from 'utils/fileUtils';
+import { Place } from 'models';
+import { Portrait, TextInput } from 'components';
 
 interface Props {
   name?: string;
@@ -33,79 +33,78 @@ export default class PlaceEdit extends React.Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    this.setState ( {
+    this.setState({
       name: nextProps.name ? nextProps.name : '',
       description: nextProps.description ? nextProps.description.toString() : '',
       thumbnail: nextProps.thumbnail || '',
-      invalidated: false
-    } );
+      invalidated: false,
+    });
   }
 
-  updateName = (name: string): void => { this.setState( { name, invalidated: true }); };
-  updateDescription = (description: string): void => { this.setState( { description, invalidated: true } ); };
+  updateName = (name: string): void => {
+    this.setState({ name, invalidated: true });
+  };
+  updateDescription = (description: string): void => {
+    this.setState({ description, invalidated: true });
+  };
 
   submitPlace = (): void => {
-    const newPlace = new Place( this.state.name, this.state.description, this.state.thumbnail );
-    this.props.handleSubmitPlace( newPlace );
-  }
+    const newPlace = new Place(this.state.name, this.state.description, this.state.thumbnail);
+    this.props.handleSubmitPlace(newPlace);
+  };
 
   onDrop = (files: File[]) => {
-    FileUtils.loadFileAsData(files[0], (event) => {
+    FileUtils.loadFileAsData(files[0], event => {
       this.setState({
         // tslint:disable-next-line:no-any
         thumbnail: (event.target as any).result,
-        invalidated: true
+        invalidated: true,
       });
     });
-  }
+  };
 
   render() {
     return (
       <div className="edit-view">
         <div className="edit-container">
-          <Portrait 
-            image={this.state.thumbnail}
-            placeholder="landscape-sketch.jpg"
-            onDrop={this.onDrop} 
-          />
+          <Portrait image={this.state.thumbnail} placeholder="landscape-sketch.jpg" onDrop={this.onDrop} />
           <div className="editform-content">
             <div className="row">
               <div className="six columns">
                 <TextInput
                   id="place-name"
-                  placeholder="name" 
-                  label="name" 
+                  placeholder="name"
+                  label="name"
                   content={this.state.name}
-                  onChange={ (newContent: string) => this.updateName(newContent) }
+                  onChange={(newContent: string) => this.updateName(newContent)}
                 />
               </div>
-              <div className="six columns"/>
+              <div className="six columns" />
             </div>
             <TextInput
               id="place-description"
               multiline={true}
-              placeholder="..." 
-              label="description" 
+              placeholder="..."
+              label="description"
               content={this.state.description}
-              onChange={ (newContent: string) => this.updateDescription(newContent) }
+              onChange={(newContent: string) => this.updateDescription(newContent)}
             />
           </div>
+        </div>
+
+        {this.state.invalidated && (
+          <button onClick={this.submitPlace} className="button-primary">
+            {this.props.isNew ? 'add' : 'update'}
+            {IconUtils.buttonIcon('fa-check')}
+          </button>
+        )}
+        {(this.props.isNew || this.state.invalidated) && (
+          <button onClick={this.props.handleAbort} className="button-primary">
+            discard
+            {IconUtils.buttonIcon('fa-times')}
+          </button>
+        )}
       </div>
-
-      { this.state.invalidated &&
-        <button onClick={this.submitPlace} className="button-primary" >
-          {this.props.isNew ? "add" : "update"}
-          {IconUtils.buttonIcon("fa-check")}
-        </button> 
-      }
-      { (this.props.isNew || this.state.invalidated) && 
-        <button  onClick={this.props.handleAbort} className="button-primary" >
-          discard
-          {IconUtils.buttonIcon("fa-times")}
-        </button> 
-      }
-
-    </div>
     );
   }
 }

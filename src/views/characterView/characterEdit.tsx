@@ -1,8 +1,8 @@
 import * as React from 'react';
-import * as IconUtils from '../../utils/iconUtils';
-import * as FileUtils from '../../utils/fileUtils';
-import { Character, Gender } from '../../models';
-import { Portrait, TextInput, NumberInput, Dropdown } from '../../components';
+import * as IconUtils from 'utils/iconUtils';
+import * as FileUtils from 'utils/fileUtils';
+import { Character, Gender } from 'models';
+import { Portrait, TextInput, NumberInput, Dropdown } from 'components';
 
 interface Props {
   name?: string;

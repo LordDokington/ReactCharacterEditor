@@ -1,14 +1,14 @@
 import * as React from 'react';
 
-import { Character, Place, StoryEvent, Storage } from '../models';
+import { Character, Place, StoryEvent, Storage } from 'models';
 import CharacterView from './characterView/characterView';
 import TimelineView from './timelineView/timelineView';
 import EventsView from './eventsView/eventsView';
 import PlacesView from './placesView/placesView';
-import * as FileUtils from '../utils/fileUtils';
-import * as IconUtils from '../utils/iconUtils';
+import * as FileUtils from 'utils/fileUtils';
+import * as IconUtils from 'utils/iconUtils';
 
-import '../styles/main.less';
+import 'styles/main.less';
 
 const views = {
   Characters: 0,
@@ -32,8 +32,8 @@ interface EditorState {
 }
 
 export default class EditorMain extends React.Component<{}, EditorState> {
-  constructor() {
-    super();
+  constructor(props: {}) {
+    super(props);
 
     //localStorage.clear();
 

@@ -1,4 +1,4 @@
-import { GUID } from "../utils/guidUtils";
+import { GUID } from 'utils/guidUtils';
 //import { StoryEvent } from ".";
 
 export default class Place {

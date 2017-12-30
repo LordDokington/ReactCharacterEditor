@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { BaseView, ViewProps } from '../baseView';
+import { BaseView, ViewProps } from 'views/baseView';
 import PlaceEdit from './placeEdit';
-import { SelectionGroup } from '../selectionGroup';
-import { Character, Place, StoryEvent } from '../../models';
+import { SelectionGroup } from 'views/selectionGroup';
+import { Character, Place, StoryEvent } from 'models';
 
 export interface Props extends ViewProps<Place> {
   characters: Character[];
