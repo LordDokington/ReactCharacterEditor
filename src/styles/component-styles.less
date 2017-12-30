@@ -23,20 +23,21 @@
   overflow: hidden;
 
   .thumbnail-delete {
+    position: absolute;
+    right: 9px;
+    top: 9px;
+
     display: none;
+    color: white;
   }
 
   &:hover {
     .thumbnail-delete {
-      display: inline;
-      position: absolute;
-      right: 9px;
-      top: 9px;
-      color: @selection-blue;
+      display: block;
       cursor: pointer;
 
       &:hover {
-        color: red;
+        color: @selection-blue;
       }
     }
   }
@@ -114,7 +115,7 @@
   display: none;
 }
 
-.sortableListItem {
+.sortable-list-item {
   margin: 5px;
   display: inline-block;
   background-color: white;
@@ -126,22 +127,58 @@
   }
 }
 
-.add-item-button {
-  color: @selection-blue;
-  display: inline;
-  margin-left: 10px;
+.thumbnail-list {
+  display: flex;
+  align-items: center;
 
-  i {
-    margin-left: 0;
+  .thumbnail-list-elements {
+    display: inline;
   }
 
-  &:hover {
-    color: red;
+  label {
+    display: block;
   }
 
-  ul {
-    li.add-list-item {
-      list-style-type: none;
+  .add-item-button {
+    color: @disabled-grey;
+    margin-left: 10px;
+
+    width: 100;
+
+    i {
+      margin: auto;
+    }
+
+    .add-item-flex-container {
+      display: flex;
+
+      ul.add-list {
+        visibility: collapse;
+
+        list-style-type: none;
+        display: inline;
+
+        li.add-list-item {
+          color: black;
+          margin: 3px 0 0 0;
+
+          cursor: pointer;
+
+          &:hover {
+            color: @selection-blue;
+          }
+        }
+      }
+    }
+
+    &:hover {
+      i {
+        color: @selection-blue;
+      }
+
+      ul.add-list {
+        visibility: visible;
+      }
     }
   }
 }

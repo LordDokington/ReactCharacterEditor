@@ -16,14 +16,16 @@ interface Props<T> {
 const AddItemButton = ({ addableItems, onAdd }) => {
   return (
     <div className="add-item-button">
-      {buttonIcon('fa-5x fa-plus-circle fa')}
-      <ul className="add-list">
-        {addableItems.map((char: Character, idx: number) => (
-          <li className="add-list-item" onClick={() => onAdd(char)}>
-            {char.name}
-          </li>
-        ))}
-      </ul>
+      <div className="add-item-flex-container">
+        {buttonIcon('fa-5x fa-plus-circle fa')}
+        <ul className="add-list">
+          {addableItems.map((char: Character, idx: number) => (
+            <li className="add-list-item" onClick={() => onAdd(char)}>
+              {char.name}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
@@ -59,17 +61,21 @@ class ThumbnailList<T> extends React.Component<Props<T>, {}> {
     const thumbnails = items.map(this.toThumbnailProps);
 
     return (
-      <div className="container-box">
-        <label htmlFor="character-list">present characters</label>
-        <SortableThumbnailList items={thumbnails} onSortEnd={this.onSortEnd} axis="xy" />
-        <AddItemButton
-          addableItems={addableItems}
-          onAdd={(item: T) => {
-            const itemsNext = items.slice();
-            itemsNext.push(item);
-            udateItems(itemsNext);
-          }}
-        />
+      <div>
+        <label>present characters</label>
+        <div className="thumbnail-list">
+          <SortableThumbnailList
+            items={thumbnails}
+            addableItems={addableItems}
+            onAdd={(item: T) => {
+              const itemsNext = items.slice();
+              itemsNext.push(item);
+              udateItems(itemsNext);
+            }}
+            onSortEnd={this.onSortEnd}
+            axis="xy"
+          />
+        </div>
       </div>
     );
   }
@@ -77,14 +83,19 @@ class ThumbnailList<T> extends React.Component<Props<T>, {}> {
 
 const SortableListItem = SortableElement((props: ThumbnailProps) => {
   return (
-    <div className="sortableListItem">
+    <div className="sortable-list-item">
       <Thumbnail {...props} />
     </div>
   );
 });
 
-const SortableThumbnailList = SortableContainer(({ items }) => {
-  return <div>{items.map((item, idx) => <SortableListItem key={idx} index={idx} {...item} />)}</div>;
+const SortableThumbnailList = SortableContainer(({ items, addableItems, onAdd }) => {
+  return (
+    <div className="thumbnail-list-elements">
+      {items.map((item, idx) => <SortableListItem key={idx} index={idx} {...item} />)}
+      <AddItemButton addableItems={addableItems} onAdd={onAdd} />
+    </div>
+  );
 });
 
 export default ThumbnailList;

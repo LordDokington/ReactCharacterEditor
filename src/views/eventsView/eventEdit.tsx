@@ -121,15 +121,17 @@ export default class EventEdit extends React.Component<Props, State> {
             />
           </div>
         </div>
-        <CharactersList
-          isNew={false /*TODO*/}
-          items={allCharacters.slice()}
-          addableItems={addableCharacters}
-          udateItems={(characters: Character[]) => {
-            this.setState({ characters, invalidated: true });
-          }}
-          toObjectView={toObjectView}
-        />
+        <div className="container-box">
+          <CharactersList
+            isNew={false /*TODO*/}
+            items={allCharacters.slice()}
+            addableItems={addableCharacters}
+            udateItems={(characters: Character[]) => {
+              this.setState({ characters, invalidated: true });
+            }}
+            toObjectView={toObjectView}
+          />
+        </div>
 
         {invalidated && (
           <button onClick={this.submitEvent} className="button-primary">
