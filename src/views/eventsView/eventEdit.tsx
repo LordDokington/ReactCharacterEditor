@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { buttonIcon } from '../../utils/iconUtils';
-import * as FileUtils from '../../utils/fileUtils';
-import { StoryEvent, Place, Character } from '../../models';
-import { Portrait, Dropdown, TextInput } from '../../components';
+import { buttonIcon } from 'utils/iconUtils';
+import * as FileUtils from 'utils/fileUtils';
+import { StoryEvent, Place, Character } from 'models';
+import { Portrait, Dropdown, TextInput } from 'components';
 import ThumbnailList from './thumbnailList';
 
 interface Props {
