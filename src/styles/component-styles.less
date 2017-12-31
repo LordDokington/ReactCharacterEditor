@@ -21,6 +21,7 @@
   position: relative;
   transition: all 1s ease;
   overflow: hidden;
+  background-color: white;
 
   .thumbnail-delete {
     position: absolute;
@@ -115,15 +116,16 @@
   display: none;
 }
 
-.sortable-list-item {
+.list-item {
   margin: 5px;
   display: inline-block;
-  background-color: white;
 
-  &:hover,
-  &:active {
-    transform: scale(1.1);
-    .shadow;
+  &.sortable {
+    &:hover,
+    &:active {
+      transform: scale(1.1);
+      .shadow;
+    }
   }
 }
 
@@ -140,44 +142,66 @@
   }
 
   .add-item-button {
-    color: @disabled-grey;
-    margin-left: 10px;
+    color: @selection-blue;
 
-    width: 100;
+    height: 150px;
+    width: 100px;
 
-    i {
-      margin: auto;
+    position: relative;
+
+    &.inactive {
+      display: none;
     }
 
-    .add-item-flex-container {
-      display: flex;
-
-      ul.add-list {
-        visibility: collapse;
-
-        list-style-type: none;
-        display: inline;
-
-        li.add-list-item {
-          color: black;
-          margin: 3px 0 0 0;
-
-          cursor: pointer;
-
-          &:hover {
-            color: @selection-blue;
-          }
-        }
-      }
+    i {
+      margin: 0;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
 
     &:hover {
       i {
-        color: @selection-blue;
+        transform: translate(-50%, -50%) scale(1.1);
       }
 
       ul.add-list {
-        visibility: visible;
+        display: inline;
+      }
+    }
+
+    ul.add-list {
+      height: 150px;
+      .shadow;
+
+      position: absolute;
+
+      left: 100%;
+
+      padding: 5px 0px;
+
+      list-style-type: none;
+      background-color: white;
+      display: none;
+
+      &:hover {
+        display: inline;
+      }
+
+      li.add-list-item {
+        color: black;
+        margin: 3px 0 0 0;
+        padding: 0 5px;
+
+        white-space: pre;
+
+        cursor: pointer;
+
+        &:hover {
+          color: white;
+          background-color: @selection-blue;
+        }
       }
     }
   }

@@ -14,18 +14,18 @@ interface Props<T> {
 }
 
 const AddItemButton = ({ addableItems, onAdd }) => {
+  const active: boolean = addableItems.length > 0;
+
   return (
-    <div className="add-item-button">
-      <div className="add-item-flex-container">
-        {buttonIcon('fa-5x fa-plus-circle fa')}
-        <ul className="add-list">
-          {addableItems.map((char: Character, idx: number) => (
-            <li className="add-list-item" onClick={() => onAdd(char)}>
-              {char.name}
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div className={'add-item-button' + (active ? '' : ' inactive')}>
+      {buttonIcon('fa-5x fa-plus-circle fa')}
+      <ul className="add-list scroll-y">
+        {addableItems.map((char: Character, idx: number) => (
+          <li className="add-list-item" onClick={() => onAdd(char)}>
+            {char.name}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
@@ -83,7 +83,7 @@ class ThumbnailList<T> extends React.Component<Props<T>, {}> {
 
 const SortableListItem = SortableElement((props: ThumbnailProps) => {
   return (
-    <div className="sortable-list-item">
+    <div className="sortable list-item">
       <Thumbnail {...props} />
     </div>
   );
@@ -93,7 +93,9 @@ const SortableThumbnailList = SortableContainer(({ items, addableItems, onAdd })
   return (
     <div className="thumbnail-list-elements">
       {items.map((item, idx) => <SortableListItem key={idx} index={idx} {...item} />)}
-      <AddItemButton addableItems={addableItems} onAdd={onAdd} />
+      <div className="list-item">
+        <AddItemButton addableItems={addableItems} onAdd={onAdd} />
+      </div>
     </div>
   );
 });
