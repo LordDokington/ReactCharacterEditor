@@ -1,6 +1,7 @@
 import { Character, Place, StoryEvent } from '.';
 
-const removeDuplicates = list => list.filter((elem, pos, arr) => arr.indexOf(elem) === pos);
+// remove undefined references and duplicates
+const cleanup = list => list.filter((elem, pos, arr) => elem && arr.indexOf(elem) === pos);
 
 class Storage {
   constructor(characters: Character[], places: Place[], events: StoryEvent[]) {
@@ -27,7 +28,7 @@ class Storage {
       // flatten array
       .reduce((list1, list2) => Array.prototype.concat(list1, list2), []);
 
-    return removeDuplicates(charactersForEvents);
+    return cleanup(charactersForEvents);
   };
 
   CharacterIdsOfPlace = (place: Place): string[] => {
@@ -43,16 +44,20 @@ class Storage {
     return this.Place(event.placeId) as Place;
   };
 
-  PlacesOfCharacter = (char: Character): Place[] => {
-    const placesList = (this.EventsOfCharacter(char).map((e: StoryEvent) => this.Place(e.placeId)) as Place[]) || [];
-    return removeDuplicates(placesList);
+  PlacesOfCharacter = (character: Character): Place[] => {
+    if (!character) return [];
+    const placesList = this.EventsOfCharacter(character).map(this.PlaceOfEvent) as Place[];
+
+    return cleanup(placesList);
   };
 
   EventsOfPlace = (place: Place): StoryEvent[] => {
-    return (this.events.filter(e => e.placeId === place.id) as StoryEvent[]) || [];
+    if (!place) return [];
+    return this.events.filter(e => e.placeId === place.id) as StoryEvent[];
   };
 
   EventsOfCharacter = (character: Character): StoryEvent[] => {
+    if (!character) return [];
     return this.events.filter((e: StoryEvent) => e.characterIds.includes(character.id));
   };
 

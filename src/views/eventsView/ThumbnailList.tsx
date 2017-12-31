@@ -21,7 +21,7 @@ const AddItemButton = ({ addableItems, onAdd }) => {
       {buttonIcon('fa-5x fa-plus-circle fa')}
       <ul className="add-list scroll-y">
         {addableItems.map((char: Character, idx: number) => (
-          <li className="add-list-item" onClick={() => onAdd(char)}>
+          <li className="add-list-item" key={idx} onClick={() => onAdd(char)}>
             {char.name}
           </li>
         ))}

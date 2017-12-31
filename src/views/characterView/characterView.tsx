@@ -15,11 +15,11 @@ export default class CharacterView extends BaseView<Character> {
   }
 
   render(): JSX.Element {
-    const characters = this.props.objects;
+    const { objects: characters, placesOfCharacter } = this.props;
     const isNew = this.isNew;
     const isEmptyView: boolean = isNew;
 
-    const currentChar: Character = isEmptyView ? {} : characters[this.selectionIdx];
+    const currentChar: Character = isEmptyView ? new Character('', '', 0, '', 'male') : characters[this.selectionIdx];
 
     return (
       <div>
@@ -48,7 +48,7 @@ export default class CharacterView extends BaseView<Character> {
             <ul>
               {isEmptyView
                 ? null
-                : this.props.placesOfCharacter(currentChar).map((p: Place, i: number) => (
+                : placesOfCharacter(currentChar).map((p: Place, i: number) => (
                     <li key={i} onClick={() => this.props.toObjectView(p)}>
                       <a href="#">{p.name}</a>
                     </li>

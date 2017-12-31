@@ -1,8 +1,9 @@
 import { GUID } from 'utils/guidUtils';
+import Entity from './entity';
 
 export type Gender = 'male' | 'female' | 'transgender' | 'agender' | 'other';
 
-export default class Character {
+export default class Character implements Entity {
   constructor(name: string, description: string, age: number, thumbnail: string, gender: Gender) {
     this.id = GUID();
     this.name = name;
@@ -15,12 +16,14 @@ export default class Character {
     this.kind = 'Character';
   }
 
-  id: string;
   name: string;
-  description: string;
-  age: number;
   thumbnail: string;
+  description: string;
+
+  age: number;
   gender: Gender;
+
+  id: string;
 
   readonly kind: string = 'Character';
 }

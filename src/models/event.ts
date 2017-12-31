@@ -28,14 +28,15 @@ export default class StoryEvent {
     this.kind = 'StoryEvent';
   }
 
-  id: string;
   name: string;
-  description: string;
   thumbnail: string;
+  description: string;
 
   // contains UUIDs as references
   placeId: string;
   characterIds: string[];
+
+  id: string;
 
   readonly kind: string = 'StoryEvent';
 }

@@ -24,19 +24,23 @@ export default class PlaceEdit extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
+    const { name, description, thumbnail } = this.props;
+
     this.state = {
-      name: props.name ? props.name : '',
-      description: props.description ? props.description.toString() : '',
+      name: name || '',
+      description: description ? description.toString() : '',
+      thumbnail: thumbnail || '',
       invalidated: false,
-      thumbnail: props.thumbnail || '',
     };
   }
 
   componentWillReceiveProps(nextProps: Props) {
+    const { name, description, thumbnail } = nextProps;
+
     this.setState({
-      name: nextProps.name ? nextProps.name : '',
-      description: nextProps.description ? nextProps.description.toString() : '',
-      thumbnail: nextProps.thumbnail || '',
+      name: name || '',
+      description: description ? description.toString() : '',
+      thumbnail: thumbnail || '',
       invalidated: false,
     });
   }
@@ -49,7 +53,8 @@ export default class PlaceEdit extends React.Component<Props, State> {
   };
 
   submitPlace = (): void => {
-    const newPlace = new Place(this.state.name, this.state.description, this.state.thumbnail);
+    const { name, description, thumbnail } = this.state;
+    const newPlace = new Place(name, description, thumbnail);
     this.props.handleSubmitPlace(newPlace);
   };
 
@@ -64,10 +69,13 @@ export default class PlaceEdit extends React.Component<Props, State> {
   };
 
   render() {
+    const { thumbnail, name, description, invalidated } = this.state;
+    const { isNew } = this.props;
+
     return (
       <div className="edit-view">
         <div className="edit-container">
-          <Portrait image={this.state.thumbnail} placeholder="landscape-sketch.jpg" onDrop={this.onDrop} />
+          <Portrait image={thumbnail} placeholder="landscape-sketch.jpg" onDrop={this.onDrop} />
           <div className="editform-content">
             <div className="row">
               <div className="six columns">
@@ -75,7 +83,7 @@ export default class PlaceEdit extends React.Component<Props, State> {
                   id="place-name"
                   placeholder="name"
                   label="name"
-                  content={this.state.name}
+                  content={name}
                   onChange={(newContent: string) => this.updateName(newContent)}
                 />
               </div>
@@ -86,7 +94,7 @@ export default class PlaceEdit extends React.Component<Props, State> {
               multiline={true}
               placeholder="..."
               label="description"
-              content={this.state.description}
+              content={description}
               onChange={(newContent: string) => this.updateDescription(newContent)}
             />
           </div>
@@ -94,11 +102,11 @@ export default class PlaceEdit extends React.Component<Props, State> {
 
         {this.state.invalidated && (
           <button onClick={this.submitPlace} className="button-primary">
-            {this.props.isNew ? 'add' : 'update'}
+            {isNew ? 'add' : 'update'}
             {IconUtils.buttonIcon('fa-check')}
           </button>
         )}
-        {(this.props.isNew || this.state.invalidated) && (
+        {(isNew || invalidated) && (
           <button onClick={this.props.handleAbort} className="button-primary">
             discard
             {IconUtils.buttonIcon('fa-times')}

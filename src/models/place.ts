@@ -1,7 +1,7 @@
 import { GUID } from 'utils/guidUtils';
-//import { StoryEvent } from ".";
+import Entity from './entity';
 
-export default class Place {
+export default class Place implements Entity {
   constructor(name: string, description: string, thumbnailData: string) {
     this.id = GUID();
     this.name = name;
@@ -12,17 +12,27 @@ export default class Place {
     this.kind = 'Place';
   }
 
-  /*
-  addEvent(event: StoryEvent) {
-    event.setPlace(this);
-  }
-  */
+  name: string;
+  thumbnail: string;
+  description: string;
 
   id: string;
-  name: string;
-  description: string;
-  //thumbnail as data string
-  thumbnail: string;
 
-  readonly kind: string = 'Place';
+  readonly kind: string;
 }
+
+/*
+
+export default interface Type extends Entity.Type {};
+
+export const create: Type = (id?: string) => ({
+  name: '',
+  thumbnail: '',
+  description: '',
+
+  id: id || GUID(),
+
+  kind: 'Place',
+});
+
+*/
