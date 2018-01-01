@@ -3,7 +3,9 @@ import { buttonIcon } from 'utils/iconUtils';
 import * as FileUtils from 'utils/fileUtils';
 import { StoryEvent, Place, Character } from 'models';
 import { Portrait, Dropdown, TextInput } from 'components';
-import ThumbnailList from './thumbnailList';
+import ThumbnailList from 'views/thumbnailList';
+
+class CharactersList extends ThumbnailList<Character> {}
 
 interface Props {
   name?: string;
@@ -18,8 +20,6 @@ interface Props {
   handleAbort: () => void;
   toObjectView: (o: any) => void;
 }
-
-class CharactersList extends ThumbnailList<Character> {}
 
 interface State {
   name: string;
@@ -122,11 +122,12 @@ export default class EventEdit extends React.Component<Props, State> {
           </div>
         </div>
         <div className="container-box">
+          <label>present characters</label>
           <CharactersList
-            isNew={false /*TODO*/}
+            sortable
             items={allCharacters.slice()}
             addableItems={addableCharacters}
-            udateItems={(characters: Character[]) => {
+            updateItems={(characters: Character[]) => {
               this.setState({ characters, invalidated: true });
             }}
             toObjectView={toObjectView}

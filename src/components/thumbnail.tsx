@@ -8,24 +8,24 @@ export interface Props {
   onDiscard?: () => void;
 }
 
-export const Thumbnail: React.SFC<Props> = (props: Props) => (
+export const Thumbnail: React.SFC<Props> = ({ label, image, onActivate, onDiscard }: Props) => (
   <div className="thumbnail">
-    <a href="#" className="thumbnail-label" onClick={props.onActivate}>
+    <a href="#" className="thumbnail-label" onClick={onActivate}>
       <div className="image-frame">
-        <img src={props.image} alt="" />
+        <img src={image} alt="" />
       </div>
     </a>
-    <a href="#" className="thumbnail-label" onClick={props.onActivate}>
-      {props.label}
+    <a href="#" className="thumbnail-label" onClick={onActivate}>
+      {label}
     </a>
-    <div className="thumbnail-delete" onClick={props.onDiscard}>
-      {buttonIcon('fa-2x fa-times-circle')}
-    </div>
+    {onDiscard && (
+      <div className="thumbnail-delete" onClick={onDiscard}>
+        {buttonIcon('fa-2x fa-times-circle')}
+      </div>
+    )}
   </div>
 );
 
 Thumbnail.defaultProps = {
   image: '<no image>',
-  onActivate: () => {},
-  onDiscard: () => {},
 };

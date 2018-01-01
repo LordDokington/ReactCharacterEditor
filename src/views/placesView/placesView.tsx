@@ -3,6 +3,10 @@ import { BaseView, ViewProps } from 'views/baseView';
 import PlaceEdit from './placeEdit';
 import { SelectionGroup } from 'views/selectionGroup';
 import { Character, Place, StoryEvent } from 'models';
+import ThumbnailList from 'views/thumbnailList';
+
+class CharactersList extends ThumbnailList<Character> {}
+class EventsList extends ThumbnailList<Event> {}
 
 export interface Props extends ViewProps<Place> {
   characters: Character[];
@@ -49,29 +53,13 @@ export default class PlacesView extends BaseView<Place> {
         <div className="container-box">
           <label htmlFor="event-list">events happening at this place</label>
           <div id="event-list">
-            <ul>
-              {isEmptyView
-                ? null
-                : eventsOfPlace.map((e: StoryEvent, idx: number) => (
-                    <li key={idx} onClick={() => this.props.toObjectView(e)}>
-                      <a href="#">{e.name}</a>
-                    </li>
-                  ))}
-            </ul>
+            <EventsList items={eventsOfPlace} toObjectView={this.props.toObjectView} />
           </div>
         </div>
         <div className="container-box">
-          <label htmlFor="character-list">present characters at any event</label>
+          <label htmlFor="character-list">present characters (at any of the events)</label>
           <div id="character-list">
-            <ul>
-              {isEmptyView
-                ? null
-                : charactersOfPlace.map((char: Character, idx: number) => (
-                    <li key={idx} onClick={() => this.props.toObjectView(char)}>
-                      <a href="#">{char.name}</a>
-                    </li>
-                  ))}
-            </ul>
+            <CharactersList items={charactersOfPlace} toObjectView={this.props.toObjectView} />
           </div>
         </div>
       </div>

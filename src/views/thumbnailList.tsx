@@ -6,10 +6,10 @@ import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-ho
 import { buttonIcon } from 'utils/iconUtils';
 
 interface Props<T> {
-  isNew: boolean;
   items: T[];
-  addableItems: T[];
-  udateItems: (items: T[]) => void;
+  addableItems?: T[];
+  sortable?: boolean;
+  updateItems?: (items: T[]) => void;
   toObjectView: (o: any) => void;
 }
 
@@ -31,68 +31,86 @@ const AddItemButton = ({ addableItems, onAdd }) => {
 };
 
 class ThumbnailList<T> extends React.Component<Props<T>, {}> {
+  static defaultProps = {
+    sortable: false,
+    addableItems: [],
+  };
+
   constructor(props: Props<T>) {
     super(props);
   }
 
   // maps a character onto the properties of the corresponding character list item
   toThumbnailProps = (item: T, idx: number): ThumbnailProps => {
-    const { toObjectView, udateItems, items } = this.props;
+    const { toObjectView, updateItems, items } = this.props;
     const { thumbnail, name } = item as any;
+
+    const onActivate = () => toObjectView(item);
+    const onDiscard = updateItems
+      ? () => {
+          items.splice(idx, 1);
+          updateItems(items);
+        }
+      : undefined;
 
     return {
       image: thumbnail,
       label: name,
-      onActivate: () => toObjectView(item),
-      onDiscard: () => {
-        items.splice(idx, 1);
-        udateItems(items);
-      },
+      onActivate,
+      onDiscard,
     };
   };
 
-  onSortEnd = ({ oldIndex, newIndex }) => {
-    const { udateItems, items } = this.props;
-    udateItems(arrayMove(items, oldIndex, newIndex));
-  };
+  onSortEnd = this.props.updateItems &&
+    (({ oldIndex, newIndex }) => {
+      const { updateItems, items } = this.props;
+      (updateItems as ((_) => void))(arrayMove(items, oldIndex, newIndex));
+    });
 
   render() {
-    const { addableItems, items, udateItems } = this.props;
+    const { addableItems, items, updateItems, sortable } = this.props;
     const thumbnails = items.map(this.toThumbnailProps);
 
     return (
-      <div>
-        <label>present characters</label>
-        <div className="thumbnail-list">
-          <SortableThumbnailList
-            items={thumbnails}
-            addableItems={addableItems}
-            onAdd={(item: T) => {
+      <div className="thumbnail-list">
+        <ListContainer
+          sortable={sortable}
+          items={thumbnails}
+          addableItems={addableItems}
+          onAdd={
+            // no handler if no update function defined
+            updateItems &&
+            ((item: T) => {
               const itemsNext = items.slice();
               itemsNext.push(item);
-              udateItems(itemsNext);
-            }}
-            onSortEnd={this.onSortEnd}
-            axis="xy"
-          />
-        </div>
+              updateItems(itemsNext);
+            })
+          }
+          onSortEnd={this.onSortEnd}
+          axis="xy"
+        />
       </div>
     );
   }
 }
 
-const SortableListItem = SortableElement((props: ThumbnailProps) => {
+const ListItem = (props: ThumbnailProps) => {
   return (
     <div className="sortable list-item">
       <Thumbnail {...props} />
     </div>
   );
-});
+};
 
-const SortableThumbnailList = SortableContainer(({ items, addableItems, onAdd }) => {
+const SortableListItem = SortableElement(ListItem);
+
+const ListContainer = SortableContainer(({ items, addableItems, onAdd, sortable }) => {
   return (
     <div className="thumbnail-list-elements">
-      {items.map((item, idx) => <SortableListItem key={idx} index={idx} {...item} />)}
+      {items.map(
+        (item, idx) =>
+          sortable ? <SortableListItem key={idx} index={idx} {...item} /> : <ListItem key={idx} {...item} />
+      )}
       <div className="list-item">
         <AddItemButton addableItems={addableItems} onAdd={onAdd} />
       </div>

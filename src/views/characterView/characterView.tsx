@@ -3,6 +3,10 @@ import { BaseView, ViewProps } from 'views/baseView';
 import { Character, Place, StoryEvent } from 'models';
 import CharacterEdit from './characterEdit';
 import { SelectionGroup } from 'views/selectionGroup';
+import ThumbnailList from 'views/thumbnailList';
+
+class EventsList extends ThumbnailList<Event> {}
+class PlacesList extends ThumbnailList<Place> {}
 
 export interface Props extends ViewProps<Character> {
   placesOfCharacter(char: Character): Place[];
@@ -15,7 +19,7 @@ export default class CharacterView extends BaseView<Character> {
   }
 
   render(): JSX.Element {
-    const { objects: characters, placesOfCharacter } = this.props;
+    const { objects: characters, placesOfCharacter, eventsOfCharacter } = this.props;
     const isNew = this.isNew;
     const isEmptyView: boolean = isNew;
 
@@ -45,29 +49,13 @@ export default class CharacterView extends BaseView<Character> {
         <div className="container-box">
           <label htmlFor="places-list">places this character appears at</label>
           <div id="places-list">
-            <ul>
-              {isEmptyView
-                ? null
-                : placesOfCharacter(currentChar).map((p: Place, i: number) => (
-                    <li key={i} onClick={() => this.props.toObjectView(p)}>
-                      <a href="#">{p.name}</a>
-                    </li>
-                  ))}
-            </ul>
+            <PlacesList items={placesOfCharacter(currentChar)} toObjectView={this.props.toObjectView} />
           </div>
         </div>
         <div className="container-box">
           <label htmlFor="places-list">events this character acts in</label>
           <div id="places-list">
-            <ul>
-              {isEmptyView
-                ? null
-                : this.props.eventsOfCharacter(currentChar).map((e: StoryEvent, i: number) => (
-                    <li key={i} onClick={() => this.props.toObjectView(e)}>
-                      <a href="#">{e.name}</a>
-                    </li>
-                  ))}
-            </ul>
+            <EventsList items={eventsOfCharacter(currentChar)} toObjectView={this.props.toObjectView} />
           </div>
         </div>
       </div>

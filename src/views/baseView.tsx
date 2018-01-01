@@ -1,6 +1,7 @@
 import * as React from 'react';
+import Entity from './../models/entity';
 
-export interface ViewProps<T> {
+export interface ViewProps<T extends Entity> {
   selectionIdx: number;
 
   objects: T[];
@@ -17,7 +18,7 @@ interface ViewState {
 }
 
 // tslint:disable-next-line:no-any
-export abstract class BaseView<T> extends React.Component<any /*ViewProps<T>*/, ViewState> {
+export abstract class BaseView<T extends Entity> extends React.Component<any, ViewState> {
   readonly LOCALSTORAGE_KEY: string = this.constructor.name + '_KEY';
 
   constructor(props: ViewProps<T>) {
