@@ -48,6 +48,8 @@ objects view:
 
 general:
 
+-"do you really want to delete this" modal dialogs to make sure the user does not make unrevertable stuff
+
 -module and layout concept?
 -using Redux etc?
 -drag&drop for preview images into the views (the placeholders can be customized by user)

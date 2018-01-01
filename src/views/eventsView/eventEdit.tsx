@@ -79,8 +79,8 @@ export default class EventEdit extends React.Component<Props, State> {
   };
 
   render() {
-    const { isNew, places, placeId, toObjectView, handleAbort, availableCharacters } = this.props;
-    const { thumbnail, name, description, invalidated, characters: allCharacters } = this.state;
+    const { isNew, places, toObjectView, handleAbort, availableCharacters } = this.props;
+    const { thumbnail, name, placeId, description, invalidated, characters: allCharacters } = this.state;
 
     const addableCharacters = availableCharacters.filter(char => !allCharacters.includes(char));
 
