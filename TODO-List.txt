@@ -8,8 +8,13 @@ character view:
 
 places view:
 
--character dropdown to add character at place FOR A SPECIFIC TIME!
--character overview to see characters present AT A SPECIFIC TIME!
+-character overview to see characters present FOR A SPECIFIC EVENT
+
+-enable reordering of events at the place (conserving ordering on other places as well as possible)
+
+-linking of places/characters/objects: there are places, that can be objects too... 
+ Like the heart of gold, or the stomach of a dragon _> so it could be useful to link the occurence of entities together!
+
 -timeline to scroll through events for that place
 -[idea] slide left/right between some place images. 
 -[idea] have some initial images (sketches?) as inspiration for a story...
@@ -47,6 +52,11 @@ objects view:
 -objects can be in someone's posession, or they can be at a place
 
 general:
+
+- YOU SHOULD BE ABLE TO NAME YOUR STORY AND THAT NAME SHOULD BE SHOWN SOMEWHERE!!!!
+-it should be possible to embed references in description text that can be clicked on (like in Wiki systems)
+
+-better visualization of the "create new" and "something changed" states
 
 -"do you really want to delete this" modal dialogs to make sure the user does not make unrevertable stuff
 

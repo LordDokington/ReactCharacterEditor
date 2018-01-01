@@ -316,6 +316,21 @@ export default class EditorMain extends React.Component<{}, EditorState> {
             />
           </div>
         </div>
+
+        <button
+          className="button button-primary storage-clear-button"
+          onClick={() => {
+            localStorage.clear();
+            this.setState({
+              view: views.Characters,
+              characters: [],
+              places: [],
+              events: [],
+            });
+          }}
+        >
+          CLEAR {IconUtils.buttonIcon('fa-trash')}
+        </button>
       </div>
     );
   }

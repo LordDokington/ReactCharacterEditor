@@ -21,15 +21,13 @@ export default class EventView extends BaseView<StoryEvent> {
 
     const currentEvent: StoryEvent = isNew ? {} : events[this.selectionIdx];
 
-    let charactersOfEvent, characterIdsOfEvent;
+    let charactersOfEvent;
 
     if (!isNew && currentEvent) {
       // TODO: only needed when view is not empty
       charactersOfEvent = this.props.charactersOfEvent(currentEvent);
-      characterIdsOfEvent = charactersOfEvent.map(char => char.id);
     } else {
       charactersOfEvent = [];
-      characterIdsOfEvent = [];
     }
 
     return (

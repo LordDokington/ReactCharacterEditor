@@ -50,8 +50,8 @@ export abstract class BaseView<T extends Entity> extends React.Component<any, Vi
 
   updateIndex = (idx: number) => {
     if (idx === this.props.idx) return;
-    this.setNewMode(false);
     this.props.updateSelectionIdx(idx);
+    this.setNewMode(false);
   };
 
   setNewMode = (newMode: boolean) => {
