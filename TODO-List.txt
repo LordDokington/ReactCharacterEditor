@@ -1,6 +1,16 @@
 TODO-List:
 --------------
 
+Thomas: Main problem in stories: 
+
+-characters and relationships
+-how characters are feeling
+-what character knows and doesn't know
+
+=> use this to PRIORITZE the features
+
+###############################
+
 character view:
 
 -characterEdit is a bad name for the subcomponent
